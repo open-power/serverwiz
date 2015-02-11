@@ -1,0 +1,804 @@
+<!-- IBM_PROLOG_BEGIN_TAG                                                   -->
+<!-- This is an automatically generated prolog.                             -->
+<!--                                                                        -->
+<!-- $Source: src/usr/targeting/common/xmltohb/attribute_types_hb.xml $     -->
+<!--                                                                        -->
+<!-- OpenPOWER HostBoot Project                                             -->
+<!--                                                                        -->
+<!-- Contributors Listed Below - COPYRIGHT 2012,2015                        -->
+<!-- [+] Google Inc.                                                        -->
+<!-- [+] International Business Machines Corp.                              -->
+<!--                                                                        -->
+<!--                                                                        -->
+<!-- Licensed under the Apache License, Version 2.0 (the "License");        -->
+<!-- you may not use this file except in compliance with the License.       -->
+<!-- You may obtain a copy of the License at                                -->
+<!--                                                                        -->
+<!--     http://www.apache.org/licenses/LICENSE-2.0                         -->
+<!--                                                                        -->
+<!-- Unless required by applicable law or agreed to in writing, software    -->
+<!-- distributed under the License is distributed on an "AS IS" BASIS,      -->
+<!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or        -->
+<!-- implied. See the License for the specific language governing           -->
+<!-- permissions and limitations under the License.                         -->
+<!--                                                                        -->
+<!-- IBM_PROLOG_END_TAG                                                     -->
+
+<attributes>
+
+<!-- =====================================================================
+     HOST BOOT ATTRIBUTE TYPES
+     Contains the definition of hostboot attributes which should not be
+     synced to/from FSP
+     ================================================================= -->
+
+<attribute>
+    <id>IS_MPIPL_HB</id>
+    <description>1 = in Memory Preserving IPL mode. 0 = in normal IPL mode.</description>
+    <simpleType>
+        <uint8_t>
+        </uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_IS_MPIPL</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>XSCOM_VIRTUAL_ADDR</id>
+    <description>Cached Virtual Address of Xscom memory space for this Chip</description>
+    <simpleType>
+        <uint64_t>
+        </uint64_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>FSI_MASTER_MUTEX</id>
+    <description>Mutex for FSI Master Operations</description>
+    <simpleType>
+        <hbmutex>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<!-- For POD Testing -->
+<attribute>
+    <id>HB_MUTEX_TEST_LOCK</id>
+    <description>Host boot mutex for testing</description>
+    <simpleType>
+        <hbmutex>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>I2C_ENGINE_MUTEX_0</id>
+    <description>Mutex for I2C Master engine 0</description>
+    <simpleType>
+        <hbmutex>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>I2C_ENGINE_MUTEX_1</id>
+    <description>Mutex for I2C Master engine 1</description>
+    <simpleType>
+        <hbmutex>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>I2C_ENGINE_MUTEX_2</id>
+    <description>Mutex for I2C Master engine 2</description>
+    <simpleType>
+        <hbmutex>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>FSI_SCOM_MUTEX</id>
+    <description>Mutex for FSI-based SCOM Operations</description>
+    <simpleType>
+        <hbmutex>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>SCOM_IND_MUTEX</id>
+    <description>Mutex for Indirect SCOM read operation</description>
+    <simpleType>
+        <hbmutex>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>SCAN_MUTEX</id>
+    <description>Mutex for SCAN operations</description>
+    <simpleType>
+        <hbmutex>
+            <default>0</default>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>SLW_IMAGE_ADDR</id>
+    <description>
+        Location of runtime winkle image for this processor chip.
+        Written by host_build_winkle (istep 15.1)
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>SLW_IMAGE_SIZE</id>
+    <description>
+        Size of runtime winkle image for this processor chip.
+        Written by host_build_winkle (istep 15.1)
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>IBSCOM_VIRTUAL_ADDR</id>
+    <description>Cached Virtual Address of Inband Scom memory space for this Chip</description>
+    <simpleType>
+        <uint64_t>
+        </uint64_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>IBSCOM_MUTEX</id>
+    <description>Mutex for Inband SCOM Operations</description>
+    <simpleType>
+        <hbmutex>
+        </hbmutex>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>IBSCOM_ENABLE_OVERRIDE</id>
+    <description>Used to force IBSCOM enabled for lab testing</description>
+    <simpleType>
+        <uint8_t>
+        </uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>HB_EXISTING_IMAGE</id>
+    <description>Indicates which logical nodes have a hostboot image.</description>
+    <!-- Bit position [0-7] (left to right) represents logical node. 
+    '1' means the logical node has an active hostboot image.
+    -->
+    <simpleType>
+        <uint8_t>
+        </uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>HB_PM_SPWUP_OHA_FLAG</id>
+    <description>Flag storage to break the recursive calling loop for when accessing the OHA address space from the Special Wakeup procedure.</description>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_PM_SPWUP_OHA_FLAG</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>GPIO_INFO</id>
+    <description>Information needed to address GPIO device</description>
+    <complexType>
+        <description>Structure to define the addessing for an I2C
+                     slave device.</description>
+        <field>
+            <name>i2cMasterPath</name>
+            <description>Entity path to the chip that contains the I2C
+                         master</description>
+            <type>EntityPath</type>
+            <default>physical:sys-0</default>
+        </field>
+        <field>
+            <name>port</name>
+            <description>Port from the I2C Master device. This is a 6-bit
+                         value.</description>
+            <type>uint8_t</type>
+            <default>0</default>
+        </field>
+        <field>
+            <name>devAddr</name>
+            <description>Device address on the I2C bus. This is a 7-bit value,
+                         but then shifted 1 bit left.</description>
+            <type>uint8_t</type>
+            <default>0</default>
+        </field>
+        <field>
+            <name>engine</name>
+            <description>I2C master engine. This is a 2-bit
+                         value.</description>
+            <type>uint8_t</type>
+            <default>0</default>
+        </field>
+        <field>
+            <name>vddrPin</name>
+            <description>
+                Logical GPIO pin number used to enabled/disable VDDR
+            </description>
+            <type>uint8_t</type>
+            <default>0</default>
+        </field>
+    </complexType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>HB_TARGET_SCOMABLE</id>
+    <description>
+        This attribute indicates if the target can be SCOMed.
+        It's used in FSP only but declared here because the attribute
+        is defined in chip_attributes.xml, which is a common file
+        between FSP and HB (without this, HB will get a compilation error).
+    </description>
+    <simpleType>
+        <uint8_t>
+            <default>0x0</default>
+        </uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_TARGET_SCOMABLE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>HOMER_PHYS_ADDR</id>
+    <description>
+        Physical address where HOMER image is placed in mainstore.
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+
+<attribute>
+    <id>HOMER_VIRT_ADDR</id>
+    <description>
+        Virtual address where HOMER memory is mapped into.  If value is zero,
+        memory must be mapped into virtual space.
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hbOnly/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_DIMM_THROTTLE_TEMP_DEG_C</id>
+    <description>
+        DIMM temperature threshold where throttling will
+        occur in degrees C
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_DIMM_ERROR_TEMP_DEG_C</id>
+    <description>
+        DIMM temperature where an error will be generated
+        in degrees C
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_MEMCTRL_THROTTLE_TEMP_DEG_C</id>
+    <description>
+         Memory controller temperature threshold
+         where throttling will occur in degrees C
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_PROC_DVFS_TEMP_DEG_C</id>
+    <description>
+        Processor temperature where DVFS will occur in degrees C
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_MEMCTRL_ERROR_TEMP_DEG_C</id>
+    <description>
+        Memory controller temperature where an error will occur
+        in degrees C
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_N_BULK_POWER_LIMIT_WATTS</id>
+    <description>
+        N mode bulk power supply limit in Watts
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_N_MAX_MEM_POWER_WATTS</id>
+    <description>
+        Maximum power allocated to DIMMs in Watts
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_MEMCTRL_READ_TIMEOUT_SEC</id>
+    <description>
+        Memory controller read timeout in seconds
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_DIMM_READ_TIMEOUT_SEC</id>
+    <description>
+        DIMM read timeout in seconds
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_PROC_ERROR_TEMP_DEG_C</id>
+    <description>
+        Processor temperature error threshold in degrees C
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_MIN_MEM_UTILIZATION_THROTTLING</id>
+    <description>
+        Minimum memory utilization for memory throttling
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_PROC_READ_TIMEOUT_SEC</id>
+    <description>
+        Processor read timeout in seconds
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_REGULATOR_EFFICIENCY_FACTOR</id>
+    <description>
+        Regulator efficiency factor
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_MIN_POWER_CAP_WATTS</id>
+    <description>
+        Minimum power cap in Watts
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_N_PLUS_ONE_BULK_POWER_LIMIT_WATTS</id>
+    <description>
+        N+1 bulk power limit in Watts
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_N_PLUS_ONE_MAX_MEM_POWER_WATTS</id>
+    <description>
+        N+1 max memory power in Watts
+    </description>
+    <simpleType>
+        <uint64_t></uint64_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+<attribute>
+    <id>OPEN_POWER_TURBO_MODE_SUPPORTED</id>
+    <description>
+        If this system supports Turbo frequency mode.
+            0x00 = no
+            0x01 = yes
+    </description>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>ADC_CHANNEL_FUNC_IDS</id>
+    <description>ADC Channel function id. 16 channels.</description>
+    <simpleType>
+        <uint8_t></uint8_t>
+        <array>16</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>ADC_CHANNEL_GNDS</id>
+    <description>ADC Channel ground. 16 channels.</description>
+    <simpleType>
+        <uint8_t></uint8_t>
+        <array>16</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>ADC_CHANNEL_GAINS</id>
+    <description>ADC channel gain * 1000. 16 channels.</description>
+    <simpleType>
+        <uint32_t></uint32_t>
+        <array>16</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>ADC_CHANNEL_OFFSETS</id>
+    <description>ADC channel offset * 1000. 16 channels</description>
+    <simpleType>
+        <uint32_t></uint32_t>
+        <array>16</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>APSS_GPIO_PORT_MODES</id>
+    <description>APSS GPIO PORT MODES</description>
+    <simpleType>
+        <uint8_t></uint8_t>
+        <array>2</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>APSS_GPIO_PORT_PINS</id>
+    <description>APSS GPIO PORT PINS
+        Port0 pin 0-7
+        Port1 pin 8-15
+    </description>
+    <simpleType>
+        <uint8_t></uint8_t>
+        <array>16</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>PSTATE_TABLE</id>
+    <description>HTMGT PSTATE data</description>
+    <simpleType>
+        <uint8_t></uint8_t>
+        <array>1904</array>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>OCC_CONTROL_DATA</id>
+    <description>OCC operational data
+    </description>
+    <simpleType>
+        <uint8_t></uint8_t>
+        <array>256</array>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>OT_MIN_N_PER_MBA</id>
+    <description>
+        Lowest per MBA numerator ever allowed when OCC is
+        throttling due to OT.
+    </description>
+    <simpleType>
+        <uint16_t>
+            <default>0</default>
+        </uint16_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>N_PLUS_ONE_N_PER_MBA</id>
+    <description>
+        Static per MBA numerator setting when not in
+        oversubscription.  Calculated based on MRW memory
+        power with redundant power. Lowest per MBA numerator
+        ever allowed when OCC is throttling due to OT.
+    </description>
+    <simpleType>
+        <uint16_t>
+            <default>0</default>
+        </uint16_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>N_PLUS_ONE_N_PER_CHIP</id>
+    <description>
+        Static per chip numerator setting when not in oversubscription.
+    </description>
+    <simpleType>
+        <uint16_t>
+            <default>0</default>
+        </uint16_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>OVERSUB_N_PER_MBA</id>
+    <description>
+        Static per MBA numerator setting when in oversubscription.
+        Calculated based on MRW oversubscription memory power.
+    </description>
+    <simpleType>
+        <uint16_t>
+            <default>0</default>
+        </uint16_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>OVERSUB_N_PER_CHIP</id>
+    <description>
+        Static per chip numerator setting when in oversubscription.
+    </description>
+    <simpleType>
+        <uint16_t>
+            <default>0</default>
+        </uint16_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+
+<!-- end HTMGT attributes -->
+
+<attribute>
+    <id>VPD_SWITCHES</id>
+    <description>Attribute storing VPD state information</description>
+    <complexType>
+        <description>VPD flags</description>
+        <field>
+            <name>pnorLoaded</name>
+            <description>Set when this target's VPD data has been loaded
+                into the PNOR.
+            </description>
+            <type>uint8_t</type>
+            <bits>1</bits>
+            <default>0</default>
+        </field>
+        <field>
+            <name>reserved</name>
+            <description>Reserved for future expansion</description>
+            <type>uint8_t</type>
+            <bits>7</bits>
+            <default>0</default>
+        </field>
+    </complexType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>OPAL_MODEL</id>
+    <description>
+        Specifies the compatible model name for Opal to key off of.
+        This is sourced from the MRW and should be of the format
+        'vendor,model', e.g. 'tyan,palmetto'.
+    </description>
+    <simpleType>
+        <string>
+            <default>tyan,palmetto</default><!-- @fixme-RTC:120092 -->
+            <sizeInclNull>32</sizeInclNull>
+        </string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>ISDIMM_MBVPD_INDEX</id>
+    <description>
+        Multiple centaurs can sometimes have their VPD located in one
+        physical SEEPROM. This is the index into the memory buffer VPD
+        for this centaur.
+    </description>
+    <simpleType>
+        <uint8_t>
+            <default>0</default>
+        </uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_ISDIMM_MBVPD_INDEX</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+</attributes>
