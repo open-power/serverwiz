@@ -49,8 +49,8 @@ public class LibraryManager {
 	public void init() {
 		String workingDir = LibraryManager.getWorkingDir();
 		try {
-			String hbUrl = "https://raw.githubusercontent.com/open-power/hostboot/master/src/usr/targeting/common/xmltohb/";
-			String swUrl = "https://raw.githubusercontent.com/nkskjames/serverwiz/master/ServerWizard2/";
+			//String hbUrl = "https://raw.githubusercontent.com/open-power/hostboot/master/src/usr/targeting/common/xmltohb/";
+			String swUrl = "https://raw.githubusercontent.com/open-power/serverwiz/master/";
 
 			LibraryFile f1 = new LibraryFile();
 			f1.init(swUrl + "xml/attribute_types.xml", workingDir,
