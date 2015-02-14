@@ -599,13 +599,6 @@ public class MainDialog extends Dialog {
 		}
 	}
 	
-	public void refreshInstanceTree() {
-		currentPath="";
-		for (Target target : controller.getRootTargets()) {
-			this.updateInstanceTree(target, null);
-		}
-		btnAddTarget.setEnabled(false);
-	}
 
 	public void updatePopupMenu(Target selectedTarget) {
 		if (selectedTarget == null || tree.getSelectionCount()==0) {
@@ -790,6 +783,17 @@ public class MainDialog extends Dialog {
 		treeitem.removeAll();
 		treeitem.dispose();
 	}
+	public void refreshInstanceTree() {
+		currentPath="";
+		if (this.busMode && this.targetForConnections !=null) {
+			this.updateInstanceTree(targetForConnections, null);
+		} else {
+			for (Target target : controller.getRootTargets()) {
+				this.updateInstanceTree(target, null);
+			}
+		}
+		btnAddTarget.setEnabled(false);
+	}
 
 	public void updateInstanceTree(Target target, TreeItem parentItem) {
 		this.updateInstanceTree(target, parentItem, null);
@@ -801,6 +805,9 @@ public class MainDialog extends Dialog {
 		}
 		if (target.isHidden()) {
 			return;
+		}
+		if (parentItem==null) {
+			this.clearTreeAll();
 		}
 		boolean hideBus = false;
 		String name = target.getName();
@@ -850,7 +857,7 @@ public class MainDialog extends Dialog {
 		TreeItem treeitem = item;
 		if (item == null) {
 			if (parentItem == null) {
-				clearTreeAll();
+				//clearTreeAll();
 				treeitem = new TreeItem(tree, SWT.VIRTUAL | SWT.BORDER);
 			} else {
 				treeitem = new TreeItem(parentItem, SWT.VIRTUAL | SWT.BORDER);
@@ -892,12 +899,20 @@ public class MainDialog extends Dialog {
 			return;
 		}
 		Target busTarget = (Target) cmbBusses.getData(cmbBusses.getText());
-		if (targetForConnections == null || busTarget == null) {
+		if (targetForConnections == null) {
 			return;
 		}
 
-		for (Connection conn : targetForConnections.getBusses().get(busTarget)) {
-			addConnection(conn);
+		if (busTarget == null) {
+			for (Target tmpBusTarget : targetForConnections.getBusses().keySet()) {
+				for (Connection conn : targetForConnections.getBusses().get(tmpBusTarget)) {
+					addConnection(conn);
+				}
+			}
+		} else {
+			for (Connection conn : targetForConnections.getBusses().get(busTarget)) {
+				addConnection(conn);
+			}
 		}
 	}
 

@@ -4,8 +4,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
@@ -303,22 +305,34 @@ public class TargetWizardController implements PropertyChangeListener {
 		String line;
 		String msg="";
 		try {
-			Process proc = Runtime.getRuntime().exec(commandLine);
-			proc.waitFor();
-			InputStream error = proc.getErrorStream();
-			InputStream stdout = proc.getInputStream();
-			BufferedReader reader = new BufferedReader (new InputStreamReader(error));
-			BufferedReader reader2 = new BufferedReader (new InputStreamReader(stdout));
-			while ((line = reader.readLine ()) != null) {
-				msg=msg+"ERROR: " + line;
-				ServerWizard2.LOGGER.severe("ERROR: " + line);
+			final ProcessBuilder builder = new ProcessBuilder(commandLine).redirectErrorStream(true);
+           
+			final Process process = builder.start();
+			final StringWriter writer = new StringWriter();
+			
+			new Thread(new Runnable() {
+			public void run() {
+				char[] buffer = new char[1024];
+				int len;
+				InputStreamReader in = new InputStreamReader(process.getInputStream());
+				
+				try {
+					while ((len = in.read(buffer)) != -1) {
+					    writer.write(buffer, 0, len);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			while ((line = reader2.readLine ()) != null) {
-				msg=msg+line+"\n";
-				ServerWizard2.LOGGER.info(line);
-			}
+			}).start();
+			
+			final int exitValue = process.waitFor();
+			final String processOutput = writer.toString();
+			ServerWizard2.LOGGER.info(processOutput);
+			ServerWizard2.LOGGER.info("Return Code: "+exitValue);
 			LogViewerDialog dlg = new LogViewerDialog(null);
-			dlg.setData(msg);
+			dlg.setData(processOutput);
 			dlg.open();
 		} catch (Exception e){
 			e.printStackTrace();

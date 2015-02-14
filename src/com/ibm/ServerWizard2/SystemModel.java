@@ -117,18 +117,42 @@ public class SystemModel {
 					if (entityId>0) {
 						HashMap<Integer,Vector<SdrRecord>> sdrMap= sdrLookup.get(entityId);
 						if (sdrMap!=null) {
-							Vector<SdrRecord> sdrs = sdrMap.get(entityInst);
-							if (sdrs!=null) {
-							for (SdrRecord sdr:sdrs ) {
-								String msg = "IMPORT MATCH: "+target.getName()+"; "+sdr.toString();
-								ServerWizard2.LOGGER.info(msg);
-								this.logData=this.logData+msg+"\n";
-								ipmiAttr[i]=sdr.getAttributeValue();
-							}
-							} else {
-								String msg = ">>IMPORT ERROR: "+target.getName()+"; Entity ID: "+entityId+"; Entity Inst: "+entityInst+" not found in SDR";
-								ServerWizard2.LOGGER.warning(msg);
-								this.logData=this.logData+msg+"\n";
+							if (entityId==215) { //APSS is special case
+								Integer apss[] = new Integer[16];
+								for (int x=0;x<16;x++) {
+									Vector<SdrRecord> sdrs = sdrMap.get(x);
+									if (sdrs!=null) {
+										SdrRecord sdr = sdrs.get(0);
+										if (sdr!=null) {
+											apss[x]=sdr.getSensorId();
+										} else {
+											apss[x]=255;
+										}
+									} else {
+										apss[x]=255;
+									}
+								}
+								String apssStr="";
+								String sep=",";
+								for (i=0;i<16;i++) {
+									if (i==15) { sep=""; }
+									apssStr=apssStr+String.format("0x%02X", apss[i])+sep;
+								}
+								this.setGlobalSetting(instPath, "ADC_CHANNEL_SENSOR_NUMBERS",apssStr);
+							} else {								
+								Vector<SdrRecord> sdrs = sdrMap.get(entityInst);
+								if (sdrs!=null) {
+									for (SdrRecord sdr:sdrs ) {
+										String msg = "IMPORT MATCH: "+target.getName()+"; "+sdr.toString();
+										ServerWizard2.LOGGER.info(msg);
+										this.logData=this.logData+msg+"\n";
+										ipmiAttr[i]=sdr.getAttributeValue();
+									}
+								} else {
+									String msg = ">>IMPORT ERROR: "+target.getName()+"; Entity ID: "+entityId+"; Entity Inst: "+entityInst+" not found in SDR";
+									ServerWizard2.LOGGER.warning(msg);
+									this.logData=this.logData+msg+"\n";
+								}
 							}
 						} else {
 							String msg = ">>IMPORT ERROR: "+target.getName()+"; Entity ID: "+entityId+ " not found in SDR";
