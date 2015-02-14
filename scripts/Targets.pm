@@ -194,6 +194,7 @@ sub printAttribute
     $filter{MBA_NUM}                        = 1;
     $filter{IPMI_INSTANCE}                  = 1;
     $filter{INSTANCE_ID}                    = 1;
+    $filter{ADC_CHANNEL_SENSOR_NUMBERS}     = 1;
 
     if ($filter{$attribute} == 1)
     {
@@ -273,7 +274,7 @@ sub buildHierarchy
 {
     my $self   = shift;
     my $target = shift;
-
+    
     my $old_path        = $self->{data}->{INSTANCE_PATH};
     my $target_xml      = $self->{xml}->{'targetInstance'}{$target};
     my $affinity_target = $target;
@@ -531,6 +532,7 @@ sub buildAffinity
                 {
                     $self->processMcs($unit, $node, $proc, $parent_affinity,
                         $parent_physical, $node_phys);
+                        
                 }
             }
         }

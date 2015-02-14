@@ -194,82 +194,6 @@ if ($report)
 ## Processing subroutines
 
 #--------------------------------------------------
-## SDRs
-##
-
-sub processSdr
-{
-    my $targetObj = shift;
-    my $target = shift;
-    my $sdrObj = shift;
-    
-    my @ipmi_sensors;
-    my %id_lu;
-    
-    if ($targetObj->isBadAttribute($target,"ENTITY_ID_LOOKUP")==1)
-    {
-        return;
-    }
-    my $entity_id_lookup = $targetObj->getAttribute($target,"ENTITY_ID_LOOKUP");
-    if ($entity_id_lookup ne "") {
-        my $pos=0;
-        if ($targetObj->isBadAttribute($target,"IPMI_INSTANCE")==1)
-        {
-            $pos = $targetObj->getAttribute($target,"ENTITY_INSTANCE");
-        } 
-        else
-        {
-            $pos = $targetObj->getAttribute($target,"IPMI_INSTANCE");
-        }
-        print  "$entity_id_lookup,$pos\n";
-        my @ids = split(/,/,$entity_id_lookup);
-        foreach my $i (@ids)
-        {
-            my $i_int = oct($i);
-            if ($i_int>0)
-            {
-                $id_lu{$i_int}=1;
-            }
-        }
-        foreach my $s (@{$sdrObj->{data}})
-        {
-            my $sdr_entity_id = oct($s->{entity_id});
-            if ($s->{name}=~/Core/) {
-                $sdr_entity_id=208;
-            }
-            if ($id_lu{$sdr_entity_id}>0)
-            {
-                my $sensor_id=$s->{sensor_id};
-                my $instance_id=oct($s->{entity_instance});
-                my $sensor_type=oct($s->{sensor_type});
-                if ($instance_id==$pos)
-                {
-                    print "IMPORTING: $target; pos=$pos; entity_id=".
-                           "$sdr_entity_id; ".
-                           "sensor_id=$sensor_id; sensor_type=$sensor_type\n";
-                    my $eid=sprintf("0x%02x%02x",$sensor_type,$sdr_entity_id);
-                    my $sid=sprintf("0x%02x",$s->{sensor_id});
-                    push(@ipmi_sensors,$eid.",".$sid);
-                    $id_lu{$sdr_entity_id}++;
-                }
-            }
-        }
-        foreach my $k (keys(%id_lu)) {
-            if ($id_lu{$k}==1)
-            {
-                print "WARNING: $target; pos=$pos; entity_id=$k; ".
-                      "not imported\n";
-                #$targetObj->myExit(3);
-            }
-        }
-        for (my $i=@ipmi_sensors;$i<16;$i++)
-        {
-            push(@ipmi_sensors,"0xFFFF,0xFF");
-        }
-        my $ipmi = join(',',@ipmi_sensors);
-        $targetObj->setAttribute($target,"IPMI_SENSORS",$ipmi);
-    }
-}
 
 #--------------------------------------------------
 ## System
@@ -947,7 +871,33 @@ sub processMembuf
             }
         }
     }
+    ## find port mapping
+    my %dimm_portmap;
+    foreach my $child (@{$targetObj->getTargetChildren($target)})
+    {
+         if ($targetObj->getType($child) eq "MBA")
+         {
+             my $mba_num = $targetObj->getAttribute($child,"MBA_NUM");
+             my $dimms=$targetObj->findConnections($child,"DDR3","");
+             if ($dimms ne "")
+             {
+                 foreach my $dimm (@{$dimms->{CONN}})
+                 {
+                       my $port_num = $targetObj->getAttribute(
+                                     $dimm->{SOURCE},"MBA_PORT");
+                       my $dimm_num = $targetObj->getAttribute(
+                                     $dimm->{SOURCE},"MBA_DIMM");
+                       
+                       my $map = oct("0b".$mba_num.$port_num.$dimm_num);
+                       $dimm_portmap{$dimm->{DEST_PARENT}} = $map;
+                 }
+             }
+         }
+    }
+    
+    
     ## Process MEMBUF to DIMM I2C connections
+    my @addr_map=('0','0','0','0','0','0','0','0');
     my $dimms=$targetObj->findConnections($target,"I2C","SPD");
     if ($dimms ne "") {
         foreach my $dimm (@{$dimms->{CONN}}) {
@@ -958,8 +908,19 @@ sub processMembuf
             setEepromAttributes($targetObj,
                        "EEPROM_VPD_FRU_INFO",$dimm_target,
                        $dimm,"0++");
+
+            my $field=getI2cMapField($targetObj,$dimm_target,$dimm);
+            my $map = $dimm_portmap{$dimm_target};
+            if ($map eq "") { 
+                print "ERROR: $dimm_target doesn't map to a dimm/port\n";
+                $targetObj->myExit(3);
+            }
+            $addr_map[$map] = $field;
         }
     }
+    $targetObj->setAttribute($targetObj->{targeting}->{SYS}[0]->{KEY},
+            "MRW_MEM_SENSOR_CACHE_ADDR_MAP","0x".join("",@addr_map));
+
     ## Update bus speeds
     processI2cSpeeds($targetObj,$target);
 
@@ -980,6 +941,24 @@ sub processMembuf
             my $dimmconn=$targetObj->getTargetParent($dimm);
         }
     }
+}
+
+sub getI2cMapField
+{
+    my $targetObj = shift;
+    my $target = shift;
+    my $conn_target = shift;
+
+
+    my $port = $targetObj->getAttribute($conn_target->{SOURCE}, "I2C_PORT");
+    my $engine = $targetObj->getAttribute($conn_target->{SOURCE}, "I2C_ENGINE");
+    my $addr = $targetObj->getBusAttribute($conn_target->{SOURCE},
+            $conn_target->{BUS_NUM}, "I2C_ADDRESS");
+    
+    my $bits=sprintf("%08b",hex($addr));
+    my $field=sprintf("%d%3s",oct($port),substr($bits,4,3));
+    my $hexfield = sprintf("%X",oct("0b$field"));
+    return $hexfield;
 }
 
 
