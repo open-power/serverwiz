@@ -17,8 +17,8 @@
 	    </target>
 
 	    <target name="jar">
-	        <mkdir dir="build/serverwiz2"/>
-	        <one-jar destfile="build/serverwiz2/serverwiz2_win64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+	        <mkdir dir="build"/>
+	        <one-jar destfile="build/serverwiz2_win64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
 	        	<main>
 	        		<fileset dir="build/classes"/>
 	        	</main>
@@ -30,7 +30,7 @@
 	        		<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>	        		
 	        	</lib>
 	        </one-jar>
-		    <one-jar destfile="build/serverwiz2/serverwiz2_linux64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+		    <one-jar destfile="build/serverwiz2_linux64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
 		        	<main>
 		        		<fileset dir="build/classes"/>
 		        	</main>
@@ -42,7 +42,7 @@
 			        	<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>	        		
 		        	</lib>
 		    </one-jar>
-	        <one-jar destfile="build/serverwiz2/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+	        <one-jar destfile="build/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
 	        	<main>
 	        		<fileset dir="build/classes"/>
 	        	</main>
