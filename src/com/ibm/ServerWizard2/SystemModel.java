@@ -52,7 +52,7 @@ public class SystemModel {
 	private HashMap<String, HashMap<String, Field>> globalSettings = new HashMap<String, HashMap<String, Field>>();
 
 	public String logData;
-	
+
 	public void addPropertyChangeListener(PropertyChangeListener l) {
 		changes.addPropertyChangeListener(l);
 	}
@@ -76,7 +76,7 @@ public class SystemModel {
 	public Collection<Target> getTargetInstances() {
 		return targetInstances.values();
 	}
-	public void importSdr(Target target, HashMap<Integer, HashMap<Integer, Vector<SdrRecord>>> sdrLookup,HashMap<String,Boolean>instCheck,String path) throws Exception { 
+	public void importSdr(Target target, HashMap<Integer, HashMap<Integer, Vector<SdrRecord>>> sdrLookup,HashMap<String,Boolean>instCheck,String path) throws Exception {
 		if (target==null) {
 			for (Target t : this.rootTargets) {
 				this.importSdr(t,sdrLookup,instCheck,"/");
@@ -88,7 +88,7 @@ public class SystemModel {
 				if (entityInst==-1) { entityInst=0; } //units have special position of -1 to maintain assigned name
 				String instPath = path+target.getName();
 				HashMap<String,Field> inst = this.globalSettings.get(instPath);
-				
+
 				if (inst!=null) {
 					Field instStr=inst.get("IPMI_INSTANCE");
 					if (instStr!=null && instStr.value!=null) {
@@ -106,12 +106,13 @@ public class SystemModel {
 					instCheck.put(key,true);
 				}
 				String ids[] = strEntityId.split(",");
-				
+
 				String ipmiAttr[] = new String[16];
 				for (int i=0;i<16;i++) {
 					ipmiAttr[i]="0xFFFF,0xFF";
 				}
-				int i=0;
+				//int i=0;
+				String nameStr="";
 				for (String id : ids) {
 					Integer entityId = Integer.decode(id);
 					if (entityId>0) {
@@ -134,19 +135,27 @@ public class SystemModel {
 								}
 								String apssStr="";
 								String sep=",";
-								for (i=0;i<16;i++) {
+								for (int i=0;i<16;i++) {
 									if (i==15) { sep=""; }
 									apssStr=apssStr+String.format("0x%02X", apss[i])+sep;
 								}
 								this.setGlobalSetting(instPath, "ADC_CHANNEL_SENSOR_NUMBERS",apssStr);
-							} else {								
+							} else {
 								Vector<SdrRecord> sdrs = sdrMap.get(entityInst);
 								if (sdrs!=null) {
+									int i=0;
 									for (SdrRecord sdr:sdrs ) {
 										String msg = "IMPORT MATCH: "+target.getName()+"; "+sdr.toString();
+										nameStr=nameStr+sdr.getName()+",";
 										ServerWizard2.LOGGER.info(msg);
 										this.logData=this.logData+msg+"\n";
+										if (i>15) {
+											msg="ERROR: There are more than 16 sensors defined for: "+target.getName()+":"+entityInst;
+											ServerWizard2.LOGGER.severe(msg);
+											throw new Exception(msg);
+										}
 										ipmiAttr[i]=sdr.getAttributeValue();
+										i++;
 									}
 								} else {
 									String msg = ">>IMPORT ERROR: "+target.getName()+"; Entity ID: "+entityId+"; Entity Inst: "+entityInst+" not found in SDR";
@@ -160,16 +169,17 @@ public class SystemModel {
 							this.logData=this.logData+msg+"\n";
 						}
 					}
-					i++;
+					//i++;
 				}
 				String ipmiStr="";
 				String sep=",";
 				Arrays.sort(ipmiAttr);
-				for (i=0;i<16;i++) {
+				for (int i=0;i<16;i++) {
 					if (i==15) { sep=""; }
 					ipmiStr=ipmiStr+ipmiAttr[i]+sep;
 				}
 				this.setGlobalSetting(instPath, "IPMI_SENSORS",ipmiStr);
+				this.setGlobalSetting(instPath, "IPMI_NAME",nameStr);
 			}
 			path=path+target.getName()+"/";
 			for (String child : target.getChildren()) {

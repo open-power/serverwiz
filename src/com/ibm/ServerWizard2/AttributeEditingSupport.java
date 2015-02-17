@@ -2,10 +2,16 @@ package com.ibm.ServerWizard2;
 
 import java.util.Vector;
 
+import javax.swing.InputVerifier;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
@@ -45,10 +51,34 @@ public class AttributeEditingSupport extends EditingSupport {
 			this.editor=e;
 		} else {
 			this.editor = new TextCellEditor(viewer.getTable());
+			AttributeValidator attrValidator = new AttributeValidator(f);
+			this.editor.setValidator(attrValidator);
+			this.editor.addListener(new ICellEditorListener() {
+
+				public void applyEditorValue() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				public void cancelEditor() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				public void editorValueChanged(boolean arg0, boolean arg1) {
+					// TODO Auto-generated method stub
+					if (!arg1) {
+						MessageDialog.openError(null, "Invalid format", editor.getErrorMessage());
+					}
+					System.out.println(arg0+":"+arg1);
+					
+				}
+				
+			});
 		}
 		return editor;
 	}
-
+	
 	@Override
 	protected Object getValue(Object obj) {
 		Field f = (Field) obj;

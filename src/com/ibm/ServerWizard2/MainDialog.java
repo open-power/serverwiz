@@ -102,7 +102,7 @@ public class MainDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public MainDialog(Shell parentShell) {
@@ -121,7 +121,7 @@ public class MainDialog extends Dialog {
 
 	/**
 	 * Create contents of the dialog.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override
@@ -217,7 +217,7 @@ public class MainDialog extends Dialog {
 		btnDeleteTarget.setText("Delete Instance");
 				new Label(compositeInstance, SWT.NONE);
 				new Label(compositeInstance, SWT.NONE);
-		
+
 				btnCopyInstance = new Button(compositeInstance, SWT.NONE);
 				btnCopyInstance.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 				btnCopyInstance.setText("Copy Node or Connector");
@@ -319,7 +319,7 @@ public class MainDialog extends Dialog {
 
 	/**
 	 * Create contents of the button bar.
-	 * 
+	 *
 	 * @param parent
 	 */
 	@Override
@@ -441,7 +441,7 @@ public class MainDialog extends Dialog {
 
 		btnImportSDR.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnImportSDR.setEnabled(true);
-		
+
 		btnRunChecks = createButton(parent, IDialogConstants.NO_ID, "Run Checks", false);
 		btnRunChecks.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -536,7 +536,6 @@ public class MainDialog extends Dialog {
 		this.source = null;
 		this.dest = null;
 		this.selectedEndpoint = null;
-		this.targetFound = false;
 		refreshInstanceTree();
 		refreshConnections();
 		this.updateView();
@@ -598,7 +597,7 @@ public class MainDialog extends Dialog {
 			btnCopyInstance.setEnabled(false);
 		}
 	}
-	
+
 
 	public void updatePopupMenu(Target selectedTarget) {
 		if (selectedTarget == null || tree.getSelectionCount()==0) {
@@ -609,7 +608,7 @@ public class MainDialog extends Dialog {
 		}
 
 		popupMenu = new Menu(tree);
-		
+
 		if (busMode) {
 		if (cmbBusses.getSelectionIndex() > 0) {
 			if (targetForConnections != null && selectedTarget.getAttribute("CLASS").equals("UNIT")) {
@@ -705,19 +704,22 @@ public class MainDialog extends Dialog {
 
 	public ConnectionEndpoint getEndpoint(TreeItem item, String stopCard) {
 		ConnectionEndpoint endpoint = new ConnectionEndpoint();
-		
+
 		Target target = (Target) item.getData();
 		endpoint.setTargetName(target.getName());
 
+		Boolean done = false;
 		Boolean found = false;
 		TreeItem parentItem = item.getParentItem();
-		while (!found) {
+
+		while (!done) {
 			if (parentItem==null) {
-				found=true;
+				done=true;
 			} else {
 				Target parentTarget = (Target) parentItem.getData();
 				String parentName = parentTarget.getName();
 				if (parentName.equals(stopCard)) {
+					done = true;
 					found = true;
 				} else {
 					endpoint.setPath(parentName + "/" + endpoint.getPath());
@@ -725,15 +727,21 @@ public class MainDialog extends Dialog {
 				}
 			}
 		}
+
+		if (!found && stopCard != null) {
+			MessageDialog.openError(null, "Connection Error", "The connection must start and end on or below selected card.");
+			endpoint=null;
+		}
 		return endpoint;
 	}
 
 	public ConnectionEndpoint getEndpoint(boolean setBold) {
 		TreeItem item = tree.getSelection()[0];
-		if (setBold) {
+		ConnectionEndpoint endpoint = getEndpoint(item,cmbCards.getText());
+		if (setBold && endpoint != null) {
 			setEndpointState(item);
 		}
-		return getEndpoint(item,cmbCards.getText());
+		return endpoint;
 	}
 
 	public void setEndpointState(TreeItem item) {
@@ -785,12 +793,9 @@ public class MainDialog extends Dialog {
 	}
 	public void refreshInstanceTree() {
 		currentPath="";
-		if (this.busMode && this.targetForConnections !=null) {
-			this.updateInstanceTree(targetForConnections, null);
-		} else {
-			for (Target target : controller.getRootTargets()) {
-				this.updateInstanceTree(target, null);
-			}
+		targetFound = false;
+		for (Target target : controller.getRootTargets()) {
+			this.updateInstanceTree(target, null);
 		}
 		btnAddTarget.setEnabled(false);
 	}
@@ -813,7 +818,7 @@ public class MainDialog extends Dialog {
 		String name = target.getName();
 		String lastPath = currentPath;
 		currentPath=currentPath+"/"+name;
-		
+
 		if (busMode) {
 			if (!target.isSystem() && !cmbBusses.getText().equals("NONE")) {
 				if (target.isBusHidden(cmbBusses.getText())) {
@@ -863,6 +868,7 @@ public class MainDialog extends Dialog {
 				treeitem = new TreeItem(parentItem, SWT.VIRTUAL | SWT.BORDER);
 			}
 		}
+
 		treeitem.setText(name);
 		treeitem.setData(target);
 
@@ -894,6 +900,8 @@ public class MainDialog extends Dialog {
 	}
 
 	public void refreshConnections() {
+		this.source=null;
+		this.dest=null;
 		listBusses.removeAll();
 		if (cmbBusses == null) {
 			return;
@@ -1054,14 +1062,12 @@ public class MainDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				Target t = (Target) cmbCards.getData(cmbCards.getText());
 				targetForConnections = t;
-				targetFound = false;
 				refreshInstanceTree();
 				refreshConnections();
 			}
 		});
 		cmbBusses.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				targetFound = false;
 				refreshInstanceTree();
 				refreshConnections();
 			}
@@ -1084,7 +1090,6 @@ public class MainDialog extends Dialog {
 		btnHideBusses.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				targetFound = false;
 				refreshInstanceTree();
 				refreshConnections();
 			}

@@ -9,10 +9,10 @@ public class ServerWizard2 {
 	/**
 	 * @param args
 	 */
-	
-	public static final String VERSION = "2.0.0";
-	public final static Logger LOGGER = Logger.getLogger(ServerWizard2.class.getName()); 
-	
+
+	public static final String VERSION = "2.1.0";
+	public final static Logger LOGGER = Logger.getLogger(ServerWizard2.class.getName());
+
 	public static void main(String[] args) {
 		LOGGER.setLevel(Level.CONFIG);
 		LOGGER.setUseParentHandlers(false);
