@@ -1341,6 +1341,17 @@
 		<global />
 	</attribute>
 	<attribute>
+		<id>IPMI_NAME</id>
+		<description>Maps to IPMI Sensor name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<writeable />
+		<global />
+	</attribute>
+	<attribute>
 		<id>PCIE_LANE_EQUALIZATION</id>
 		<description>PCIE Lane Equalization values for each PHB
 			Format:

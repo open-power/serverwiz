@@ -500,7 +500,7 @@
 			<id>OPT_MEMMAP_GROUP_POLICY</id>
 			<default>0</default>
 		</attribute>
-		
+
 	</targetType>
 	<targetType>
 		<id>enc-node-power8</id>
@@ -778,7 +778,10 @@
 		</attribute>
 		<attribute>
 			<id>IPMI_INSTANCE</id>
-		</attribute>			
+		</attribute>
+		<attribute>
+			<id>IPMI_NAME</id>
+		</attribute>
 		<attribute>
 			<id>ENTITY_ID_LOOKUP</id>
 			<default>0x03,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
@@ -1113,7 +1116,10 @@
 		</attribute>
 		<attribute>
 			<id>IPMI_INSTANCE</id>
-		</attribute>		
+		</attribute>
+		<attribute>
+			<id>IPMI_NAME</id>
+		</attribute>
 		<attribute>
 			<id>ENTITY_ID_LOOKUP</id>
 			<default>0xD0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
@@ -1335,7 +1341,7 @@
 		<attribute>
 			<id>MBA_NUM</id>
 			<default>0</default>
-		</attribute>				
+		</attribute>
 	</targetType>
 
 	<targetType>
@@ -1452,10 +1458,14 @@
 		<attribute>
 			<id>ENTITY_ID_LOOKUP</id>
 			<default>0xD1,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
-		</attribute>	
+		</attribute>
 		<attribute>
 			<id>IPMI_INSTANCE</id>
-		</attribute>					
+		</attribute>
+		<attribute>
+			<id>IPMI_NAME</id>
+		</attribute>
+
 	</targetType>
 
 	<!-- Centaur L4 -->
@@ -1475,7 +1485,7 @@
 		<id>unit-mba-centaur</id>
 		<parent>unit-mba-power8</parent>
 	</targetType>
-	
+
 	<targetType>
 		<id>unit-dimm_port-power8</id>
 		<parent>unit</parent>
@@ -1517,7 +1527,11 @@
 		</attribute>
 		<attribute>
 			<id>IPMI_INSTANCE</id>
-		</attribute>		
+		</attribute>
+		<attribute>
+			<id>IPMI_NAME</id>
+		</attribute>
+
 	</targetType>
 
 	<targetType>
@@ -1541,7 +1555,7 @@
 		<attribute>
 			<id>ENTITY_ID_LOOKUP</id>
 			<default>0x20,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
-		</attribute>						
+		</attribute>
 	</targetType>
 
 	<targetType>
@@ -1616,7 +1630,7 @@
 		<attribute>
 			<id>ENTITY_ID_LOOKUP</id>
 			<default>0xD2,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
-		</attribute>		
+		</attribute>
 	</targetType>
 	<targetType>
 		<id>unit-nx-venice</id>
@@ -2296,7 +2310,7 @@
 		</attribute>
 		<attribute>
 			<id>IO_CONFIG_NUM</id>
-		</attribute>		
+		</attribute>
 		<attribute>
 			<id>PCIE_LANE_SWAP_TABLE</id>
 			<default></default>
@@ -2320,7 +2334,7 @@
 		</attribute>
 		<attribute>
 			<id>IO_CONFIG_NUM</id>
-		</attribute>		
+		</attribute>
 		<attribute>
 			<id>PCIE_LANE_SWAP_TABLE</id>
 			<default></default>
@@ -2339,7 +2353,7 @@
 		</attribute>
 		<attribute>
 			<id>IO_CONFIG_SELECT</id>
-		</attribute>		
+		</attribute>
 	</targetType>
 	<!-- Bus targets -->
 	<targetType>
@@ -2547,7 +2561,7 @@
 	</attribute>
 	<attribute>
 		<id>SP_ENGINE_NUM</id>
-	</attribute>		
+	</attribute>
 	</targetType>
 	<targetType>
 		<id>unit-iomux_config0-fsp2</id>
@@ -2710,7 +2724,7 @@
 			<id>DIRECTION</id>
 			<default>OUT</default>
 		</attribute>
-	</targetType>	
+	</targetType>
 	<targetType>
 		<id>unit-jtag-master</id>
 		<parent>unit</parent>
@@ -2734,7 +2748,7 @@
 			<id>DIRECTION</id>
 			<default>OUT</default>
 		</attribute>
-	</targetType>	
+	</targetType>
 	<targetType>
 		<id>unit-sc-master</id>
 		<parent>unit</parent>
@@ -2758,7 +2772,7 @@
 			<id>DIRECTION</id>
 			<default>OUT</default>
 		</attribute>
-	</targetType>	
+	</targetType>
 	<targetType>
 		<id>unit-u750-master</id>
 		<parent>unit</parent>
@@ -2782,7 +2796,7 @@
 			<id>DIRECTION</id>
 			<default>OUT</default>
 		</attribute>
-	</targetType>	
+	</targetType>
 	<targetType>
 		<id>unit-u5-master</id>
 		<parent>unit</parent>
@@ -2806,6 +2820,6 @@
 			<id>DIRECTION</id>
 			<default>OUT</default>
 		</attribute>
-	</targetType>	
+	</targetType>
 
 </targetTypes>
