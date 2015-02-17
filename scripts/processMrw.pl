@@ -209,19 +209,30 @@ sub processSystem
     $targetObj->setAttribute($target, "MAX_PROC_CHIPS_PER_NODE",
         $targetObj->{NUM_PROCS_PER_NODE});
     parseBitwise($targetObj,$target,"CDM_POLICIES");
+    convertNegativeNumbers($targetObj,$target,"ADC_CHANNEL_OFFSETS",32);
+}
+
+sub convertNegativeNumbers
+{
+    my $targetObj=shift;
+    my $target=shift;
+    my $attribute=shift;
+    my $numbits=shift;
+
     my @offset = split(/\,/,
-                 $targetObj->getAttribute($target,"ADC_CHANNEL_OFFSETS"));
+                 $targetObj->getAttribute($target,$attribute));
     for (my $i=0;$i<@offset;$i++)
     {
         if ($offset[$i]<0)
         {
-            my $neg_offset = 2**32+$offset[$i];
+            my $neg_offset = 2**$numbits+$offset[$i];
             $offset[$i]=sprintf("0x%08X",$neg_offset);
         }
     }
     my $new_offset = join(',',@offset);
-    $targetObj->setAttribute($target,"ADC_CHANNEL_OFFSETS",$new_offset)
+    $targetObj->setAttribute($target,$attribute,$new_offset)
 }
+
 sub processBmc
 {
     my $targetObj = shift;
