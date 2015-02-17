@@ -84,7 +84,7 @@ foreach my $target (sort keys %{ $targetObj->getAllTargets() })
     if ($type eq "SYS")
     {
         processSystem($targetObj, $target);
-    } 
+    }
     elsif ($type eq "PROC")
     {
         processProcessor($targetObj, $target);
@@ -141,7 +141,7 @@ if ($report)
 {
     my $report_file = $xmldir . "/" . $targetObj->getSystemName() . ".rpt";
     open(SUM,">$report_file") || die "Unable to create: $report_file\n";
-    my $ref = $targetObj->{targeting}->{SYS}[0]{NODES}[0]{PROCS};       
+    my $ref = $targetObj->{targeting}->{SYS}[0]{NODES}[0]{PROCS};
     foreach my $proc (@{$ref})
     {
         foreach my $mcs (@{$proc->{MCSS}})
@@ -149,7 +149,7 @@ if ($report)
             my $mcs_target = $mcs->{KEY};
             my $membuf=$mcs->{MEMBUFS}[0];
             my $membuf_target = $membuf->{KEY};
-          
+
             my $sch = $targetObj->getAttribute($mcs_target,
                       "SCHEMATIC_INTERFACE");
             my $aff = $targetObj->getAttribute($mcs_target,"AFFINITY_PATH");
@@ -158,7 +158,7 @@ if ($report)
             if ($membuf_target ne "") {
                 foreach my $mba (@{$membuf->{MBAS}}) {
                     my $mba_target = $mba->{KEY};
-               
+
                     $huid = $targetObj->getAttribute($mba_target,"HUID");
                     $aff = $targetObj->getAttribute($mcs_target,
                                    "AFFINITY_PATH");
@@ -177,7 +177,7 @@ if ($report)
                         my $sens = $targetObj->getAttribute($dimm_target,
                                   "IPMI_SENSORS");
                         my @s = split(/\,/,$sens);
-                        
+
                         print SUM "\t\t$huid | $dimm_target".
                                   " | $aff | $p | $d | $i2c | ".
                                   "$s[0],$s[1] | $s[2],$s[3]\n";
@@ -294,7 +294,7 @@ sub processProcessor
        $targetObj->getTargetParent($targetObj->getTargetParent($target));
     $targetObj->copyAttribute($socket_target,$target,"LOCATION_CODE");
     $targetObj->copyAttribute($socket_target,$target,"FRU_ID");
-    
+
 
     foreach my $attr (sort (keys
            %{ $targetObj->getTarget($socket_target)->{TARGET}->{attribute} }))
@@ -476,7 +476,7 @@ sub setupBars
                 my $b=sprintf("0x%016X",
          $i_base+$i_node_offset*$node+$i_proc_offset*$proc+$i_offset*$i);
                 my $sep=",";
-                if ($i==$num-1) 
+                if ($i==$num-1)
                 {
                     $sep="";
                 }
@@ -507,7 +507,7 @@ sub processMcs
     my $i_offset = Math::BigInt->new($offset);
 
     my $mcs = $targetObj->getAttribute($target, "MCS_NUM");
-    my $mcsStr=sprintf("0x%016X",   
+    my $mcsStr=sprintf("0x%016X",
          $i_base+$i_node_offset*$node+$i_proc_offset*$proc+$i_offset*$mcs);
     $targetObj->setAttribute($target, "IBSCOM_MCS_BASE_ADDR", $mcsStr);
 }
@@ -524,7 +524,7 @@ sub processXbus
     my $target    = shift;
 
     # $targetObj->setAttribute($target, "PEER_TARGET","");
-  
+
 }
 
 #--------------------------------------------------
@@ -542,7 +542,7 @@ sub processAbus
    $targetObj->setAttribute($target, "EI_BUS_TX_LANE_INVERT","0");
    $targetObj->setAttribute($target, "EI_BUS_TX_MSBSWAP","0");
    # $targetObj->setAttribute($target, "PEER_TARGET","");
-            
+
     my $abus_child_conn = $targetObj->getFirstConnectionDestination($target);
     if ($abus_child_conn ne "")
     {
@@ -732,12 +732,14 @@ sub processPcie
                 {
                     for (my $lane=0;$lane<16;$lane++)
                     {
-                        $equalization[$phb_num][$lane]=$eqs[$e+1].",".$eqs[$e+2];
-                    }                    
+                        $equalization[$phb_num][$lane]=
+                              $eqs[$e+1].",".$eqs[$e+2];
+                    }
                 }
                 else
                 {
-                    $equalization[$phb_num][$eqs[$e]] = $eqs[$e+1].",".$eqs[$e+2];
+                    $equalization[$phb_num][$eqs[$e]] =
+                              $eqs[$e+1].",".$eqs[$e+2];
                 }
             }
             substr($phb_config, $phb_num, 1, "1");
@@ -831,7 +833,7 @@ sub processMembufVpdAssociation
 {
     my $targetObj = shift;
     my $target    = shift;
-    
+
     my $vpds=$targetObj->findConnections($target,"I2C","VPD");
     if ($vpds ne "" ) {
         my $vpd = $vpds->{CONN}->[0];
@@ -844,7 +846,7 @@ sub processMembufVpdAssociation
                 setEepromAttributes($targetObj,
                        "EEPROM_VPD_PRIMARY_INFO",$membuf_target,$vpd);
                 setEepromAttributes($targetObj,
-                       "EEPROM_VPD_FRU_INFO",$membuf_target,$vpd,"0++");       
+                       "EEPROM_VPD_FRU_INFO",$membuf_target,$vpd,"0++");
                 my $index = $targetObj->getBusAttribute($membuf_assoc->{SOURCE},
                                 $membuf_assoc->{BUS_NUM}, "ISDIMM_MBVPD_INDEX");
                 $targetObj->setAttribute(
@@ -865,8 +867,8 @@ sub processMembuf
 {
     my $targetObj = shift;
     my $target    = shift;
-    if ($targetObj->isBadAttribute($target, "PHYS_PATH", "")) 
-    { 
+    if ($targetObj->isBadAttribute($target, "PHYS_PATH", ""))
+    {
         ##dmi is probably not connected.  will get caught in error checking
         return;
     }
@@ -910,15 +912,15 @@ sub processMembuf
                                      $dimm->{SOURCE},"MBA_PORT");
                        my $dimm_num = $targetObj->getAttribute(
                                      $dimm->{SOURCE},"MBA_DIMM");
-                       
+
                        my $map = oct("0b".$mba_num.$port_num.$dimm_num);
                        $dimm_portmap{$dimm->{DEST_PARENT}} = $map;
                  }
              }
          }
     }
-    
-    
+
+
     ## Process MEMBUF to DIMM I2C connections
     my @addr_map=('0','0','0','0','0','0','0','0');
     my $dimms=$targetObj->findConnections($target,"I2C","SPD");
@@ -934,7 +936,7 @@ sub processMembuf
 
             my $field=getI2cMapField($targetObj,$dimm_target,$dimm);
             my $map = $dimm_portmap{$dimm_target};
-            if ($map eq "") { 
+            if ($map eq "") {
                 print "ERROR: $dimm_target doesn't map to a dimm/port\n";
                 $targetObj->myExit(3);
             }
@@ -955,7 +957,7 @@ sub processMembuf
         foreach my $ddr (@{$ddrs->{CONN}}) {
             my $mba=$ddr->{SOURCE};
             my $dimm=$ddr->{DEST_PARENT};
-            my ($dimmnum,$port)=split(//,sprintf("%02b\n",$portmap{$mba}));        
+            my ($dimmnum,$port)=split(//,sprintf("%02b\n",$portmap{$mba}));
             $targetObj->setAttribute($dimm, "MBA_DIMM",$dimmnum);
             $targetObj->setAttribute($dimm, "MBA_PORT",$port);
             $portmap{$mba}++;
@@ -977,7 +979,7 @@ sub getI2cMapField
     my $engine = $targetObj->getAttribute($conn_target->{SOURCE}, "I2C_ENGINE");
     my $addr = $targetObj->getBusAttribute($conn_target->{SOURCE},
             $conn_target->{BUS_NUM}, "I2C_ADDRESS");
-    
+
     my $bits=sprintf("%08b",hex($addr));
     my $field=sprintf("%d%3s",oct($port),substr($bits,4,3));
     my $hexfield = sprintf("%X",oct("0b$field"));
@@ -1036,7 +1038,7 @@ sub setGpioAttributes
     my $engine = $targetObj->getAttribute($conn_target->{SOURCE}, "I2C_ENGINE");
     my $addr = $targetObj->getBusAttribute($conn_target->{SOURCE},
             $conn_target->{BUS_NUM}, "I2C_ADDRESS");
-    my $path = $targetObj->getAttribute($conn_target->{SOURCE_PARENT}, 
+    my $path = $targetObj->getAttribute($conn_target->{SOURCE_PARENT},
                "PHYS_PATH");
 
 

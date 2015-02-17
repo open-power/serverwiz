@@ -193,6 +193,7 @@ sub printAttribute
     $filter{ENTITY_INSTANCE}                = 1;
     $filter{MBA_NUM}                        = 1;
     $filter{IPMI_INSTANCE}                  = 1;
+    $filter{IPMI_NAME}                      = 1;
     $filter{INSTANCE_ID}                    = 1;
     $filter{ADC_CHANNEL_SENSOR_NUMBERS}     = 1;
 
@@ -274,7 +275,7 @@ sub buildHierarchy
 {
     my $self   = shift;
     my $target = shift;
-    
+
     my $old_path        = $self->{data}->{INSTANCE_PATH};
     my $target_xml      = $self->{xml}->{'targetInstance'}{$target};
     my $affinity_target = $target;
@@ -287,7 +288,7 @@ sub buildHierarchy
     $self->{data}->{INSTANCE_PATH} = $old_path . "/" . $target;
 
     ## copy attributes
-    
+
     foreach my $attribute (keys %{ $target_xml->{attribute} })
     {
         my $value = $target_xml->{attribute}->{$attribute}->{default};
@@ -318,7 +319,7 @@ sub buildHierarchy
             $self->setAttribute($key, $attribute, $value);
         }
     }
-    ## global attributes overwrite local   
+    ## global attributes overwrite local
     foreach my $prop (keys %{$self->{xml}->{globalSetting}->{$key}->{property}})
     {
         my $val=$self->{xml}->{globalSetting}->{$key}->{property}->
@@ -401,7 +402,7 @@ sub buildAffinity
         {
             $proc = -1;
             $node = -1;
-            
+
             $self->{targeting}{SYS}[0]{KEY} = $target;
             $self->setAttribute($target, "AFFINITY_PATH", "affinity:sys-0");
             $self->setAttribute($target, "PHYS_PATH",     "physical:sys-0");
@@ -444,7 +445,7 @@ sub buildAffinity
             $self->{NUM_PROCS_PER_NODE} = $proc + 1;
             $self->{targeting}->{SYS}[0]{NODES}[$node]{PROCS}[$proc]{KEY} =
               $target;
-            
+
             $self->setHuid($target, 0, $node);
             my $socket = $self->getTargetParent(
                          $self->getTargetParent($target));
@@ -476,7 +477,7 @@ sub buildAffinity
                 ## don't want non-hostboot targets
                 if ($unit_type_id > 0)
                 {
-                    
+
                     push(@{$self->{targeting}
                             ->{SYS}[0]{NODES}[$node]{PROCS}[$proc]{$unit_type}},
                             { 'KEY' => $unit });
@@ -491,7 +492,7 @@ sub buildAffinity
                     $self->setHuid($unit, 0, $node);
                     if ($unit_type eq "OCC")
                     {
-                        $self->setAttribute($unit, "ENTITY_INSTANCE",$proc);                        
+                        $self->setAttribute($unit, "ENTITY_INSTANCE",$proc);
                     }
                     ## export core
                     if ($unit_type eq "EX")
@@ -532,7 +533,7 @@ sub buildAffinity
                 {
                     $self->processMcs($unit, $node, $proc, $parent_affinity,
                         $parent_physical, $node_phys);
-                        
+
                 }
             }
         }
@@ -612,9 +613,9 @@ sub processMcs
         $self->{targeting}
           ->{SYS}[0]{NODES}[$node]{PROCS}[$proc]{MCSS}[$mcs] {MEMBUFS}[0]{KEY} =
           $membuf;
-          
+
         $self->setAttribute($membuf, "ENTITY_INSTANCE",
-               $self->{membuf_inst_num});   
+               $self->{membuf_inst_num});
         $self->{membuf_inst_num}++;
         ## get the mbas
         foreach my $child (@{ $self->{data}->{TARGETS}{$membuf}{CHILDREN} })
@@ -631,7 +632,7 @@ sub processMcs
                     $node_phys . "/membuf-$membufnum/l4-0");
                 $self->setHuid($child, 0, $node);
             }
-            
+
             if ($self->getType($child) eq "MBA")
             {
                 my $mba = $self->getAttribute($child,"MBA_NUM");
@@ -673,9 +674,10 @@ sub processMcs
                         $self->setHuid($dimm, 0, $node);
                         $self->{targeting}
                           ->{SYS}[0]{NODES}[$node]{PROCS}[$proc] {MCSS}[$mcs]
-                          {MEMBUFS}[0]{MBAS}[$mba] {DIMMS}[$affinitypos]{KEY} = $dimm;
+                          {MEMBUFS}[0]{MBAS}[$mba] {DIMMS}[$affinitypos]{KEY} =
+                          $dimm;
                         $self->setAttribute($dimm, "ENTITY_INSTANCE",
-                             $self->{dimm_tpos});  
+                             $self->{dimm_tpos});
                         $self->{dimm_tpos}++;
                         $affinitypos++;
                     }
