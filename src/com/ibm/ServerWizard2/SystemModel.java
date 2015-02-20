@@ -76,118 +76,86 @@ public class SystemModel {
 	public Collection<Target> getTargetInstances() {
 		return targetInstances.values();
 	}
-	public void importSdr(Target target, HashMap<Integer, HashMap<Integer, Vector<SdrRecord>>> sdrLookup,HashMap<String,Boolean>instCheck,String path) throws Exception {
-		if (target==null) {
-			for (Target t : this.rootTargets) {
-				this.importSdr(t,sdrLookup,instCheck,"/");
-			}
-		} else {
-			String strEntityId = target.getAttribute("ENTITY_ID_LOOKUP");
-			if (!strEntityId.isEmpty()) {
-				int entityInst = target.getPosition();
-				if (entityInst==-1) { entityInst=0; } //units have special position of -1 to maintain assigned name
-				String instPath = path+target.getName();
-				HashMap<String,Field> inst = this.globalSettings.get(instPath);
-
-				if (inst!=null) {
-					Field instStr=inst.get("IPMI_INSTANCE");
-					if (instStr!=null && instStr.value!=null) {
-						if (!instStr.value.isEmpty()) {
-							entityInst = Integer.parseInt(instStr.value);
-						}
+	public void updateIpmiTarget(Target target,int l_entityInst,HashMap<Integer, HashMap<Integer, Vector<SdrRecord>>> sdrLookup,
+			                     String path) throws Exception {
+		for (String child : target.getAllChildren()) {
+			int entityInst=l_entityInst;
+			Target childTarget = this.getTarget(child);
+			if (childTarget.getAttribute("MRW_TYPE").equals("IPMI_SENSOR") ||
+					childTarget.getAttribute("MRW_TYPE").equals("APSS_SENSOR")) {
+				if (!childTarget.getAttribute("IPMI_INSTANCE").isEmpty()) {
+					entityInst=Integer.decode(childTarget.getAttribute("IPMI_INSTANCE"));
+				}
+				if (childTarget.getAttribute("MRW_TYPE").equals("APSS_SENSOR")) {
+					String id=childTarget.getAttribute("ADC_CHANNEL_ASSIGNMENT");
+					if (!id.isEmpty()) {
+						entityInst=Integer.decode(id)+1;
 					}
 				}
-				String key = target.getName()+":"+entityInst;
-				Boolean instFound = instCheck.get(key);
-				if (instFound!=null) {
-					throw new Exception("Duplicate instance id for instance type: \n"+instPath+
-							"\n.  Make sure each instance has a unique IPMI_INSTANCE attribute.");
-				} else {
-					instCheck.put(key,true);
-				}
-				String ids[] = strEntityId.split(",");
-
-				String ipmiAttr[] = new String[16];
-				for (int i=0;i<16;i++) {
-					ipmiAttr[i]="0xFFFF,0xFF";
-				}
-				//int i=0;
-				String nameStr="";
-				for (String id : ids) {
-					Integer entityId = Integer.decode(id);
-					if (entityId>0) {
-						HashMap<Integer,Vector<SdrRecord>> sdrMap= sdrLookup.get(entityId);
-						if (sdrMap!=null) {
-							if (entityId==215) { //APSS is special case
-								Integer apss[] = new Integer[16];
-								for (int x=0;x<16;x++) {
-									Vector<SdrRecord> sdrs = sdrMap.get(x);
-									if (sdrs!=null) {
-										SdrRecord sdr = sdrs.get(0);
-										if (sdr!=null) {
-											apss[x]=sdr.getSensorId();
-										} else {
-											apss[x]=255;
-										}
-									} else {
-										apss[x]=255;
-									}
-								}
-								String apssStr="";
-								String sep=",";
-								for (int i=0;i<16;i++) {
-									if (i==15) { sep=""; }
-									apssStr=apssStr+String.format("0x%02X", apss[i])+sep;
-								}
-								this.setGlobalSetting(instPath, "ADC_CHANNEL_SENSOR_NUMBERS",apssStr);
-							} else {
-								Vector<SdrRecord> sdrs = sdrMap.get(entityInst);
-								if (sdrs!=null) {
-									int i=0;
-									for (SdrRecord sdr:sdrs ) {
-										String msg = "IMPORT MATCH: "+target.getName()+"; "+sdr.toString();
-										nameStr=nameStr+sdr.getName()+",";
-										ServerWizard2.LOGGER.info(msg);
-										this.logData=this.logData+msg+"\n";
-										if (i>15) {
-											msg="ERROR: There are more than 16 sensors defined for: "+target.getName()+":"+entityInst;
-											ServerWizard2.LOGGER.severe(msg);
-											throw new Exception(msg);
-										}
-										ipmiAttr[i]=sdr.getAttributeValue();
-										i++;
-									}
-								} else {
-									String msg = ">>IMPORT ERROR: "+target.getName()+"; Entity ID: "+entityId+"; Entity Inst: "+entityInst+" not found in SDR";
-									ServerWizard2.LOGGER.warning(msg);
-									this.logData=this.logData+msg+"\n";
-								}
+				String instPath=path+"/"+childTarget.getName();
+				String entityIdStr = childTarget.getAttribute("IPMI_ENTITY_ID");
+				String sensorTypeStr = childTarget.getAttribute("IPMI_SENSOR_TYPE");
+				int entityId = Integer.decode(entityIdStr);
+				int sensorType = Integer.decode(sensorTypeStr);
+				HashMap<Integer,Vector<SdrRecord>> sdrMap= sdrLookup.get(entityId);
+				if (sdrMap!=null) {
+					Vector<SdrRecord> sdrs = sdrMap.get(entityInst);
+					if (sdrs!=null) {
+						for (SdrRecord sdr:sdrs ) {
+							if (sdr.getSensorType()==sensorType) {
+								String msg = "IMPORT MATCH: "+instPath+"; "+sdr.toString();
+								ServerWizard2.LOGGER.info(msg);
+								this.logData=this.logData+msg+"\n";
+								this.setGlobalSetting(instPath, "IPMI_SENSOR_ID", String.format("0x%02X", sdr.getSensorId()));
 							}
-						} else {
-							String msg = ">>IMPORT ERROR: "+target.getName()+"; Entity ID: "+entityId+ " not found in SDR";
+						}
+					} else {
+						if (childTarget.getAttribute("MRW_TYPE").equals("IPMI_SENSOR")) {
+							String msg = ">>IMPORT WARNING: "+instPath+"; Entity ID: "+entityId+"; Entity Inst: "+entityInst+" not found in SDR";
 							ServerWizard2.LOGGER.warning(msg);
 							this.logData=this.logData+msg+"\n";
 						}
 					}
-					//i++;
 				}
-				String ipmiStr="";
-				String sep=",";
-				Arrays.sort(ipmiAttr);
-				for (int i=0;i<16;i++) {
-					if (i==15) { sep=""; }
-					ipmiStr=ipmiStr+ipmiAttr[i]+sep;
+			}
+		}
+	}
+	public void importSdr2(Target target, HashMap<Integer, HashMap<Integer, Vector<SdrRecord>>> sdrLookup,HashMap<String,Boolean>instCheck,String path) throws Exception {
+		if (target==null) {
+			for (Target t : this.rootTargets) {
+				this.importSdr2(t,sdrLookup,instCheck,"/");
+			}
+		} else {
+			String instPath = path+target.getName();
+			HashMap<String,Field> inst = this.globalSettings.get(instPath);
+			int entityInst=0;
+			if (inst!=null) {
+				Field instStr=inst.get("IPMI_INSTANCE");
+				if (instStr!=null && instStr.value!=null) {
+					if (!instStr.value.isEmpty()) {
+						entityInst = Integer.parseInt(instStr.value);
+						String key = target.getName()+":"+entityInst;
+						Boolean instFound = instCheck.get(key);
+						if (instFound!=null) {
+							throw new Exception("Duplicate instance id for instance type: \n"+instPath+
+									"\n.  Make sure each instance has a unique IPMI_INSTANCE attribute.");
+						} else {
+							instCheck.put(key,true);
+						}
+						this.updateIpmiTarget(target,entityInst,sdrLookup,instPath);
+					}
 				}
-				this.setGlobalSetting(instPath, "IPMI_SENSORS",ipmiStr);
-				this.setGlobalSetting(instPath, "IPMI_NAME",nameStr);
+			} else if(target.getAttribute("TYPE").equals("APSS")) {
+				this.updateIpmiTarget(target,-1,sdrLookup,instPath);
 			}
 			path=path+target.getName()+"/";
 			for (String child : target.getChildren()) {
 				Target childTarget = this.getTarget(child);
-				this.importSdr(childTarget, sdrLookup,instCheck,path);
+				this.importSdr2(childTarget, sdrLookup,instCheck,path);
 			}
 		}
 	}
+
 	public Vector<Target> getConnectionCapableTargets() {
 		Vector<Target> cards = new Vector<Target>();
 		for (Target target : targetList) {
@@ -304,16 +272,44 @@ public class SystemModel {
 				} else {
 					Target target = new Target(targetModel);
 					target.initBusses(busTypes);
-
 					target.readInstanceXML(t, targetModels);
-					if (this.targetLookup.containsKey(target.getName())) {
+					//if (this.targetLookup.containsKey(target.getName())) {
 						// ServerWizard2.LOGGER.warning("Duplicate Target: "+target.getName());
-					} else {
+					//} else {
 						this.targetLookup.put(target.getName(), target);
 						this.targetList.add(target);
-					}
+					//}
 					if (target.getAttribute("CLASS").equals("SYS")) {
 						this.rootTargets.add(target);
+					}
+					///////
+					// Check to see if new children defined in model
+					Target targetInst = this.targetInstances.get(target.getType());
+					if (targetInst != null) {
+						HashMap <String,Boolean> childTest = new HashMap<String,Boolean>();
+						for (String child : target.getAllChildren()) {
+							childTest.put(child, true);
+						}
+						for (String child : targetInst.getChildren()) {
+							if (childTest.get(child)==null) {
+								target.addChild(child, false);
+								if (!this.targetLookup.containsKey(child)) {
+									this.targetLookup.put(child, target);
+									this.targetList.add(target);
+								}
+								childTest.put(child, true);
+							}
+						}
+						for (String child : targetInst.getHiddenChildren()) {
+							if (childTest.get(child)==null) {
+								target.addChild(child, true);
+								if (!this.targetLookup.containsKey(child)) {
+									this.targetLookup.put(child,target);
+									this.targetList.add(target);
+								}
+								childTest.put(child, true);
+							}
+						}
 					}
 				}
 			} else {
@@ -337,7 +333,7 @@ public class SystemModel {
 		}
 	}
 
-	public void setGlobalSetting(String path, String attribute, String value) {
+	public Field setGlobalSetting(String path, String attribute, String value) {
 		HashMap<String, Field> s = globalSettings.get(path);
 		if (s == null) {
 			s = new HashMap<String, Field>();
@@ -350,14 +346,20 @@ public class SystemModel {
 			s.put(attribute, f);
 		}
 		f.value = value;
+		return f;
 	}
 
 	public Field getGlobalSetting(String path, String attribute) {
 		HashMap<String, Field> s = globalSettings.get(path);
 		if (s == null) {
-			return null;
+			Field f=this.setGlobalSetting(path, attribute, "");
+			return f;
 		}
-		return s.get(attribute);
+		Field f=s.get(attribute);
+		if (f==null) {
+			f=this.setGlobalSetting(path, attribute, "");
+		}
+		return f;
 	}
 
 	public HashMap<String, Field> getGlobalSettings(String path) {

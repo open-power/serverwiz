@@ -39,7 +39,7 @@ public class TargetWizardController implements PropertyChangeListener {
 		try {
 			xmlLib.loadModel(model);
 			this.initModel();
-			
+
 		} catch (Exception e) {
 			String btns[] = { "Close" };
 			ServerWizard2.LOGGER.severe(e.getMessage());
@@ -49,12 +49,12 @@ public class TargetWizardController implements PropertyChangeListener {
 			e.printStackTrace();
 			System.exit(4);
 		}
-		
+
 	}
 	public void initModel() throws Exception {
 		model.deleteAllInstances();
 		model.addUnitInstances();
-		
+
 		String parentTargetName = "sys-sys-power8";
 		Target parentTarget = model.getTargetModels().get(parentTargetName);
 		if (parentTarget == null) {
@@ -64,15 +64,16 @@ public class TargetWizardController implements PropertyChangeListener {
 		// Create root instance
 		Target sys = new Target(parentTarget);
 		sys.setPosition(0);
-		model.addTarget(null, sys);
+		this.addTargetInstance(sys, null, null, "");
+		//model.addTarget(null, sys);
 	}
-	
+
 	public void importSDR(String filename) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
+
 		Vector<SdrRecord> sdrs = new Vector<SdrRecord>();
 		HashMap<Integer,HashMap<Integer,Vector<SdrRecord>>> sdrLookup = new HashMap<Integer,HashMap<Integer,Vector<SdrRecord>>>();
-		
+
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			builder.setErrorHandler(new XmlHandler());
@@ -108,7 +109,7 @@ public class TargetWizardController implements PropertyChangeListener {
 		try {
 			HashMap<String,Boolean> instCheck = new HashMap<String,Boolean>();
 			model.logData="";
-			model.importSdr(null,sdrLookup,instCheck,"");
+			model.importSdr2(null,sdrLookup,instCheck,"");
 			LogViewerDialog dlg = new LogViewerDialog(null);
 			dlg.setData(model.logData);
 			dlg.open();
@@ -117,35 +118,8 @@ public class TargetWizardController implements PropertyChangeListener {
 			MessageDialog.openError(null, "SDR Import Error", e.getMessage());
 			e.printStackTrace();
 		}
-		/*
-		HashMap<Target,Vector<String>> ipmiAttr = new HashMap<Target,Vector<String>>();
-		for (SdrRecord sdr : sdrs){
-			Target t = sdr.getTarget();
-			Vector<String> ipmiSensors = ipmiAttr.get(t);
-			if (ipmiSensors==null) {
-				ipmiSensors = new Vector<String>();
-				ipmiAttr.put(t, ipmiSensors);
-			}
-			ipmiSensors.add(String.format("0x%02x", sdr.getEntityId())+","+
-					String.format("0x%02x", sdr.getSensorId()));
+	}
 
-			//System.out.println(t.getName()+","+ipmiSensors);
-		}
-		for (Map.Entry<Target, Vector<String>> entry : ipmiAttr.entrySet()) {
-			Target t=entry.getKey();
-			String ipmiStr = "";
-			Vector<String> attrs = entry.getValue();
-			for (String a : attrs) {
-				ipmiStr = ipmiStr+a+",";
-			}
-			for (int i=attrs.size();i<16;i++) {
-				ipmiStr = ipmiStr+"0xFF,0xFF,";
-			}
-			//t.setAttributeValue("IPMI_SENSORS", ipmiStr);
-			
-		}*/
-	}	
-	
 	public Target getTargetModel(String type) {
 		return model.getTargetModel(type);
 	}
@@ -171,7 +145,7 @@ public class TargetWizardController implements PropertyChangeListener {
 		return true;
 	}
 
-	
+
 	public void deleteTarget(Target target) {
 		//model.deleteTarget(target, model.rootTarget);
 		model.deleteTarget(target);
@@ -179,9 +153,9 @@ public class TargetWizardController implements PropertyChangeListener {
 
 	public void addTargetInstance(Target targetModel, Target parentTarget,
 			TreeItem parentItem,String nameOverride) {
-		
+
 		Target targetInstance;
-		Target instanceCheck = model.getTargetInstance(targetModel.getType()); 
+		Target instanceCheck = model.getTargetInstance(targetModel.getType());
 		if (instanceCheck!=null) {
 			//target instance found of this model type
 			targetInstance = new Target(instanceCheck);
@@ -200,7 +174,7 @@ public class TargetWizardController implements PropertyChangeListener {
 	}
 	public Target copyTargetInstance(Target target, Target parentTarget,Boolean incrementPosition) {
 		Target newTarget = new Target(target);
-		if (incrementPosition) { 
+		if (incrementPosition) {
 			newTarget.setPosition(newTarget.getPosition()+1);
 			newTarget.setSpecialAttributes();
 		}
@@ -254,14 +228,14 @@ public class TargetWizardController implements PropertyChangeListener {
 	}
 	public HashMap<String,Field> getGlobalSettings(String path) {
 		return model.getGlobalSettings(path);
-	}	
+	}
 	public Vector<Target> getChildTargets(Target target) {
 		//if (target.instanceModel) {
 		//	return model.getChildTargetTypes("");
 		//}
 		return model.getChildTargetTypes(target.getType());
 	}
-	
+
 	public void hideBusses(Target target) {
 		target.hideBusses(model.getTargetLookup());
 	}
@@ -287,7 +261,7 @@ public class TargetWizardController implements PropertyChangeListener {
 	public void runChecks(String filename) {
 		String includePath = LibraryManager.getWorkingDir()+"scripts";
 		String script = LibraryManager.getWorkingDir()+"scripts"+System.getProperty("file.separator")+"processMrw.pl";
-		
+
 		String commandLine[] = {
 				"perl",
 				"-I",
@@ -306,16 +280,16 @@ public class TargetWizardController implements PropertyChangeListener {
 		String msg="";
 		try {
 			final ProcessBuilder builder = new ProcessBuilder(commandLine).redirectErrorStream(true);
-           
+
 			final Process process = builder.start();
 			final StringWriter writer = new StringWriter();
-			
+
 			new Thread(new Runnable() {
 			public void run() {
 				char[] buffer = new char[1024];
 				int len;
 				InputStreamReader in = new InputStreamReader(process.getInputStream());
-				
+
 				try {
 					while ((len = in.read(buffer)) != -1) {
 					    writer.write(buffer, 0, len);
@@ -326,7 +300,7 @@ public class TargetWizardController implements PropertyChangeListener {
 				}
 			}
 			}).start();
-			
+
 			final int exitValue = process.waitFor();
 			final String processOutput = writer.toString();
 			ServerWizard2.LOGGER.info(processOutput);
@@ -340,6 +314,6 @@ public class TargetWizardController implements PropertyChangeListener {
 	}
 
 	public void propertyChange(PropertyChangeEvent arg0) {
-		//view.setDirtyState(true);		
+		//view.setDirtyState(true);
 	}
 }

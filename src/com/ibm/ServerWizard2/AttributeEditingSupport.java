@@ -2,10 +2,6 @@ package com.ibm.ServerWizard2;
 
 import java.util.Vector;
 
-import javax.swing.InputVerifier;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -19,7 +15,7 @@ import org.eclipse.swt.SWT;
 public class AttributeEditingSupport extends EditingSupport {
 	private CellEditor editor;
 	private TableViewer viewer;
-	
+
 	public AttributeEditingSupport(TableViewer viewer) {
 		super(viewer);
 		this.viewer=viewer;
@@ -57,12 +53,12 @@ public class AttributeEditingSupport extends EditingSupport {
 
 				public void applyEditorValue() {
 					// TODO Auto-generated method stub
-					
+
 				}
 
 				public void cancelEditor() {
 					// TODO Auto-generated method stub
-					
+
 				}
 
 				public void editorValueChanged(boolean arg0, boolean arg1) {
@@ -70,15 +66,13 @@ public class AttributeEditingSupport extends EditingSupport {
 					if (!arg1) {
 						MessageDialog.openError(null, "Invalid format", editor.getErrorMessage());
 					}
-					System.out.println(arg0+":"+arg1);
-					
 				}
-				
+
 			});
 		}
 		return editor;
 	}
-	
+
 	@Override
 	protected Object getValue(Object obj) {
 		Field f = (Field) obj;

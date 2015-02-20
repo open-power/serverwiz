@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 
 public class Target implements Comparable<Target>, java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String name = "";
 	private String type = "";
 	private int position = -1;
@@ -28,7 +28,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	private Boolean busInited=false;
 	private Boolean hidden = false;
 	private HashMap<String,Boolean> childrenBusTypes = new HashMap<String,Boolean>();
-	
+
 	public Target() {
 	}
 
@@ -40,7 +40,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		this.hidden = s.hidden;
 		this.parentType.addAll(s.parentType);
 		this.isLibraryTarget=s.isLibraryTarget;
-		
+
 		for (Map.Entry<String, Attribute> entry : s.getAttributes().entrySet()) {
 			String key = new String(entry.getKey());
 			Attribute value = new Attribute(entry.getValue());
@@ -50,7 +50,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public TreeMap<Target,Vector<Connection>> getBusses() {
 		return busses;
 	}
-	
+
 	public void hide(Boolean h) {
 		this.hidden=h;
 	}
@@ -78,11 +78,20 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	////////////////////////////////////////////
 	// Target children handling
 	public Vector<String> getChildren() {
 		return this.children;
+	}
+	public Vector<String> getHiddenChildren() {
+		return this.childrenHidden;
+	}
+	public Vector<String> getAllChildren() {
+		Vector<String> all = new Vector<String>();
+		all.addAll(this.children);
+		all.addAll(this.childrenHidden);
+		return all;
 	}
 	public void copyChildren(Target t) {
 		for (String c : t.children) {
@@ -95,7 +104,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public void removeChildren(String child) {
 		children.remove(child);
 		childrenHidden.remove(child);
-	}	
+	}
 	public void addChild(String child,boolean hidden) {
 		if (hidden) {
 			childrenHidden.add(child);
@@ -214,7 +223,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		attribute.getValue().setValue(value);
 	}
 	public Boolean isInput() {
-		String dir = this.getAttribute("DIRECTION"); 
+		String dir = this.getAttribute("DIRECTION");
 		if (dir.equals("IN") || dir.equals("INOUT")) {
 			return true;
 		}
@@ -268,8 +277,8 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		Target t = (Target)arg0;
 		return this.getType().compareTo(t.getType());
 	}
-	
-	
+
+
 	///////////////////////////////////////////////////
 	// connection/bus handling
 	public Boolean isBusHidden(String busType) {
@@ -297,7 +306,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			}
 		}
 		return this.childrenBusTypes;
-	}	
+	}
 	public Connection addConnection(Target busTarget,ConnectionEndpoint source,ConnectionEndpoint dest, boolean cabled) {
 		if (busTarget==null || source==null || dest==null) {
 			//TODO: error message
@@ -324,13 +333,13 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public void initBusses(Vector<Target> v) {
 		if (busInited) { return; }
 		this.busInited=true;
-		
+
 		for (Target s : v) {
 			Vector<Connection> connections = new Vector<Connection>();
 			this.busses.put(s, connections);
 		}
 	}
-	
+
 	////////////////////////////////////////////////////
 	// XML file handling
 	public void readModelXML(Element target, HashMap<String, Attribute> attrMap) {
@@ -376,26 +385,26 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 				setPosition(tmpPos);
 			}
 		}
-		
+
 		NodeList childList = t.getElementsByTagName("child_id");
 		for (int j = 0; j < childList.getLength(); ++j) {
 			Element attr = (Element) childList.item(j);
 			//TargetName targetName = new TargetName(attr.getFirstChild().getNodeValue(),false);
 			children.add(attr.getFirstChild().getNodeValue());
-		}				
+		}
 		childList = t.getElementsByTagName("hidden_child_id");
 		for (int j = 0; j < childList.getLength(); ++j) {
 			Element attr = (Element) childList.item(j);
 			//argetName targetName = new TargetName(attr.getFirstChild().getNodeValue(),true);
 			childrenHidden.add(attr.getFirstChild().getNodeValue());
-		}				
+		}
 
 		NodeList attrList = t.getElementsByTagName("attribute");
 		for (int j = 0; j < attrList.getLength(); ++j) {
 			Element attr = (Element) attrList.item(j);
 			String id = SystemModel.getElement(attr, "id");
 			Attribute a = attributes.get(id);
-			if (a==null) { 
+			if (a==null) {
 				ServerWizard2.LOGGER.info("Attribute dropped: "+id+" from "+this.getName());
 			} else {
 				a.value.readInstanceXML(attr);
@@ -431,7 +440,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		} else {
 			out.write("\t<instance_name>" + this.getIdPrefix() + "</instance_name>\n");
 		}
-		
+
 		out.write("\t<position>" + getPosition() + "</position>\n");
 		//write children
 		for (String childStr : this.children) {
@@ -439,12 +448,12 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		}
 		for (String childStr : this.childrenHidden) {
 			out.write("\t<hidden_child_id>"+childStr+"</hidden_child_id>\n");
-		}		
+		}
 		//write attributes
 		for (Map.Entry<String, Attribute> entry : getAttributes().entrySet()) {
 			Attribute attr = new Attribute(entry.getValue());
 			attr.writeInstanceXML(out);
-			
+
 		}
 		//write busses
 		for (Map.Entry<Target, Vector<Connection>> entry : busses.entrySet()) {
@@ -453,15 +462,11 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			}
 		}
 		out.write("</targetInstance>\n");
-		
+
 		//recursively write children
-		for (String childStr : this.children) {
+		for (String childStr : this.getAllChildren()) {
 			Target child = targetLookup.get(childStr);
 			child.writeInstanceXML(out, targetLookup, targetWritten);
 		}
-		for (String childStr : this.childrenHidden) {
-			Target child = targetLookup.get(childStr);
-			child.writeInstanceXML(out, targetLookup, targetWritten);
-		}				
 	}
 }

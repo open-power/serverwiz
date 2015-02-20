@@ -13,7 +13,7 @@ public class SdrRecord {
 	private String entityName = "";
 
 	public String getAttributeValue() {
-		return String.format("0x%02x%02x,0x%02x", sensorType,entityId,sensorId);
+		return String.format("0x%02X%02X,0x%02X", sensorType,entityId,sensorId);
 	}
 	public void setTarget(Target target) {
 		this.target=target;
@@ -30,6 +30,10 @@ public class SdrRecord {
 	public Integer getSensorId() {
 		return sensorId;
 	}
+	public Integer getSensorType() {
+		return sensorType;
+	}
+
 	public Integer getEntityId() {
 		return entityId;
 	}

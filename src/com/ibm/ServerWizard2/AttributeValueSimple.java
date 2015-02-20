@@ -8,7 +8,7 @@ public class AttributeValueSimple extends AttributeValue {
 
 	private String array = "";
 	private Field field;
-	
+
 	public AttributeValueSimple(Attribute a) {
 		super(a);
 		field = new Field();

@@ -766,7 +766,11 @@ public class MainDialog extends Dialog {
 							controller.setGlobalSetting(path, attribute.name, "");
 							controller.setGlobalSetting(path, "INSTANCE_ID", ep.getTargetName());
 						}
-						attributes.add(controller.getGlobalSetting(path, attribute.name));
+						Field field = controller.getGlobalSetting(path, attribute.name);
+						if (field==null) {
+							ServerWizard2.LOGGER.severe("Field Null: "+path+"; "+attribute.name);
+						}
+						attributes.add(field);
 					}
 				} else {
 					for (Field field : attribute.getValue().getFields())
