@@ -12,8 +12,14 @@
 			<default>SYS</default>
 		</attribute>
 		<attribute>
-			<id>ENTITY_ID_LOOKUP</id>
-			<default>0x01,0x15,0x17,0x22,0x23,0xD7,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
+			<id>IPMI_INSTANCE</id>
+		</attribute>
+		<attribute>
+			<id>IPMI_NAME</id>
+		</attribute>
+		<attribute>
+			<id>FRU_ID</id>
+			<default></default>
 		</attribute>
 		<attribute>
 			<id>OPAL_MODEL</id>
@@ -301,23 +307,6 @@
 		<!-- End System Attributes from MRW -->
 		<!-- _hb attributes -->
 		<attribute>
-			<id>ADC_CHANNEL_FUNC_IDS</id>
-			<default>1,2,3,9,5,18,19,16,21,20,24,13,14,23,4,0</default>
-		</attribute>
-		<attribute>
-			<id>ADC_CHANNEL_GNDS</id>
-			<default>8,8,8,8,8,8,8,8,0,8,8,8,8,8,8,8</default>
-		</attribute>
-		<attribute>
-			<id>ADC_CHANNEL_GAINS</id>
-			<default>27397,27397,27397,27397,27397,27397,27397,27397,1000,6494,27397,27397,27397,27397,27397,1000
-			</default>
-		</attribute>
-		<attribute>
-			<id>ADC_CHANNEL_OFFSETS</id>
-			<default>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</default>
-		</attribute>
-		<attribute>
 			<id>APSS_GPIO_PORT_MODES</id>
 			<default>0x0,0x3</default>
 		</attribute>
@@ -519,8 +508,18 @@
 			<default>POWER8</default>
 		</attribute>
 		<attribute>
-			<id>ENTITY_ID_LOOKUP</id>
-			<default>0x07,0xD4,0xD5,0xD6,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
+			<id>IPMI_INSTANCE</id>
+		</attribute>
+		<attribute>
+			<id>IPMI_NAME</id>
+		</attribute>
+		<attribute>
+			<id>FRU_ID</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>IPMI_NAME</id>
+			<default></default>
 		</attribute>
 	</targetType>
 
@@ -641,6 +640,10 @@
 			<id>CLASS</id>
 			<default>CARD</default>
 		</attribute>
+		<attribute>
+			<id>FRU_ID</id>
+			<default></default>
+		</attribute>
 	</targetType>
 
 	<targetType>
@@ -663,10 +666,6 @@
 		<attribute>
 			<id>TYPE</id>
 			<default>NA</default>
-		</attribute>
-		<attribute>
-			<id>FRU_ID</id>
-			<default></default>
 		</attribute>
 		<attribute>
 			<id>FABRIC_NODE_ID</id>
@@ -783,8 +782,8 @@
 			<id>IPMI_NAME</id>
 		</attribute>
 		<attribute>
-			<id>ENTITY_ID_LOOKUP</id>
-			<default>0x03,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
+			<id>FRU_ID</id>
+			<default></default>
 		</attribute>
 		<attribute>
 			<id>PROC_DCM_INSTALLED</id>
@@ -1120,10 +1119,6 @@
 		<attribute>
 			<id>IPMI_NAME</id>
 		</attribute>
-		<attribute>
-			<id>ENTITY_ID_LOOKUP</id>
-			<default>0xD0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
-		</attribute>
 	</targetType>
 
 	<targetType>
@@ -1456,10 +1451,6 @@
 			<default>400,400,0,0,0,0</default>
 		</attribute>
 		<attribute>
-			<id>ENTITY_ID_LOOKUP</id>
-			<default>0xD1,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
-		</attribute>
-		<attribute>
 			<id>IPMI_INSTANCE</id>
 		</attribute>
 		<attribute>
@@ -1531,7 +1522,10 @@
 		<attribute>
 			<id>IPMI_NAME</id>
 		</attribute>
-
+		<attribute>
+			<id>FRU_ID</id>
+			<default></default>
+		</attribute>
 	</targetType>
 
 	<targetType>
@@ -1551,10 +1545,6 @@
 		<attribute>
 			<id>MODEL</id>
 			<default>JEDEC</default>
-		</attribute>
-		<attribute>
-			<id>ENTITY_ID_LOOKUP</id>
-			<default>0x20,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
 		</attribute>
 	</targetType>
 
@@ -1626,10 +1616,6 @@
 		</attribute>
 		<attribute>
 			<id>OCC_MASTER_CAPABLE</id>
-		</attribute>
-		<attribute>
-			<id>ENTITY_ID_LOOKUP</id>
-			<default>0xD2,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00</default>
 		</attribute>
 	</targetType>
 	<targetType>
@@ -2821,5 +2807,84 @@
 			<default>OUT</default>
 		</attribute>
 	</targetType>
+	<targetType>
+		<id>unit-ipmi-sensor</id>
+		<parent>unit</parent>
+		<attribute>
+			<id>CLASS</id>
+			<default>UNIT</default>
+		</attribute>
+		<attribute>
+			<id>TYPE</id>
+			<default>NA</default>
+		</attribute>
+		<attribute>
+			<id>MRW_TYPE</id>
+			<default>IPMI_SENSOR</default>
+		</attribute>
+		<attribute>
+			<id>IPMI_ENTITY_ID</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>IPMI_SENSOR_TYPE</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>IPMI_SENSOR_NAME_SUFFIX</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>IPMI_SENSOR_READING_TYPE</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>IPMI_SENSOR_OFFSETS</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>IPMI_SENSOR_ID</id>
+			<default></default>
+		</attribute>
+	</targetType>
+	<targetType>
+		<id>unit-apss-sensor</id>
+		<parent>unit-ipmi-sensor</parent>
+		<attribute>
+			<id>CLASS</id>
+			<default>UNIT</default>
+		</attribute>
+		<attribute>
+			<id>MRW_TYPE</id>
+			<default>APSS_SENSOR</default>
+		</attribute>
+		<attribute>
+			<id>ADC_CHANNEL_ASSIGNMENT</id>
+		</attribute>
+		<attribute>
+			<id>ADC_CHANNEL_ID</id>
+		</attribute>
+		<attribute>
+			<id>ADC_CHANNEL_GAIN</id>
+			<default>34500</default>
+		</attribute>
+		<attribute>
+			<id>ADC_CHANNEL_GROUND</id>
+			<default>8</default>
+		</attribute>
+		<attribute>
+			<id>ADC_CHANNEL_OFFSET</id>
+			<default>0</default>
+		</attribute>
 
+	</targetType>
+	<targetType>
+		<id>chip-apss-psoc</id>
+		<parent_type>sys-sys-power8</parent_type>
+		<parent>chip</parent>
+		<attribute>
+			<id>TYPE</id>
+			<default>APSS</default>
+		</attribute>
+	</targetType>
 </targetTypes>

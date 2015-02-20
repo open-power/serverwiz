@@ -544,7 +544,7 @@
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>    
+    <serverwizHide/>
     <hasStringConversion/>
 </attribute>
 
@@ -11779,6 +11779,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     <simpleType><uint32_t><default>0</default></uint32_t></simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
+    <global/>
 </attribute>
 
 <attribute>

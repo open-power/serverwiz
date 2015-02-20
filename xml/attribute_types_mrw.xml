@@ -330,8 +330,18 @@
 			<name>LED</name>
 			<value>11</value>
 		</enumerator>
+		<enumerator>
+			<name>IPMI_SENSOR</name>
+			<value>12</value>
+		</enumerator>
+		<enumerator>
+			<name>APSS_SENSOR</name>
+			<value>13</value>
+		</enumerator>
+
 		<default>NA</default>
 	</enumerationType>
+
 	<enumerationType>
 		<id>ASSOCIATION_TYPE</id>
 		<enumerator>
@@ -1367,4 +1377,127 @@
 		<readable />
 		<writeable />
 	</attribute>
+	<attribute>
+		<id>IPMI_ENTITY_ID</id>
+		<description>Entity ID</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>IPMI_SENSOR_TYPE</id>
+		<description>Sensor Type</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>IPMI_SENSOR_NAME_SUFFIX</id>
+		<description>Entity ID</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>IPMI_SENSOR_READING_TYPE</id>
+		<description>Sensor Reading type</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>IPMI_SENSOR_OFFSETS</id>
+		<description>Sensor Offsets</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+			<array>16</array>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>IPMI_SENSOR_ID</id>
+		<description>Sensor ID</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<global />
+	</attribute>
+		<attribute>
+		<id>IPMI_ALTERNATE_ATTRIBUTE</id>
+		<description>Attribute</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+		<attribute>
+		<id>ADC_CHANNEL_ID</id>
+		<description>APSS channel #</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>ADC_CHANNEL_ASSIGNMENT</id>
+		<description>APSS channel assignment</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>ADC_CHANNEL_GAIN</id>
+		<description>APSS channel assignment</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>ADC_CHANNEL_GROUND</id>
+		<description>APSS channel groud</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>ADC_CHANNEL_OFFSET</id>
+		<description>APSS channel offset</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+
 </attributes>
