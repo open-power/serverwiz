@@ -15,7 +15,7 @@
 			<id>IPMI_INSTANCE</id>
 		</attribute>
 		<attribute>
-			<id>IPMI_NAME</id>
+			<id>FRU_NAME</id>
 		</attribute>
 		<attribute>
 			<id>FRU_ID</id>
@@ -511,14 +511,14 @@
 			<id>IPMI_INSTANCE</id>
 		</attribute>
 		<attribute>
-			<id>IPMI_NAME</id>
+			<id>FRU_NAME</id>
 		</attribute>
 		<attribute>
 			<id>FRU_ID</id>
 			<default></default>
 		</attribute>
 		<attribute>
-			<id>IPMI_NAME</id>
+			<id>FRU_NAME</id>
 			<default></default>
 		</attribute>
 	</targetType>
@@ -779,7 +779,7 @@
 			<id>IPMI_INSTANCE</id>
 		</attribute>
 		<attribute>
-			<id>IPMI_NAME</id>
+			<id>FRU_NAME</id>
 		</attribute>
 		<attribute>
 			<id>FRU_ID</id>
@@ -1117,7 +1117,7 @@
 			<id>IPMI_INSTANCE</id>
 		</attribute>
 		<attribute>
-			<id>IPMI_NAME</id>
+			<id>FRU_NAME</id>
 		</attribute>
 	</targetType>
 
@@ -1454,7 +1454,7 @@
 			<id>IPMI_INSTANCE</id>
 		</attribute>
 		<attribute>
-			<id>IPMI_NAME</id>
+			<id>FRU_NAME</id>
 		</attribute>
 
 	</targetType>
@@ -1520,7 +1520,7 @@
 			<id>IPMI_INSTANCE</id>
 		</attribute>
 		<attribute>
-			<id>IPMI_NAME</id>
+			<id>FRU_NAME</id>
 		</attribute>
 		<attribute>
 			<id>FRU_ID</id>

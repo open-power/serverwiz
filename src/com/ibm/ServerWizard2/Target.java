@@ -186,7 +186,12 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		}
 		return attributes.get(attribute).getValue().getValue();
 	}
-
+	public boolean isAttribute(String attribute) {
+		if (attributes.get(attribute) == null) {
+			return false;
+		}
+		return true;
+	}
 	public void copyAttributesFromParent(Target s) {
 		for (Map.Entry<String, Attribute> entry : s.getAttributes().entrySet()) {
 			String key = entry.getKey();

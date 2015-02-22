@@ -83,6 +83,7 @@ public class TargetWizardController implements PropertyChangeListener {
 			NodeList deviceList = document
 					.getElementsByTagName("device");
 
+			model.logData="Importing SDR's...\n";
 			for (int i = 0; i < deviceList.getLength(); ++i) {
 				Element deviceElement = (Element) deviceList.item(i);
 				SdrRecord s = new SdrRecord();
@@ -100,22 +101,18 @@ public class TargetWizardController implements PropertyChangeListener {
 				}
 				sdrRecords.add(s);
 				sdrs.add(s);
-				ServerWizard2.LOGGER.info(s.toString());
+				model.logData=model.logData+s.toString()+"\n";
 			}
-		} catch (Exception e) {
-			MessageDialog.openError(null, "SDR Import Error", e.getMessage());
-			e.printStackTrace();
-		}
-		try {
-			HashMap<String,Boolean> instCheck = new HashMap<String,Boolean>();
-			model.logData="";
+			HashMap<String,Integer> instCheck = new HashMap<String,Integer>();
+			model.logData=model.logData+"Matching SDR's to targets...\n";
 			model.importSdr2(null,sdrLookup,instCheck,"");
 			LogViewerDialog dlg = new LogViewerDialog(null);
+			ServerWizard2.LOGGER.info(model.logData);
 			dlg.setData(model.logData);
 			dlg.open();
 		} catch (Exception e) {
-			ServerWizard2.LOGGER.severe(e.getMessage());
 			MessageDialog.openError(null, "SDR Import Error", e.getMessage());
+			ServerWizard2.LOGGER.info(model.logData);
 			e.printStackTrace();
 		}
 	}

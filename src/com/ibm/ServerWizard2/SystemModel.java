@@ -103,16 +103,14 @@ public class SystemModel {
 					if (sdrs!=null) {
 						for (SdrRecord sdr:sdrs ) {
 							if (sdr.getSensorType()==sensorType) {
-								String msg = "IMPORT MATCH: "+instPath+"; "+sdr.toString();
-								ServerWizard2.LOGGER.info(msg);
+								String msg = "MATCH: "+childTarget.getName()+"; "+sdr.toString();
 								this.logData=this.logData+msg+"\n";
 								this.setGlobalSetting(instPath, "IPMI_SENSOR_ID", String.format("0x%02X", sdr.getSensorId()));
 							}
 						}
 					} else {
 						if (childTarget.getAttribute("MRW_TYPE").equals("IPMI_SENSOR")) {
-							String msg = ">>IMPORT WARNING: "+instPath+"; Entity ID: "+entityId+"; Entity Inst: "+entityInst+" not found in SDR";
-							ServerWizard2.LOGGER.warning(msg);
+							String msg = ">> WARNING: "+childTarget.getName()+"; Entity ID: "+entityId+"; Entity Inst: "+entityInst+" not found in SDR";
 							this.logData=this.logData+msg+"\n";
 						}
 					}
@@ -120,13 +118,38 @@ public class SystemModel {
 			}
 		}
 	}
-	public void importSdr2(Target target, HashMap<Integer, HashMap<Integer, Vector<SdrRecord>>> sdrLookup,HashMap<String,Boolean>instCheck,String path) throws Exception {
+	public void importSdr2(Target target, HashMap<Integer, HashMap<Integer, Vector<SdrRecord>>> sdrLookup,HashMap<String,Integer>instCheck,String path) throws Exception {
 		if (target==null) {
 			for (Target t : this.rootTargets) {
 				this.importSdr2(t,sdrLookup,instCheck,"/");
 			}
 		} else {
 			String instPath = path+target.getName();
+			String type = target.getAttribute("TYPE");
+			if (type.equals("APSS")) {
+				String msg="\n========================================================\n";
+				msg=msg+"IPMI TARGET: "+instPath+" (APSS)";
+				this.logData=this.logData+msg+"\n";
+				this.updateIpmiTarget(target,-1,sdrLookup,instPath);
+			} else {
+				if (target.isAttribute("FRU_NAME")) {
+					Integer entityInst = instCheck.get(type);
+					if (entityInst == null) {
+						entityInst=-1;
+					}
+					entityInst++;
+					instCheck.put(type,entityInst);
+					this.setGlobalSetting(instPath, "IPMI_INSTANCE", entityInst.toString());
+					if (this.getGlobalSetting(instPath, "FRU_NAME").value.isEmpty()) {
+						this.setGlobalSetting(instPath,"FRU_NAME", type+entityInst);
+					}
+					String msg="\n========================================================\n";
+					msg=msg+"IPMI TARGET: "+instPath+"; IPMI_INSTANCE="+entityInst+"; FRU_NAME="+this.getGlobalSetting(instPath, "FRU_NAME").value;
+					this.logData=this.logData+msg+"\n";
+					this.updateIpmiTarget(target,entityInst,sdrLookup,instPath);
+				}
+			}
+			/*
 			HashMap<String,Field> inst = this.globalSettings.get(instPath);
 			int entityInst=0;
 			if (inst!=null) {
@@ -134,8 +157,8 @@ public class SystemModel {
 				if (instStr!=null && instStr.value!=null) {
 					if (!instStr.value.isEmpty()) {
 						entityInst = Integer.parseInt(instStr.value);
-						String key = target.getName()+":"+entityInst;
-						Boolean instFound = instCheck.get(key);
+						//String key = target.getName()+":"+entityInst;
+						Boolean  = instCheck.get(target.getAttribute("TYPE"));
 						if (instFound!=null) {
 							throw new Exception("Duplicate instance id for instance type: \n"+instPath+
 									"\n.  Make sure each instance has a unique IPMI_INSTANCE attribute.");
@@ -147,7 +170,8 @@ public class SystemModel {
 				}
 			} else if(target.getAttribute("TYPE").equals("APSS")) {
 				this.updateIpmiTarget(target,-1,sdrLookup,instPath);
-			}
+			}*/
+
 			path=path+target.getName()+"/";
 			for (String child : target.getChildren()) {
 				Target childTarget = this.getTarget(child);
@@ -347,6 +371,18 @@ public class SystemModel {
 		}
 		f.value = value;
 		return f;
+	}
+
+	public Boolean isGlobalSetting(String path, String attribute) {
+		HashMap<String, Field> s = globalSettings.get(path);
+		if (s == null) {
+			return false;
+		}
+		Field f=s.get(attribute);
+		if (f==null) {
+			return false;
+		}
+		return true;
 	}
 
 	public Field getGlobalSetting(String path, String attribute) {

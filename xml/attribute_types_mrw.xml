@@ -1351,7 +1351,7 @@
 		<global />
 	</attribute>
 	<attribute>
-		<id>IPMI_NAME</id>
+		<id>FRU_NAME</id>
 		<description>Maps to IPMI Sensor name</description>
 		<simpleType>
 			<string></string>
