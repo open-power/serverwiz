@@ -987,47 +987,6 @@
 			</default>
 		</attribute>
 		<attribute>
-			<id>EEPROM_VPD_FRU_INFO</id>
-			<default>
-				<field>
-					<id>byteAddrOffset</id>
-					<value>0x02</value>
-				</field>
-				<field>
-					<id>devAddr</id>
-					<value>0xA0</value>
-				</field>
-				<field>
-					<id>engine</id>
-					<value>0</value>
-				</field>
-				<field>
-					<id>fruId</id>
-					<value>0++</value>
-				</field>
-				<field>
-					<id>i2cMasterPath</id>
-					<value>physical:sys-0/node-0/proc-0</value>
-				</field>
-				<field>
-					<id>maxMemorySizeKB</id>
-					<value>0x40</value>
-				</field>
-				<field>
-					<id>port</id>
-					<value>0</value>
-				</field>
-				<field>
-					<id>writeCycleTime</id>
-					<value>0x05</value>
-				</field>
-				<field>
-					<id>writePageSize</id>
-					<value>0x80</value>
-				</field>
-			</default>
-		</attribute>
-		<attribute>
 			<id>EEPROM_VPD_PRIMARY_INFO</id>
 			<default>
 				<field>
@@ -1456,7 +1415,9 @@
 		<attribute>
 			<id>FRU_NAME</id>
 		</attribute>
-
+		<attribute>
+			<id>FRU_ID</id>
+		</attribute>
 	</targetType>
 
 	<!-- Centaur L4 -->
@@ -1616,6 +1577,9 @@
 		</attribute>
 		<attribute>
 			<id>FRU_NAME</id>
+		</attribute>
+		<attribute>
+			<id>FRU_ID</id>
 		</attribute>
 		<attribute>
 			<id>IPMI_INSTANCE</id>
