@@ -229,7 +229,7 @@ sub processIpmiSensors {
             my $s=sprintf("0x%02X%02X,0x%02X",
                   oct($sensor_type),oct($entity_id),oct($sensor_id));
             push(@sensors,$s);
-            my $sensor_id_str = "";
+            my $sensor_id_str = "Err";
             if ($sensor_id ne "")
             {
                 $sensor_id_str = sprintf("0x%02X",oct($sensor_id));
@@ -288,7 +288,7 @@ sub processApss {
             $name=~s/\s+//g;
             $name=~s/\t+//g;
 
-            my $sensor_id_str = "";
+            my $sensor_id_str = "Err";
             if ($sensor_id ne "")
             {
                 $sensor_id_str = sprintf("0x%02X",oct($sensor_id));
@@ -300,6 +300,10 @@ sub processApss {
                 $channel_grounds[$channel] = $channel_ground;
                 $channel_offsets[$channel] = $channel_offset;
                 $channel_gains[$channel] = $channel_gain;
+            }
+            else
+            {
+                $sensor_id_str="N/A";
             }
             my $str=sprintf(
                     " %30s | %10s |  0x%02X  | 0x%02X | %4s | %4d | %4d | %s\n",
@@ -485,8 +489,6 @@ sub processProcessor
         "EEPROM_SBE_PRIMARY_INFO","i2cMasterPath",$path);
     $targetObj->setAttributeField($target,
         "EEPROM_SBE_BACKUP_INFO","i2cMasterPath",$path);
-    $targetObj->setAttributeField($target,
-        "EEPROM_VPD_FRU_INFO","i2cMasterPath",$path);
 
     ## initialize master processor FSI's
     $targetObj->setAttributeField($target, "FSI_OPTION_FLAGS", "flipPort", "0");
@@ -972,8 +974,7 @@ sub processMembufVpdAssociation
                 my $membuf_target = $membuf_assoc->{DEST_PARENT};
                 setEepromAttributes($targetObj,
                        "EEPROM_VPD_PRIMARY_INFO",$membuf_target,$vpd);
-                #setEepromAttributes($targetObj,
-                #       "EEPROM_VPD_FRU_INFO",$membuf_target,$vpd,"0++");
+
                 my $index = $targetObj->getBusAttribute($membuf_assoc->{SOURCE},
                                 $membuf_assoc->{BUS_NUM}, "ISDIMM_MBVPD_INDEX");
                 $targetObj->setAttribute(
@@ -1057,9 +1058,6 @@ sub processMembuf
             setEepromAttributes($targetObj,
                        "EEPROM_VPD_PRIMARY_INFO",$dimm_target,
                        $dimm);
-            setEepromAttributes($targetObj,
-                       "EEPROM_VPD_FRU_INFO",$dimm_target,
-                       $dimm,"0++");
 
             my $field=getI2cMapField($targetObj,$dimm_target,$dimm);
             my $map = $dimm_portmap{$dimm_target};
