@@ -1,6 +1,5 @@
 package com.ibm.ServerWizard2;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 
 public class LibraryManager {
 	private String processScript = "";

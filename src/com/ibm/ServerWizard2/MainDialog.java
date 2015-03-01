@@ -1,6 +1,5 @@
 package com.ibm.ServerWizard2;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
