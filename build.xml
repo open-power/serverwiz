@@ -13,7 +13,6 @@
 
 	    <target name="compile">
 	        <mkdir dir="build/classes"/>
-	    	<mkdir dir="build/jars"/>
 	    	<javac srcdir="src" destdir="build/classes" classpathref="classpath"/>
 	    </target>
 
@@ -29,7 +28,7 @@
 	        		<fileset file="${plugin.dir}/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
 	        	</lib>
 	        </one-jar>
-	    	<one-jar destfile="build/jars/serverwiz2_win64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+	    	<one-jar destfile="build/serverwiz2_win64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
 	        	<main>
 	        		<fileset dir="build/classes"/>
 	        	</main>
@@ -42,7 +41,7 @@
 	        		<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
 	        	</lib>
 	        </one-jar>
-		    <one-jar destfile="build/jars/serverwiz2_linux64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+		    <one-jar destfile="build/serverwiz2_linux64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
 		        	<main>
 		        		<fileset dir="build/classes"/>
 		        	</main>
@@ -55,7 +54,7 @@
 			        	<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
 		        	</lib>
 		    </one-jar>
-	        <one-jar destfile="build/jars/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+	        <one-jar destfile="build/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
 	        	<main>
 	        		<fileset dir="build/classes"/>
 	        	</main>
@@ -68,5 +67,14 @@
 		        	<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
 	        	</lib>
 	        </one-jar>
+	    	<zip destfile="build/serverwiz2_lib.zip">
+	    	    <zipfileset dir="xml/" includes="attribute_types.xml" fullpath="xml/attribute_types.xml"/>
+	    		<zipfileset dir="xml/" includes="attribute_types_hb.xml" fullpath="xml/attribute_types_hb.xml"/>
+	    		<zipfileset dir="xml/" includes="attribute_types_mrw.xml" fullpath="xml/attribute_types_mrw.xml"/>
+	    		<zipfileset dir="xml/" includes="target_types_mrw.xml" fullpath="xml/target_types_mrw.xml"/>
+	    		<zipfileset dir="xml/" includes="target_instances_v3.xml" fullpath="xml/target_instances_v3.xml"/>
+	    		<zipfileset dir="scripts/" includes="processMrw.pl" fullpath="scripts/processMrw.pl"/>
+	    		<zipfileset dir="scripts/" includes="Targets.pm" fullpath="scripts/Targets.pm"/>
+	    	</zip>
 	    </target>
 </project>
