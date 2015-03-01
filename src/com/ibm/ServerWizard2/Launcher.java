@@ -54,7 +54,8 @@ public class Launcher {
 		logConsole.setFormatter(formatter);
 
 		try {
-			FileHandler logFile = new FileHandler("serverwiz2_launcher.%u.%g.log",20000,2,true);
+			//FileHandler logFile = new FileHandler("serverwiz2_launcher.%u.%g.log",20000,2,true);
+			FileHandler logFile = new FileHandler("serverwiz2.%u.%g.log",200000,2,true);
 			LOGGER.addHandler(logFile);
 			logFile.setFormatter(formatter);
 			logFile.setLevel(Level.CONFIG);

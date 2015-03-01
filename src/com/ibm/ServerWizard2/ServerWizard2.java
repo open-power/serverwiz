@@ -46,7 +46,7 @@ public class ServerWizard2 {
 		LOGGER.addHandler(logConsole);
 		MyLogFormatter formatter = new MyLogFormatter();
 		logConsole.setFormatter(formatter);
-
+		/*
 		try {
 			FileHandler logFile = new FileHandler("serverwiz2.%u.%g.log",20000,2,true);
 			LOGGER.addHandler(logFile);
@@ -56,6 +56,7 @@ public class ServerWizard2 {
 			System.err.println("Unable to create logfile");
 			System.exit(3);
 		}
+		*/
 		LOGGER.config("======================================================================");
 		LOGGER.config("ServerWiz2 Starting...");
 		TargetWizardController tc = new TargetWizardController();
