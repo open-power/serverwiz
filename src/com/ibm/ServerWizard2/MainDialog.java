@@ -462,18 +462,7 @@ public class MainDialog extends Dialog {
 		btnForceUpdate.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String workingDir = LibraryManager.getWorkingDir();
-				String updateFilename = workingDir + "serverwiz2.update";
-				File updateFile = new File(updateFilename);
-				if (updateFile.delete()) {
-					MessageDialog.openInformation(null, "Force Update",
-							"Update will occur upon restart...");
-					ServerWizard2.LOGGER.info("Removing update file to force update upon restart.");
-				} else {
-					MessageDialog.openError(null, "Error",
-							"Unable to delete serverwiz2.update.  Try deleting manually.");
-					ServerWizard2.LOGGER.severe("Unable to delete serverwiz2.update.");
-				}
+				GithubFile.removeUpdateFile(true);
 			}
 		});
 

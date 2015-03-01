@@ -6,7 +6,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -432,7 +431,6 @@ public class SystemModel {
 	public void writeXML(String filename) throws Exception {
 		Writer out = new BufferedWriter(new FileWriter(filename));
 		out.write("<targetInstances>\n");
-		out.write("<version>" + ServerWizard2.VERSION + "</version>\n");
 		this.writeEnumeration(out);
 		this.writeGlobalSettings(out);
 		HashMap<String, Boolean> targetWritten = new HashMap<String, Boolean>();
@@ -552,6 +550,7 @@ public class SystemModel {
 	}
 
 	public void loadTargetInstances(String filename) throws Exception {
+		ServerWizard2.LOGGER.info("Loading Instances: " + filename);
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		builder.setErrorHandler(new XmlHandler());

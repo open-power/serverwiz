@@ -26,26 +26,21 @@ import org.w3c.dom.NodeList;
 public class TargetWizardController implements PropertyChangeListener {
 	SystemModel model;
 	MainDialog view;
+	LibraryManager xmlLib = new LibraryManager();
+	private String version="";
 
 	public TargetWizardController() {
 	}
 
 	public void init() {
-		LibraryManager xmlLib = new LibraryManager();
-		xmlLib.init();
-		if (xmlLib.doUpdateCheck()) {
-			xmlLib.update();
-		}
+		xmlLib.init(version);
 		try {
+			xmlLib.update(version);
 			xmlLib.loadModel(model);
 			this.initModel();
-
 		} catch (Exception e) {
-			String btns[] = { "Close" };
-			ServerWizard2.LOGGER.severe(e.getMessage());
-			MessageDialog errDlg = new MessageDialog(view.getShell(), "Error",
-					null, e.getMessage(), MessageDialog.ERROR, btns, 0);
-			errDlg.open();
+			ServerWizard2.LOGGER.severe(e.toString());
+			MessageDialog.openError(null, "Error",e.toString());
 			e.printStackTrace();
 			System.exit(4);
 		}
@@ -124,8 +119,9 @@ public class TargetWizardController implements PropertyChangeListener {
 		this.view = view;
 	}
 
-	public void setModel(SystemModel model) {
+	public void setModel(SystemModel model,String version) {
 		this.model = model;
+		this.version=version;
 	}
 
 	public Vector<String> getEnums(String e) {
@@ -256,14 +252,11 @@ public class TargetWizardController implements PropertyChangeListener {
 		return model.getBusTypes();
 	}
 	public void runChecks(String filename) {
-		String includePath = LibraryManager.getWorkingDir()+"scripts";
-		String script = LibraryManager.getWorkingDir()+"scripts"+System.getProperty("file.separator")+"processMrw.pl";
-
 		String commandLine[] = {
 				"perl",
 				"-I",
-				includePath,
-				script,
+				xmlLib.getProcessingDirectory(),
+				xmlLib.getProcessingScript(),
 				"-x",
 				filename,
 				"-f"
@@ -273,8 +266,6 @@ public class TargetWizardController implements PropertyChangeListener {
 			commandLineStr=commandLineStr+commandLine[i]+" ";
 		}
 		ServerWizard2.LOGGER.info("Running: "+commandLineStr);
-		String line;
-		String msg="";
 		try {
 			final ProcessBuilder builder = new ProcessBuilder(commandLine).redirectErrorStream(true);
 

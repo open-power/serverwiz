@@ -9,11 +9,36 @@ public class ServerWizard2 {
 	/**
 	 * @param args
 	 */
-
-	public static final String VERSION = "2.1.0";
 	public final static Logger LOGGER = Logger.getLogger(ServerWizard2.class.getName());
-
+	public static void printUsage() {
+		System.out.println("Usage:");
+		System.out.println("   -i [xml filename]");
+		System.out.println("   -v [update to version]");
+		System.out.println("   -h = print this usage");
+	}
 	public static void main(String[] args) {
+		String inputFilename="";
+		String version="";
+		for (int i=0;i<args.length;i++) {
+			if (args[i].equals("-i")) {
+				if (i==args.length-1) {
+					printUsage();
+					System.exit(3);
+				}
+				inputFilename=args[i+1];
+			}
+			if (args[i].equals("-v")) {
+				if (i==args.length-1) {
+					printUsage();
+					System.exit(3);
+				}
+				version=args[i+1];
+			}
+			if (args[i].equals("-h")) {
+				printUsage();
+				System.exit(0);
+			}
+		}
 		LOGGER.setLevel(Level.CONFIG);
 		LOGGER.setUseParentHandlers(false);
 		ConsoleHandler logConsole = new ConsoleHandler();
@@ -32,16 +57,16 @@ public class ServerWizard2 {
 			System.exit(3);
 		}
 		LOGGER.config("======================================================================");
-		LOGGER.config("ServerWiz2 Starting.  VERSION: "+VERSION);
+		LOGGER.config("ServerWiz2 Starting...");
 		TargetWizardController tc = new TargetWizardController();
 		SystemModel systemModel = new SystemModel();
 	    MainDialog view = new MainDialog(null);
 	    tc.setView(view);
-	    tc.setModel(systemModel);
+	    tc.setModel(systemModel,version);
 	    systemModel.addPropertyChangeListener(tc);
 	    view.setController(tc);
-		if (args.length>0) {
-			view.mrwFilename=args[0];
+		if (!inputFilename.isEmpty()) {
+			view.mrwFilename=inputFilename;
 		}
 	    view.open();
 	    //d.dispose();
