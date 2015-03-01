@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="C:/Program Files (x86)/eclipse.luna/eclipse/plugins/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/eclipse.luna/eclipse/plugins/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/eclipse.luna/eclipse/plugins/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
+	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
