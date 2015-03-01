@@ -107,6 +107,7 @@ public class GithubFile {
 			}
 		}
 	}
+	@SuppressWarnings("rawtypes")
 	public boolean update() throws Exception {
 		downloadNeeded=false;
 		logger.info("Updating: "+this.getLocalPath());

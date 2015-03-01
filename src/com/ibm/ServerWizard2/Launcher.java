@@ -4,23 +4,29 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.Enumeration;
 import java.util.Vector;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import javax.swing.JOptionPane;
 
 public class Launcher {
-
-	public static String RELEASE_URL = "https://github.com/open-power/serverwiz/releases/download/";
 	public static String JAR_NAME = "serverwiz2";
+	public static String ZIP_NAME = "serverwiz2_lib.zip";
 	public final static Logger LOGGER = Logger.getLogger(Launcher.class.getName());
 
 	public Launcher() {
 
 	}
 	public static void main(String[] args) {
+		MessagePopup dm = new MessagePopup("ServerWiz2 Launcher", 5);
+		dm.open();
 		String version = "latest";
 		boolean forceUpdate=false;
 		boolean forceLocal=false;
@@ -41,7 +47,7 @@ public class Launcher {
 		//Setup logger
 		LOGGER.setLevel(Level.CONFIG);
 		LOGGER.setUseParentHandlers(false);
-		ConsoleHandler logConsole = new ConsoleHandler();
+		DialogHandler logConsole = new DialogHandler(dm.text);
 		logConsole.setLevel(Level.CONFIG);
 		LOGGER.addHandler(logConsole);
 		MyLogFormatter formatter = new MyLogFormatter();
@@ -62,6 +68,7 @@ public class Launcher {
 		String jarName = getArchFilename("serverwiz2");
 		LOGGER.info("JarName = "+jarName);
 		GithubFile jar =    new GithubFile("open-power/serverwiz/",version,jarName,GithubFile.FileTypes.JAR,LOGGER);
+		GithubFile zip =    new GithubFile("open-power/serverwiz/",version,ZIP_NAME,GithubFile.FileTypes.JAR,LOGGER);
 
 		String versionCurrent="NONE";
 
@@ -100,6 +107,9 @@ public class Launcher {
 						}
 						if (doUpdate) {
 							jar.download();
+							zip.update();
+							zip.download();
+							unzip(zip.getLocalPath(),getWorkingDir());
 							updated=true;
 							GithubFile.updateSuccess(LOGGER, version);
 						}
@@ -127,6 +137,12 @@ public class Launcher {
 			commandLine.add("-v");
 			commandLine.add(version);
 		}
+		try {
+		Thread.sleep(1500);
+		} catch (Exception e) {
+
+		}
+		dm.close();
 		run(commandLine);
 		LOGGER.info("Exiting...");
 	}
@@ -196,4 +212,20 @@ public class Launcher {
 	       return "32";
 	   }
 	}
+	public static void unzip(String file, String outputDir) throws Exception {
+		ZipFile zipFile = new ZipFile(file);
+	    Enumeration<? extends ZipEntry> entries = zipFile.entries();
+	    while (entries.hasMoreElements()) {
+	        ZipEntry entry = entries.nextElement();
+	        File entryDestination = new File(outputDir,  entry.getName());
+	        entryDestination.getParentFile().mkdirs();
+	        if (entry.isDirectory()) {
+	            entryDestination.mkdirs();
+	    	} else {
+	    		LOGGER.info("Unzipping: "+entryDestination.getPath());
+	            Files.copy(zipFile.getInputStream(entry), entryDestination.toPath(),StandardCopyOption.REPLACE_EXISTING);
+	        }
+	    }
+	    zipFile.close();
 	}
+}

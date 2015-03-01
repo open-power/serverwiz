@@ -32,7 +32,7 @@ public class TargetWizardController implements PropertyChangeListener {
 	public void init() {
 		xmlLib.init(version);
 		try {
-			xmlLib.update(version);
+			//xmlLib.update(version);
 			xmlLib.loadModel(model);
 			this.initModel();
 		} catch (Exception e) {
@@ -41,7 +41,6 @@ public class TargetWizardController implements PropertyChangeListener {
 			e.printStackTrace();
 			System.exit(4);
 		}
-
 	}
 	public void initModel() throws Exception {
 		model.deleteAllInstances();
