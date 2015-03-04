@@ -108,9 +108,10 @@ public class SystemModel {
 							}
 						}
 					} else {
-						if (childTarget.getAttribute("MRW_TYPE").equals("IPMI_SENSOR")) {
+						if (entityInst!=-1) {
 							String msg = ">> WARNING: "+childTarget.getName()+"; Entity ID: "+entityId+"; Entity Inst: "+entityInst+" not found in SDR";
 							this.logData=this.logData+msg+"\n";
+							this.setGlobalSetting(instPath, "IPMI_SENSOR_ID", "");
 						}
 					}
 				}

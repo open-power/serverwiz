@@ -63,7 +63,7 @@ public class ServerWizard2 {
 		SystemModel systemModel = new SystemModel();
 	    MainDialog view = new MainDialog(null);
 	    tc.setView(view);
-	    tc.setModel(systemModel,version);
+	    tc.setModel(systemModel);
 	    systemModel.addPropertyChangeListener(tc);
 	    view.setController(tc);
 		if (!inputFilename.isEmpty()) {

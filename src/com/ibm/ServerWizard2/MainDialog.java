@@ -98,6 +98,7 @@ public class MainDialog extends Dialog {
 	private Label lblInstanceDirections;
 	private Composite compositeDir;
 	private Button btnHideBusses;
+	private Button btnShowHidden;
 
 	/**
 	 * Create the dialog.
@@ -215,7 +216,9 @@ public class MainDialog extends Dialog {
 		btnDeleteTarget.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnDeleteTarget.setText("Delete Instance");
 				new Label(compositeInstance, SWT.NONE);
-				new Label(compositeInstance, SWT.NONE);
+
+				btnShowHidden = new Button(compositeInstance, SWT.CHECK);
+				btnShowHidden.setText(" Show Hidden");
 
 				btnCopyInstance = new Button(compositeInstance, SWT.NONE);
 				btnCopyInstance.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
@@ -850,7 +853,7 @@ public class MainDialog extends Dialog {
 				}
 			}
 		}
-		Vector<Target> children = controller.getVisibleChildren(target);
+		Vector<Target> children = controller.getVisibleChildren(target,this.btnShowHidden.getSelection());
 		TreeItem treeitem = item;
 		if (item == null) {
 			if (parentItem == null) {
@@ -978,6 +981,12 @@ public class MainDialog extends Dialog {
 	}
 
 	public void addEvents() {
+		btnShowHidden.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				refreshInstanceTree();
+			}
+		});
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {

@@ -24,13 +24,13 @@ public class TargetWizardController implements PropertyChangeListener {
 	SystemModel model;
 	MainDialog view;
 	LibraryManager xmlLib = new LibraryManager();
-	private String version="";
+	private final String PROCESSING_SCRIPT="scripts/processMrw.pl";
 
 	public TargetWizardController() {
 	}
 
 	public void init() {
-		xmlLib.init(version);
+		xmlLib.init();
 		try {
 			//xmlLib.update(version);
 			xmlLib.loadModel(model);
@@ -115,9 +115,8 @@ public class TargetWizardController implements PropertyChangeListener {
 		this.view = view;
 	}
 
-	public void setModel(SystemModel model,String version) {
+	public void setModel(SystemModel model) {
 		this.model = model;
-		this.version=version;
 	}
 
 	public Vector<String> getEnums(String e) {
@@ -228,7 +227,7 @@ public class TargetWizardController implements PropertyChangeListener {
 	public void hideBusses(Target target) {
 		target.hideBusses(model.getTargetLookup());
 	}
-	public Vector<Target> getVisibleChildren(Target target) {
+	public Vector<Target> getVisibleChildren(Target target,boolean showHidden) {
 		Vector<Target> children = new Vector<Target>();
 		for (String c : target.getChildren()) {
 			Target t = model.getTarget(c);
@@ -237,6 +236,16 @@ public class TargetWizardController implements PropertyChangeListener {
 				ServerWizard2.LOGGER.severe(msg);
 			}
 			children.add(t);
+		}
+		if (showHidden) {
+			for (String c : target.getHiddenChildren()) {
+				Target t = model.getTarget(c);
+				if (t==null) {
+					String msg="Invalid Child target id: "+c;
+					ServerWizard2.LOGGER.severe(msg);
+				}
+				children.add(t);
+			}
 		}
 		return children;
 	}
@@ -251,8 +260,8 @@ public class TargetWizardController implements PropertyChangeListener {
 		String commandLine[] = {
 				"perl",
 				"-I",
-				xmlLib.getProcessingDirectory(),
-				xmlLib.getProcessingScript(),
+				LibraryFile.getWorkingDir(),
+				LibraryFile.getWorkingDir()+PROCESSING_SCRIPT,
 				"-x",
 				filename,
 				"-f"

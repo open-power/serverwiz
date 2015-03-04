@@ -17,8 +17,9 @@ import java.util.zip.ZipFile;
 import javax.swing.JOptionPane;
 
 public class Launcher {
-	public static String JAR_NAME = "serverwiz2";
-	public static String ZIP_NAME = "serverwiz2_lib.zip";
+	public final static String JAR_NAME = "serverwiz2";
+	public final static String ZIP_NAME = "serverwiz2_lib.zip";
+	public final static String REPOSITORY= "open-power/serverwiz/";
 	public final static Logger LOGGER = Logger.getLogger(Launcher.class.getName());
 
 	public Launcher() {
@@ -37,7 +38,6 @@ public class Launcher {
 					System.exit(3);
 				}
 				version=args[i+1];
-				System.out.println("FORCE UPDATE:"+version);
 				forceUpdate=true;
 			}
 			if (args[i].equals("-d")) {
@@ -68,8 +68,8 @@ public class Launcher {
 
 		String jarName = getArchFilename("serverwiz2");
 		LOGGER.info("JarName = "+jarName);
-		GithubFile jar =    new GithubFile("open-power/serverwiz/",version,jarName,GithubFile.FileTypes.JAR,LOGGER);
-		GithubFile zip =    new GithubFile("open-power/serverwiz/",version,ZIP_NAME,GithubFile.FileTypes.JAR,LOGGER);
+		GithubFile jar = new GithubFile(REPOSITORY,version,jarName,"jars",true,LOGGER);
+		GithubFile zip = new GithubFile(REPOSITORY,version,ZIP_NAME,"jars",true,LOGGER);
 
 		String versionCurrent="NONE";
 
@@ -99,7 +99,7 @@ public class Launcher {
 						boolean doUpdate=true;
 						if (!versionCurrent.equals("NONE")) {
 							int selection=JOptionPane.showConfirmDialog(null,
-									 "There is a newer verison of ServerWiz2 ("+version+").  Would like like to download?",
+									 "There is a newer version of ServerWiz2 ("+version+").  Would like like to download?",
 									 "Confirm Update", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 							if (selection==JOptionPane.NO_OPTION) {
 								doUpdate=false;
@@ -120,6 +120,7 @@ public class Launcher {
 					}
 				}
 			} catch(Exception e) {
+				//unknown state so force update next time.
 				GithubFile.removeUpdateFile(false);
 				LOGGER.severe(e.getMessage());
 				JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -143,22 +144,24 @@ public class Launcher {
 		} catch (Exception e) {
 
 		}
+		Thread t=run(commandLine);
+		try {
+			t.join();
+		} catch (Exception e) {
+
+		}
 		dm.close();
-		run(commandLine);
-		LOGGER.info("Exiting...");
 	}
-	public static void run(Vector<String> commandLine) {
+	public static Thread run(Vector<String> commandLine) {
 		String commandLineStr="";
 		for (String c : commandLine) {
 			commandLineStr=commandLineStr+c+" ";
 		}
 		LOGGER.info("Running: "+commandLineStr);
-
 		try {
 			final ProcessBuilder builder = new ProcessBuilder(commandLine).redirectErrorStream(true);
 			final Process process = builder.start();
-
-			new Thread(new Runnable() {
+			Thread thread = new Thread(new Runnable() {
 			public void run() {
 				InputStreamReader in = new InputStreamReader(process.getInputStream());
 				BufferedReader inb = new BufferedReader(in);
@@ -168,15 +171,19 @@ public class Launcher {
 			            LOGGER.info(thisLine);
 			         }
 				} catch (IOException e) {
+					LOGGER.info(e.toString());
 					e.printStackTrace();
 				}
 			}
-			}).start();
-
+			});
+			thread.start();
+			return thread;
 			//final int exitValue = process.waitFor();
 		} catch (Exception e) {
+			LOGGER.info(e.toString());
 			e.printStackTrace();
 		}
+		return null;
 	}
 	public static String getWorkingDir() {
 		// gets working directory whether running as jar or from eclipse

@@ -1,5 +1,6 @@
 package com.ibm.ServerWizard2;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,6 +9,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
@@ -27,30 +29,28 @@ public class GithubFile {
 
 	private File localFile;
 	private String filename;
-	private FileTypes type;
 	private String localDirectory;
-	private boolean inRelease=false;
+	private boolean isRelease=false;
 
 	private String downloadUrl="";
 	private String downloadUrlTag="download_url";
 	private String apiUrl="";
 	private String version="";
 	private String repository="";
+	private String subDirectory="";
 	private long remoteFileSize=0;
 	private long localFileSize=0;
 	private Logger logger;
 	private boolean downloadNeeded=false;
 	private static long MILLISECONDS_PER_DAY = 86400*1000;
 
-	public enum FileTypes {
-		ATTRIBUTE_TYPE_XML, TARGET_TYPE_XML, TARGET_INSTANCES_XML, SCRIPT, JAR
-	}
 
-	public GithubFile(String repository, String version, String filename, FileTypes type,Logger logger) {
+	public GithubFile(String repository, String version, String filename, String subDirectory, boolean isRelease, Logger logger) {
 		this.repository=repository;
 		this.version=version;
 		this.filename=filename;
-		this.type=type;
+		this.isRelease=isRelease;
+		this.subDirectory=subDirectory;
 		this.logger=logger;
 		this.init();
 	}
@@ -67,20 +67,9 @@ public class GithubFile {
 		return this.localFileSize > 0;
 	}
 	public void init() {
+		String subDir=this.subDirectory+System.getProperty("file.separator");
 		String workingDir=GithubFile.getWorkingDir();
-		String subDir="";
-		String urlSubDir = "";
-		if (type==FileTypes.SCRIPT) {
-			subDir="scripts"+System.getProperty("file.separator");
-			urlSubDir="scripts/";
-		} else if (type==FileTypes.JAR) {
-			subDir="jars"+System.getProperty("file.separator");
-			this.inRelease=true;
-		} else {
-			subDir = "xml"+System.getProperty("file.separator");
-			urlSubDir="xml/";
-		}
-		if (this.inRelease) {
+		if (this.isRelease) {
 			if (version.equals("latest")) {
 				apiUrl=API_URL+repository+"releases/latest";
 			} else {
@@ -88,7 +77,7 @@ public class GithubFile {
 			}
 			downloadUrlTag="browser_download_url";
 		} else {
-			apiUrl=API_URL+repository+"contents/"+urlSubDir+"?ref="+version;
+			apiUrl=API_URL+repository+"contents/"+this.subDirectory+"?ref="+version;
 		}
 		localDirectory=workingDir + subDir;
 		this.localFile = new File(workingDir+subDir+filename);
@@ -118,7 +107,7 @@ public class GithubFile {
 			BufferedReader bis = new BufferedReader(new InputStreamReader(is));
 			JSONParser parser=new JSONParser();
 			List fileList;
-			if (this.inRelease) {
+			if (this.isRelease) {
 				Map fileMap = (Map)parser.parse(bis);
 				version = (String)fileMap.get("tag_name");
 				fileList = (List)fileMap.get("assets");
@@ -129,6 +118,7 @@ public class GithubFile {
 			for (Object mapObj : fileList) {
 				Map files = (Map) mapObj;
 				String fileName = (String)files.get("name");
+				//TODO: won't work if same filename in 2 subdirs
 				if (fileName.equals(this.filename)) {
 					downloadUrl = (String)files.get(this.downloadUrlTag);
 					remoteFileSize = (Long)files.get("size");
@@ -145,7 +135,6 @@ public class GithubFile {
 			logger.warning(e.toString());
 			if (this.localFileExists()) {
 				logger.warning("Unable to download");
-				removeUpdateFile(false);
 				return false;
 			} else {
 				throw new Exception("Unable to connect to "+this.apiUrl+ " and "+this.filename+" does not exist locally.");
@@ -168,23 +157,23 @@ public class GithubFile {
 	public String getFilename() {
 		return localFile.getName();
 	}
-	public FileTypes getType() {
-		return type;
-	}
+
 	public void download() throws Exception {
 		if (!downloadNeeded) { return; }
 		logger.info("Downloading: "+this.downloadUrl);
 		if (!DEBUG) {
 			this.mkdir();
 		    URL url = new URL(this.downloadUrl);
-		    ProgressMonitorInputStream pim = new ProgressMonitorInputStream(null, "Downloading "+ downloadUrl,
-					url.openStream());
-
+		    URLConnection urlConn = url.openConnection();
+		    urlConn.setConnectTimeout(10000);
+		    urlConn.setReadTimeout(10000);
+		    InputStream is = urlConn.getInputStream();
+		    ProgressMonitorInputStream pim = new ProgressMonitorInputStream(null, "Downloading "+ downloadUrl,is);
+		    logger.info("File Size: "+this.remoteFileSize);
 		    pim.getProgressMonitor().setMaximum((int) this.remoteFileSize);
 		    pim.getProgressMonitor().setMillisToDecideToPopup(500);
-
-		    Files.copy(pim, localFile.toPath(),
-		            StandardCopyOption.REPLACE_EXISTING);
+		    logger.info("Starting Download...");
+		    Files.copy(pim, localFile.toPath(),StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 	public static String isTimeForUpdateCheck(Logger logger) {
