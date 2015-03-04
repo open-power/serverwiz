@@ -214,6 +214,7 @@ public class Launcher {
 
 	private static String getArchName() {
 	   String osArch = System.getProperty("os.arch");
+	   LOGGER.info("Arch: "+osArch);
 	   if (osArch != null && osArch.contains("64")) {
 	       return "64";
 	   } else {
