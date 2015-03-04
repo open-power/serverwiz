@@ -246,6 +246,7 @@
 		<id>core-0</id>
 		<hidden_child_id>cpucore_temp_sensor</hidden_child_id>
 		<hidden_child_id>cpucore_func_sensor</hidden_child_id>
+		<hidden_child_id>cpucore_freq_sensor</hidden_child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>0</default>
