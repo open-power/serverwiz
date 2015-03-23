@@ -765,11 +765,284 @@
 		</attribute>
 	</targetType>
 	<targetType>
+		<id>module-module-dellovo</id>
+		<parent>card</parent>
+		<parent_type>socket-proc_socket-50mm</parent_type>
+		<attribute>
+			<id>TYPE</id>
+			<default>NA</default>
+		</attribute>
+	</targetType>
+	<targetType>
 		<id>chip-processor-venice</id>
 		<parent>chip</parent>
 		<attribute>
 			<id>MODEL</id>
 			<default>VENICE</default>
+		</attribute>
+		<attribute>
+			<id>TYPE</id>
+			<default>PROC</default>
+		</attribute>
+		<attribute>
+			<id>IPMI_INSTANCE</id>
+		</attribute>
+		<attribute>
+			<id>FRU_NAME</id>
+		</attribute>
+		<attribute>
+			<id>FRU_ID</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_DCM_INSTALLED</id>
+			<default>0</default>
+		</attribute>
+		<attribute>
+			<id>PM_UNDERVOLTING_FRQ_MINIMUM</id>
+			<default>0</default>
+		</attribute>
+		<attribute>
+			<id>PM_UNDERVOLTING_FREQ_MAXIMUM</id>
+			<default>0</default>
+		</attribute>
+		<attribute>
+			<id>PM_SPIVID_PORT_ENABLE</id>
+			<default>0x4</default>
+		</attribute>
+		<attribute>
+			<id>PM_APSS_CHIP_SELECT</id>
+			<default>0x00</default>
+		</attribute>
+		<attribute>
+			<id>PM_PBAX_NODEID</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>PM_PBAX_CHIPID</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>PM_PBAX_BRDCST_ID_VECTOR</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>PM_SLEEP_ENTRY</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>PM_SLEEP_EXIT</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>PM_SLEEP_TYPE</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>PM_WINKLE_ENTRY</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>PM_WINKLE_EXIT</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>PM_WINKLE_TYPE</id>
+			<default>0x0</default>
+		</attribute>
+		<attribute>
+			<id>FSP_BASE_ADDR</id>
+			<default>0,0x0000000000000000</default>
+		</attribute>
+		<attribute>
+			<id>PSI_BRIDGE_BASE_ADDR</id>
+			<default>0,0x0000000000000000</default>
+		</attribute>
+		<attribute>
+			<id>INTP_BASE_ADDR</id>
+			<default>1,0x0003FFFF80000000,0x400000,0x100000,0</default>
+		</attribute>
+		<attribute>
+			<id>PHB_BASE_ADDRS</id>
+			<default>4,0x0003FFFE40000000,0x1000000,0x400000,0x100000</default>
+		</attribute>
+		<attribute>
+			<id>PCI_BASE_ADDRS_32</id>
+			<default>4,0x0003FF8000000000,0x800000000,0x200000000,0x80000000
+			</default>
+		</attribute>
+		<attribute>
+			<id>PCI_BASE_ADDRS_64</id>
+			<default>4,0x0003D00000000000,0x10000000000,0x4000000000,0x1000000000
+			</default>
+		</attribute>
+		<attribute>
+			<id>RNG_BASE_ADDR</id>
+			<default>1,0x0003FFFF40000000,0x4000,0x1000,0</default>
+		</attribute>
+		<attribute>
+			<id>IBSCOM_PROC_BASE_ADDR</id>
+			<default>1,0x0003E00000000000,0x40000000000,0x10000000000,0</default>
+		</attribute>
+		<attribute>
+			<id>EEPROM_SBE_BACKUP_INFO</id>
+			<default>
+				<field>
+					<id>byteAddrOffset</id>
+					<value>0x02</value>
+				</field>
+				<field>
+					<id>devAddr</id>
+					<value>0xA2</value>
+				</field>
+				<field>
+					<id>engine</id>
+					<value>0</value>
+				</field>
+				<field>
+					<id>i2cMasterPath</id>
+					<value>physical:sys-0/node-0/proc-0</value>
+				</field>
+				<field>
+					<id>maxMemorySizeKB</id>
+					<value>0x40</value>
+				</field>
+				<field>
+					<id>port</id>
+					<value>1</value>
+				</field>
+				<field>
+					<id>writeCycleTime</id>
+					<value>0x05</value>
+				</field>
+				<field>
+					<id>writePageSize</id>
+					<value>0x80</value>
+				</field>
+			</default>
+		</attribute>
+		<attribute>
+			<id>EEPROM_SBE_PRIMARY_INFO</id>
+			<default>
+				<field>
+					<id>byteAddrOffset</id>
+					<value>0x02</value>
+				</field>
+				<field>
+					<id>devAddr</id>
+					<value>0xA2</value>
+				</field>
+				<field>
+					<id>engine</id>
+					<value>0</value>
+				</field>
+				<field>
+					<id>i2cMasterPath</id>
+					<value>physical:sys-0/node-0/proc-0</value>
+				</field>
+				<field>
+					<id>maxMemorySizeKB</id>
+					<value>0x40</value>
+				</field>
+				<field>
+					<id>port</id>
+					<value>0</value>
+				</field>
+				<field>
+					<id>writeCycleTime</id>
+					<value>0x05</value>
+				</field>
+				<field>
+					<id>writePageSize</id>
+					<value>0x80</value>
+				</field>
+			</default>
+		</attribute>
+		<attribute>
+			<id>EEPROM_VPD_BACKUP_INFO</id>
+			<default>
+				<field>
+					<id>byteAddrOffset</id>
+					<value>0x02</value>
+				</field>
+				<field>
+					<id>devAddr</id>
+					<value>0xA0</value>
+				</field>
+				<field>
+					<id>engine</id>
+					<value>0</value>
+				</field>
+				<field>
+					<id>i2cMasterPath</id>
+					<value>physical:sys-0/node-0/proc-0</value>
+				</field>
+				<field>
+					<id>maxMemorySizeKB</id>
+					<value>0x40</value>
+				</field>
+				<field>
+					<id>port</id>
+					<value>1</value>
+				</field>
+				<field>
+					<id>writeCycleTime</id>
+					<value>0x05</value>
+				</field>
+				<field>
+					<id>writePageSize</id>
+					<value>0x80</value>
+				</field>
+			</default>
+		</attribute>
+		<attribute>
+			<id>EEPROM_VPD_PRIMARY_INFO</id>
+			<default>
+				<field>
+					<id>byteAddrOffset</id>
+					<value>0x02</value>
+				</field>
+				<field>
+					<id>devAddr</id>
+					<value>0xA0</value>
+				</field>
+				<field>
+					<id>engine</id>
+					<value>0</value>
+				</field>
+				<field>
+					<id>i2cMasterPath</id>
+					<value>physical:sys-0/node-0/proc-0</value>
+				</field>
+				<field>
+					<id>maxMemorySizeKB</id>
+					<value>0x40</value>
+				</field>
+				<field>
+					<id>port</id>
+					<value>0</value>
+				</field>
+				<field>
+					<id>writeCycleTime</id>
+					<value>0x05</value>
+				</field>
+				<field>
+					<id>writePageSize</id>
+					<value>0x80</value>
+				</field>
+			</default>
+		</attribute>
+		<attribute>
+			<id>I2C_BUS_SPEED_ARRAY</id>
+			<default>1000,1000,0,0,0,0</default>
+		</attribute>
+	</targetType>
+	<targetType>
+		<id>chip-processor-naples</id>
+		<parent>chip</parent>
+		<attribute>
+			<id>MODEL</id>
+			<default>NAPLES</default>
 		</attribute>
 		<attribute>
 			<id>TYPE</id>
@@ -1163,20 +1436,45 @@
 	</targetType>
 
 	<targetType>
-		<id>unit-pci-murano</id>
-		<parent>unit-pci-power8</parent>
-		<attribute>
-			<id>MODEL</id>
-			<default>MURANO</default>
-		</attribute>
-	</targetType>
-
-	<targetType>
 		<id>unit-pci-naples</id>
 		<parent>unit-pci-power8</parent>
 		<attribute>
 			<id>MODEL</id>
 			<default>NAPLES</default>
+		</attribute>
+		<attribute>
+			<id>PCIE_NUM_LANES</id>
+			<default>16</default>
+		</attribute>
+		<attribute>
+			<id>PCIE_LANE_MASK</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PCIE_LANE_SET</id>
+			<default>0</default>
+		</attribute>
+		<attribute>
+			<id>PHB_NUM</id>
+			<default>0</default>
+		</attribute>
+		<attribute>
+			<id>ENABLE_CAPI</id>
+			<default>1</default>
+		</attribute>
+		<attribute>
+			<id>IOP_NUM</id>
+			<default>1</default>
+		</attribute>
+	</targetType>
+
+
+	<targetType>
+		<id>unit-pci-murano</id>
+		<parent>unit-pci-power8</parent>
+		<attribute>
+			<id>MODEL</id>
+			<default>MURANO</default>
 		</attribute>
 	</targetType>
 
@@ -1218,14 +1516,6 @@
 		</attribute>
 	</targetType>
 
-	<targetType>
-		<id>unit-abus-naples</id>
-		<parent>unit-abus-power8</parent>
-		<attribute>
-			<id>MODEL</id>
-			<default>NAPLES</default>
-		</attribute>
-	</targetType>
 
 	<targetType>
 		<id>unit-xbus-power8</id>
@@ -2302,6 +2592,68 @@
 		<attribute>
 			<id>MODEL</id>
 			<default>VENICE</default>
+		</attribute>
+		<attribute>
+			<id>MRW_TYPE</id>
+			<default>PCI_CONFIGS</default>
+		</attribute>
+		<attribute>
+			<id>IO_CONFIG_SELECT</id>
+		</attribute>
+	</targetType>
+	<targetType>
+		<id>unit-pciconfig0-naples</id>
+		<parent>unit</parent>
+		<attribute>
+			<id>MODEL</id>
+			<default>NAPLES</default>
+		</attribute>
+		<attribute>
+			<id>MRW_TYPE</id>
+			<default>PCI_CONFIG</default>
+		</attribute>
+		<attribute>
+			<id>PCIE_CONFIG_NUM</id>
+			<default>0x00</default>
+		</attribute>
+		<attribute>
+			<id>IO_CONFIG_NUM</id>
+		</attribute>
+		<attribute>
+			<id>PCIE_LANE_SWAP_TABLE</id>
+			<default></default>
+		</attribute>
+
+	</targetType>
+	<targetType>
+		<id>unit-pciconfig1-naples</id>
+		<parent>unit</parent>
+		<attribute>
+			<id>MODEL</id>
+			<default>NAPLES</default>
+		</attribute>
+		<attribute>
+			<id>MRW_TYPE</id>
+			<default>PCI_CONFIG</default>
+		</attribute>
+		<attribute>
+			<id>PCIE_CONFIG_NUM</id>
+			<default>0x01</default>
+		</attribute>
+		<attribute>
+			<id>IO_CONFIG_NUM</id>
+		</attribute>
+		<attribute>
+			<id>PCIE_LANE_SWAP_TABLE</id>
+			<default></default>
+		</attribute>
+	</targetType>
+	<targetType>
+		<id>unit-pciconfigs-naples</id>
+		<parent>unit</parent>
+		<attribute>
+			<id>MODEL</id>
+			<default>NAPLES</default>
 		</attribute>
 		<attribute>
 			<id>MRW_TYPE</id>
