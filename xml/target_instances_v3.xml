@@ -15,6 +15,7 @@
 		<hidden_child_id>ps_derating_sensor</hidden_child_id>
 		<hidden_child_id>dimm_freq_sensor</hidden_child_id>
 	</targetInstance>
+
 	<targetInstance>
 		<type>enc-node-power8</type>
 		<instance_name>node</instance_name>
@@ -24,7 +25,11 @@
 		<hidden_child_id>tod_clk_sensor</hidden_child_id>
 		<hidden_child_id>apss_fault_sensor</hidden_child_id>
 	</targetInstance>
-
+	<targetInstance>
+		<type>card-motherboard</type>
+		<instance_name>motherboard</instance_name>
+		<child_id>vpd_assoc_child</child_id>
+	</targetInstance>
 	<targetInstance>
 		<type>module-module-turismo</type>
 		<instance_name>module</instance_name>
