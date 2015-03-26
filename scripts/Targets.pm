@@ -48,6 +48,7 @@ sub new
         TOP_LEVEL    => "sys-0",
         TOPOLOGY     => undef,
         report_log   => "",
+        vpd_num      => 0,
         DMI_FSI_MAP  => {
             '0' => '3',
             '1' => '2',
@@ -337,8 +338,15 @@ sub buildHierarchy
     {
         foreach my $b (@{ $target_xml->{bus} })
         {
+            if (ref($b->{dest_path}) eq "HASH") {
+                $b->{dest_path}="";
+            }
+            if (ref($b->{source_path}) eq "HASH") {
+                $b->{source_path}="";
+            }
             my $source_target =
               $key . "/" . $b->{source_path} . $b->{source_target};
+
             my $dest_target = $key . "/" . $b->{dest_path} . $b->{dest_target};
             my $bus_type    = $b->{bus_type};
             push(
@@ -582,8 +590,8 @@ sub processMcs
             $parent_affinity . "/mcs-$mcs/membuf-$membufnum");
         $self->setAttribute($membuf, "PHYS_PATH",
             $node_phys . "/membuf-$membufnum");
-        $self->setAttribute($membuf, "VPD_REC_NUM",
-            $self->getAttribute($membuf, "POSITION"));
+        # $self->setAttribute($membuf, "VPD_REC_NUM",
+        #    $self->getAttribute($membuf, "POSITION"));
 
         ## copy DMI bus attributes to membuf
         $self->setAttribute($unit, "EI_BUS_TX_LANE_INVERT",
@@ -867,11 +875,14 @@ sub findConnections
                 my $dest_parent = $self->getTargetParent($dest_target);
                 my $type        = $self->getMrwType($dest_parent);
                 my $dest_type   = $self->getType($dest_parent);
+                my $dest_class  = $self->getAttribute($dest_parent,"CLASS");
                 if ($type eq "NA")
                 {
                     $type = $dest_type;
                 }
-
+                if ($type eq "NA") {
+                    $type = $dest_class;
+                }
                 if ($type eq $end_type || $end_type eq "")
                 {
                     $connections{CONN}[$num]{SOURCE}=$child;

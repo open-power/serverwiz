@@ -671,10 +671,16 @@ sub processAbus
     my $target    = shift;
 
     my $found_abus = 0;
-   $targetObj->setAttribute($target, "PEER_PATH","physical:na");
-   $targetObj->setAttribute($target, "EI_BUS_TX_LANE_INVERT","0");
-   $targetObj->setAttribute($target, "EI_BUS_TX_MSBSWAP","0");
-   # $targetObj->setAttribute($target, "PEER_TARGET","");
+    if ($targetObj->isBadAttribute($target, "PEER_PATH"))
+    {
+        $targetObj->setAttribute($target, "PEER_PATH","physical:na");
+    }
+    $targetObj->setAttribute($target, "EI_BUS_TX_LANE_INVERT","0");
+    if ($targetObj->isBadAttribute($target, "EI_BUS_TX_MSBSWAP"))
+    {
+        $targetObj->setAttribute($target, "EI_BUS_TX_MSBSWAP","0");
+    }
+    # $targetObj->setAttribute($target, "PEER_TARGET","");
 
     my $abus_child_conn = $targetObj->getFirstConnectionDestination($target);
     if ($abus_child_conn ne "")
@@ -791,12 +797,12 @@ sub processPcie
 
     #iop_swap{iop}{clk swap}{clk group reversal}
     $iop_swap{0}{0}{'00'}=$t[0];
-    $iop_swap{0}{0}{'01'}=$t[1];
-    $iop_swap{0}{0}{'10'}=$t[2];
+    $iop_swap{0}{0}{'10'}=$t[1];
+    $iop_swap{0}{0}{'01'}=$t[2];
     $iop_swap{0}{0}{'11'}=$t[3];
     $iop_swap{0}{1}{'00'}=$t[4];
-    $iop_swap{0}{1}{'01'}=$t[5];
-    $iop_swap{0}{1}{'10'}=$t[6];
+    $iop_swap{0}{1}{'10'}=$t[5];
+    $iop_swap{0}{1}{'01'}=$t[6];
     $iop_swap{0}{1}{'11'}=$t[7];
 
     $iop_swap{1}{0}{'00'}=$t[8];
@@ -804,8 +810,8 @@ sub processPcie
     $iop_swap{1}{0}{'10'}=$t[10];
     $iop_swap{1}{0}{'11'}=$t[11];
     $iop_swap{1}{1}{'00'}=$t[12];
-    $iop_swap{1}{1}{'01'}=$t[13];
-    $iop_swap{1}{1}{'10'}=$t[14];
+    $iop_swap{1}{1}{'10'}=$t[13];
+    $iop_swap{1}{1}{'01'}=$t[14];
     $iop_swap{1}{1}{'11'}=$t[15];
 
     my @lane_eq;
@@ -962,13 +968,12 @@ sub processMembufVpdAssociation
 {
     my $targetObj = shift;
     my $target    = shift;
-
     my $vpds=$targetObj->findConnections($target,"I2C","VPD");
     if ($vpds ne "" ) {
         my $vpd = $vpds->{CONN}->[0];
-
         my $membuf_assocs=$targetObj->findConnections($vpd->{DEST_PARENT},
                           "LOGICAL_ASSOCIATION","MEMBUF");
+
         if ($membuf_assocs ne "") {
             foreach my $membuf_assoc (@{$membuf_assocs->{CONN}}) {
                 my $membuf_target = $membuf_assoc->{DEST_PARENT};
@@ -979,8 +984,25 @@ sub processMembufVpdAssociation
                                 $membuf_assoc->{BUS_NUM}, "ISDIMM_MBVPD_INDEX");
                 $targetObj->setAttribute(
                             $membuf_target,"ISDIMM_MBVPD_INDEX",$index);
+                $targetObj->setAttribute($membuf_target,
+                            "VPD_REC_NUM",$targetObj->{vpd_num});
             }
         }
+        my $node_assocs=$targetObj->findConnections($vpd->{DEST_PARENT},
+                          "LOGICAL_ASSOCIATION","CARD");
+
+        if ($node_assocs ne "") {
+            foreach my $node_assoc (@{$node_assocs->{CONN}}) {
+                my $mb_target = $node_assoc->{DEST_PARENT};
+                my $node_target = $targetObj->getTargetParent($mb_target);
+                setEepromAttributes($targetObj,
+                       "EEPROM_VPD_PRIMARY_INFO",$node_target,$vpd);
+                $targetObj->setAttribute($node_target,
+                            "VPD_REC_NUM",$targetObj->{vpd_num});
+                print ">>> $node_target,$targetObj->{vpd_num}\n";
+            }
+        }
+        $targetObj->{vpd_num}++;
     }
 }
 
