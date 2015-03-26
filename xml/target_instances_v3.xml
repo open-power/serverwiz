@@ -25,6 +25,7 @@
 		<hidden_child_id>tod_clk_sensor</hidden_child_id>
 		<hidden_child_id>apss_fault_sensor</hidden_child_id>
 	</targetInstance>
+
 	<targetInstance>
 		<type>card-motherboard</type>
 		<instance_name>motherboard</instance_name>
