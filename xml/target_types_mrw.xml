@@ -189,30 +189,6 @@
 			<default></default>
 		</attribute>
 		<attribute>
-			<id>PROC_R_LOADLINE_VDD</id>
-			<default></default>
-		</attribute>
-		<attribute>
-			<id>PROC_R_DISTLOSS_VDD</id>
-			<default></default>
-		</attribute>
-		<attribute>
-			<id>PROC_VRM_VOFFSET_VDD</id>
-			<default></default>
-		</attribute>
-		<attribute>
-			<id>PROC_R_LOADLINE_VCS</id>
-			<default></default>
-		</attribute>
-		<attribute>
-			<id>PROC_R_DISTLOSS_VCS</id>
-			<default></default>
-		</attribute>
-		<attribute>
-			<id>PROC_VRM_VOFFSET_VCS</id>
-			<default></default>
-		</attribute>
-		<attribute>
 			<id>MRW_POWER_CONTROL_REQUESTED</id>
 			<default>NONE</default>
 		</attribute>
@@ -1036,6 +1012,30 @@
 			<id>I2C_BUS_SPEED_ARRAY</id>
 			<default>1000,1000,0,0,0,0</default>
 		</attribute>
+		<attribute>
+			<id>PROC_R_LOADLINE_VDD</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_R_DISTLOSS_VDD</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_VRM_VOFFSET_VDD</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_R_LOADLINE_VCS</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_R_DISTLOSS_VCS</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_VRM_VOFFSET_VCS</id>
+			<default></default>
+		</attribute>		
 	</targetType>
 	<targetType>
 		<id>chip-processor-naples</id>
@@ -1299,6 +1299,30 @@
 		<attribute>
 			<id>I2C_BUS_SPEED_ARRAY</id>
 			<default>1000,1000,0,0,0,0</default>
+		</attribute>
+		<attribute>
+			<id>PROC_R_LOADLINE_VDD</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_R_DISTLOSS_VDD</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_VRM_VOFFSET_VDD</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_R_LOADLINE_VCS</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_R_DISTLOSS_VCS</id>
+			<default></default>
+		</attribute>
+		<attribute>
+			<id>PROC_VRM_VOFFSET_VCS</id>
+			<default></default>
 		</attribute>
 	</targetType>
 	<targetType>
