@@ -656,7 +656,30 @@ sub processXbus
     my $targetObj = shift;
     my $target    = shift;
 
-    # $targetObj->setAttribute($target, "PEER_TARGET","");
+
+    my $found_abus = 0;
+   $targetObj->setAttribute($target, "PEER_PATH","physical:na");
+   # $targetObj->setAttribute($target, "PEER_TARGET","");
+
+    my $xbus_child_conn = $targetObj->getFirstConnectionDestination($target);
+    if ($xbus_child_conn ne "")
+    {
+        ## set attributes for both directions
+        my $aff1 = $targetObj->getAttribute($target, "AFFINITY_PATH");
+        my $aff2 = $targetObj->getAttribute($xbus_child_conn, "AFFINITY_PATH");
+
+        $targetObj->setAttribute($xbus_child_conn, "PEER_TARGET",
+            $targetObj->getAttribute($target, "PHYS_PATH"));
+        $targetObj->setAttribute($target, "PEER_TARGET",
+            $targetObj->getAttribute($xbus_child_conn, "PHYS_PATH"));
+
+        $targetObj->setAttribute($xbus_child_conn, "PEER_PATH",
+            $targetObj->getAttribute($target, "PHYS_PATH"));
+        $targetObj->setAttribute($target, "PEER_PATH",
+            $targetObj->getAttribute($xbus_child_conn, "PHYS_PATH"));
+
+        $found_abus = 1;
+    }
 
 }
 
