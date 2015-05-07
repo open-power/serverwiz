@@ -906,7 +906,7 @@
 		<child_id>p8p_pore-0</child_id>
 		<child_id>p8p_capp-0</child_id>
                 <child_id>p8p_capp-1</child_id>
-		<child_id>p8p_nx-0<child_id>
+		<child_id>p8p_nx-0</child_id>
 		<child_id>p8p_occ-0</child_id>
 		<child_id>p8p_pci_configs</child_id>
 		<hidden_child_id>p8p_pci-0</hidden_child_id>
