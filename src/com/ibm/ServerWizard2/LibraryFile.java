@@ -1,24 +1,6 @@
 package com.ibm.ServerWizard2;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
-import javax.swing.ProgressMonitorInputStream;
-
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.json.simple.parser.JSONParser;
 
 public class LibraryFile {
 	private File localFile;

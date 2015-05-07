@@ -1,7 +1,5 @@
 package com.ibm.ServerWizard2;
-import java.io.IOException;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class ServerWizard2 {
@@ -18,7 +16,7 @@ public class ServerWizard2 {
 	}
 	public static void main(String[] args) {
 		String inputFilename="";
-		String version="";
+		
 		for (int i=0;i<args.length;i++) {
 			if (args[i].equals("-i")) {
 				if (i==args.length-1) {
