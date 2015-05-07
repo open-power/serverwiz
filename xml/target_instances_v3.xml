@@ -882,7 +882,7 @@
 	<targetInstance>
 		<type>module-module-dellovo</type>
 		<instance_name>module</instance_name>
-		<child_id>proc</child_id>
+		<child_id>p8p_proc</child_id>
 		<attribute>
 			<id>POSITION</id>
 			<default>0</default>
@@ -890,40 +890,41 @@
 	</targetInstance>
 	<targetInstance>
 		<type>chip-processor-naples</type>
-		<id>proc</id>
-		<child_id>ex-1</child_id>
-		<child_id>ex-2</child_id>
-		<child_id>ex-3</child_id>
-		<child_id>ex-4</child_id>
-		<child_id>ex-5</child_id>
-		<child_id>ex-6</child_id>
-		<child_id>ex-9</child_id>
-		<child_id>ex-10</child_id>
-		<child_id>ex-11</child_id>
-		<child_id>ex-12</child_id>
-		<child_id>ex-13</child_id>
-		<child_id>ex-14</child_id>
-		<child_id>pore-0</child_id>
-		<child_id>capp-0</child_id>
-		<child_id>nx-0</child_id>
-		<child_id>occ-0</child_id>
-		<child_id>pci_configs</child_id>
-		<hidden_child_id>pci-0</hidden_child_id>
-		<hidden_child_id>pci-1</hidden_child_id>
-		<hidden_child_id>pci-2</hidden_child_id>
-		<hidden_child_id>pci-3</hidden_child_id>
-		<hidden_child_id>xbus-0</hidden_child_id>
-		<child_id>xbus-1</child_id>
-		<hidden_child_id>xbus-2</hidden_child_id>
-		<hidden_child_id>xbus-3</hidden_child_id>
-		<child_id>mcs-0</child_id>
-		<child_id>mcs-1</child_id>
-		<hidden_child_id>mcs-2</hidden_child_id>
-		<hidden_child_id>mcs-3</hidden_child_id>
-		<child_id>mcs-4</child_id>
-		<child_id>mcs-5</child_id>
-		<hidden_child_id>mcs-6</hidden_child_id>
-		<hidden_child_id>mcs-7</hidden_child_id>
+		<id>p8p_proc</id>
+		<child_id>p8p_ex-1</child_id>
+		<child_id>p8p_ex-2</child_id>
+		<child_id>p8p_ex-3</child_id>
+		<child_id>p8p_ex-4</child_id>
+		<child_id>p8p_ex-5</child_id>
+		<child_id>p8p_ex-6</child_id>
+		<child_id>p8p_ex-9</child_id>
+		<child_id>p8p_ex-10</child_id>
+		<child_id>p8p_ex-11</child_id>
+		<child_id>p8p_ex-12</child_id>
+		<child_id>p8p_ex-13</child_id>
+		<child_id>p8p_ex-14</child_id>
+		<child_id>p8p_pore-0</child_id>
+		<child_id>p8p_capp-0</child_id>
+                <child_id>p8p_capp-1</child_id>
+		<child_id>p8p_nx-0<child_id>
+		<child_id>p8p_occ-0</child_id>
+		<child_id>p8p_pci_configs</child_id>
+		<hidden_child_id>p8p_pci-0</hidden_child_id>
+		<hidden_child_id>p8p_pci-1</hidden_child_id>
+		<hidden_child_id>p8p_pci-2</hidden_child_id>
+		<hidden_child_id>p8p_pci-3</hidden_child_id>
+		<hidden_child_id>p8p_xbus-0</hidden_child_id>
+		<child_id>p8p_xbus-1</child_id>
+		<hidden_child_id>p8p_xbus-2</hidden_child_id>
+		<hidden_child_id>p8p_xbus-3</hidden_child_id>
+		<child_id>p8p_mcs-0</child_id>
+		<child_id>p8p_mcs-1</child_id>
+		<hidden_child_id>p8p_mcs-2</hidden_child_id>
+		<hidden_child_id>p8p_mcs-3</hidden_child_id>
+		<child_id>p8p_mcs-4</child_id>
+		<child_id>p8p_mcs-5</child_id>
+		<hidden_child_id>p8p_mcs-6</hidden_child_id>
+		<hidden_child_id>p8p_mcs-7</hidden_child_id>
 		<child_id>fsi-slave-0</child_id>
 		<child_id>fsi-cm-0</child_id>
 		<child_id>fsi-cm-1</child_id>
@@ -947,8 +948,8 @@
 
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-1</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-1</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>1</default>
@@ -956,8 +957,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-2</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-2</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>2</default>
@@ -965,8 +966,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-3</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-3</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>3</default>
@@ -974,8 +975,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-4</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-4</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>4</default>
@@ -983,8 +984,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-5</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-5</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>5</default>
@@ -992,8 +993,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-6</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-6</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>6</default>
@@ -1001,8 +1002,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-9</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-9</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>9</default>
@@ -1010,8 +1011,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-10</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-10</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>10</default>
@@ -1019,8 +1020,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-11</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-11</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>11</default>
@@ -1028,8 +1029,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-12</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-12</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>12</default>
@@ -1037,8 +1038,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-13</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-13</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>13</default>
@@ -1046,8 +1047,8 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-ex-naples</type>
-		<id>ex-14</id>
-		<child_id>core-0</child_id>
+		<id>p8p_ex-14</id>
+		<child_id>p8p_core-0</child_id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>14</default>
@@ -1055,7 +1056,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-core-naples</type>
-		<id>core-0</id>
+		<id>p8p_core-0</id>
 		<hidden_child_id>cpucore_temp_sensor</hidden_child_id>
 		<hidden_child_id>cpucore_func_sensor</hidden_child_id>
 		<attribute>
@@ -1065,7 +1066,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-pore-naples</type>
-		<id>pore-0</id>
+		<id>p8p_pore-0</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>0</default>
@@ -1073,7 +1074,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-nx-naples</type>
-		<id>nx-0</id>
+		<id>p8p_nx-0</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>0</default>
@@ -1083,16 +1084,17 @@
 	<!-- PCIe instances -->
 	<targetInstance>
 		<type>unit-pciconfigs-naples</type>
-		<id>pci_configs</id>
-		<child_id>E0_x16:E1_x16</child_id>
-		<child_id>E0_x16:E1_x8x8</child_id>
+		<id>p8p_pci_configs</id>
+		<child_id>p8p_E0_x16:E1_x16:E2_x8</child_id>
+		<child_id>p8p_E0_x16:E1_x8x8:E2_x8</child_id>
 	</targetInstance>
 
 	<targetInstance>
 		<type>unit-pciconfig0-naples</type>
-		<id>E0_x16:E1_x16</id>
-		<child_id>E0_x16</child_id>
-		<child_id>E1_x16</child_id>
+		<id>p8p_E0_x16:E1_x16:E2_x8</id>
+		<child_id>p8p_E0_x16</child_id>
+		<child_id>p8p_E1_x16</child_id>
+		<child_id>p8p_E2_x8</child_id>
 			<attribute>
 		<id>PCIE_LANE_SWAP_TABLE</id>
 		<default>
@@ -1107,10 +1109,11 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-pciconfig1-naples</type>
-		<id>E0_x16:E1_x8x8</id>
-		<child_id>E0_x16</child_id>
-		<child_id>E1_CLK0_x8</child_id>
-		<child_id>E1_CLK1_x8</child_id>
+		<id>p8p_E0_x16:E1_x8x8:E2_x8</id>
+		<child_id>p8p_E0_x16</child_id>
+		<child_id>p8p_E1_CLK0_x8</child_id>
+		<child_id>p8p_E1_CLK1_x8</child_id>
+		<child_id>p8p_E2_x8</child_id>
 			<attribute>
 		<id>PCIE_LANE_SWAP_TABLE</id>
 		<default>
@@ -1127,7 +1130,7 @@
 	<!-- IOP0 config 0: PHB0=x16 -->
 	<targetInstance>
 		<type>unit-pci-naples</type>
-		<id>E0_x16</id>
+		<id>p8p_E0_x16</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>0</default>
@@ -1157,7 +1160,7 @@
 	<!-- IOP1 config: PHB1=x16 -->
 	<targetInstance>
 		<type>unit-pci-naples</type>
-		<id>E1_x16</id>
+		<id>p8p_E1_x16</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>1</default>
@@ -1187,7 +1190,7 @@
 	<!-- IOP1 config 1: PHB1=x8, PHB2=x8 -->
 	<targetInstance>
 		<type>unit-pci-naples</type>
-		<id>E1_CLK0_x8</id>
+		<id>p8p_E1_CLK0_x8</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>1</default>
@@ -1215,7 +1218,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-pci-naples</type>
-		<id>E1_CLK1_x8</id>
+		<id>p8p_E1_CLK1_x8</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>1</default>
@@ -1241,9 +1244,39 @@
 			<default>1</default>
 		</attribute>
 	</targetInstance>
+        <!-- IOP2 config: PHB3=x8 -->
+        <targetInstance>
+                <type>unit-pci-naples</type>
+                <id>p8p_E2_x8</id>
+                <attribute>
+                        <id>CHIP_UNIT</id>
+                        <default>1</default>
+                </attribute>
+                <attribute>
+                        <id>PCIE_NUM_LANES</id>
+                        <default>8</default>
+                </attribute>
+                <attribute>
+                        <id>PCIE_LANE_MASK</id>
+                        <default>0xFF00</default>
+                </attribute>
+                <attribute>
+                        <id>PCIE_LANE_SET</id>
+                        <default>0</default>
+                </attribute>
+                <attribute>
+                        <id>PHB_NUM</id>
+                        <default>3</default>
+                </attribute>
+                <attribute>
+                        <id>IOP_NUM</id>
+                        <default>2</default>
+                </attribute>
+        </targetInstance>
+
 	<targetInstance>
 		<type>unit-pci-naples</type>
-		<id>pci-0</id>
+		<id>p8p_pci-0</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>0</default>
@@ -1251,7 +1284,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-pci-naples</type>
-		<id>pci-1</id>
+		<id>p8p_pci-1</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>1</default>
@@ -1259,7 +1292,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-pci-naples</type>
-		<id>pci-2</id>
+		<id>p8p_pci-2</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>2</default>
@@ -1267,7 +1300,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-pci-naples</type>
-		<id>pci-3</id>
+		<id>p8p_pci-3</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>3</default>
@@ -1275,7 +1308,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-mcs-naples</type>
-		<id>mcs-0</id>
+		<id>p8p_mcs-0</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>0</default>
@@ -1287,7 +1320,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-mcs-naples</type>
-		<id>mcs-1</id>
+		<id>p8p_mcs-1</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>1</default>
@@ -1299,7 +1332,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-mcs-naples</type>
-		<id>mcs-2</id>
+		<id>p8p_mcs-2</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>2</default>
@@ -1311,7 +1344,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-mcs-naples</type>
-		<id>mcs-3</id>
+		<id>p8p_mcs-3</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>3</default>
@@ -1324,7 +1357,7 @@
 
 	<targetInstance>
 		<type>unit-mcs-naples</type>
-		<id>mcs-4</id>
+		<id>p8p_mcs-4</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>4</default>
@@ -1336,7 +1369,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-mcs-naples</type>
-		<id>mcs-5</id>
+		<id>p8p_mcs-5</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>5</default>
@@ -1348,7 +1381,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-mcs-naples</type>
-		<id>mcs-6</id>
+		<id>p8p_mcs-6</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>6</default>
@@ -1360,7 +1393,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-mcs-naples</type>
-		<id>mcs-7</id>
+		<id>p8p_mcs-7</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>7</default>
@@ -1373,7 +1406,25 @@
 
 	<targetInstance>
 		<type>unit-capp-naples</type>
-		<id>capp-0</id>
+		<id>p8p_capp-0</id>
+		<attribute>
+			<id>CHIP_UNIT</id>
+			<default>0</default>
+		</attribute>
+	</targetInstance>
+
+        <targetInstance>
+                <type>unit-capp-naples</type>
+                <id>p8p_capp-1</id>
+                <attribute>
+                        <id>CHIP_UNIT</id>
+                        <default>0</default>
+                </attribute>
+        </targetInstance>
+
+	<targetInstance>
+		<type>unit-xbus-naples</type>
+		<id>p8p_xbus-0</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>0</default>
@@ -1381,15 +1432,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-xbus-naples</type>
-		<id>xbus-0</id>
-		<attribute>
-			<id>CHIP_UNIT</id>
-			<default>0</default>
-		</attribute>
-	</targetInstance>
-	<targetInstance>
-		<type>unit-xbus-naples</type>
-		<id>xbus-1</id>
+		<id>p8p_xbus-1</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>1</default>
@@ -1397,7 +1440,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-xbus-naples</type>
-		<id>xbus-2</id>
+		<id>p8p_xbus-2</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>2</default>
@@ -1405,7 +1448,7 @@
 	</targetInstance>
 	<targetInstance>
 		<type>unit-xbus-naples</type>
-		<id>xbus-3</id>
+		<id>p8p_xbus-3</id>
 		<attribute>
 			<id>CHIP_UNIT</id>
 			<default>3</default>
