@@ -184,9 +184,9 @@ public class SystemModel {
 		Vector<Target> cards = new Vector<Target>();
 		for (Target target : targetList) {
 			if (target.isCard() || target.isSystem() || target.isNode()) {
-				if (!target.isLibraryTarget) {
+				//if (!target.isLibraryTarget) {
 					cards.add(target);
-				}
+				//}
 			}
 		}
 		return cards;
