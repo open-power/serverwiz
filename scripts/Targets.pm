@@ -190,18 +190,14 @@ sub printAttribute
     $filter{MODEL}                          = 1;
     $filter{TYPE}                           = 1;
     $filter{CDM_POLICIES}                   = 1;
-    $filter{ALL_MCS_IN_INTERLEAVING_GROUP}  = 1;
-    $filter{MSS_INTERLEAVE_ENABLE}          = 1;
     $filter{CDM_POLICIES_BITMASK}           = 1;
     $filter{ENTITY_ID_LOOKUP}               = 1;
     $filter{ENTITY_INSTANCE}                = 1;
     $filter{MBA_NUM}                        = 1;
-    $filter{IPMI_INSTANCE}                  = 1;
-    $filter{FRU_NAME}                       = 1;
+    $filter{IPMI_NAME}                      = 1;
     $filter{INSTANCE_ID}                    = 1;
-    #$filter{ADC_CHANNEL_SENSOR_NUMBERS}     = 1;
     $filter{IO_CONFIG_SELECT}               = 1;
-    #$filter{FRU_ID}                         = 1;
+    $filter{FRU_NAME}                       = 1;
 
     if ($filter{$attribute} == 1)
     {
@@ -590,8 +586,6 @@ sub processMcs
             $parent_affinity . "/mcs-$mcs/membuf-$membufnum");
         $self->setAttribute($membuf, "PHYS_PATH",
             $node_phys . "/membuf-$membufnum");
-        # $self->setAttribute($membuf, "VPD_REC_NUM",
-        #    $self->getAttribute($membuf, "POSITION"));
 
         ## copy DMI bus attributes to membuf
         $self->setAttribute($unit, "EI_BUS_TX_LANE_INVERT",

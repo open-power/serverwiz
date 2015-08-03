@@ -34,10 +34,6 @@
 			<default></default>
 		</attribute>
 		<attribute>
-			<id>MSS_INTERLEAVE_ENABLE</id>
-			<default></default>
-		</attribute>
-		<attribute>
 			<id>MODEL</id>
 			<default>POWER8</default>
 		</attribute>
@@ -859,7 +855,11 @@
 		<attribute>
 			<id>IBSCOM_PROC_BASE_ADDR</id>
 			<default>1,0x0003E00000000000,0x40000000000,0x10000000000,0</default>
-		</attribute>
+        </attribute>
+	    <attribute>
+            <id>MSS_INTERLEAVE_ENABLE</id>
+            <default></default>
+        </attribute>
 		<attribute>
 			<id>EEPROM_SBE_BACKUP_INFO</id>
 			<default>
@@ -1147,7 +1147,11 @@
 		<attribute>
 			<id>IBSCOM_PROC_BASE_ADDR</id>
 			<default>1,0x0003E00000000000,0x40000000000,0x10000000000,0</default>
-		</attribute>
+        </attribute>
+	    <attribute>
+            <id>MSS_INTERLEAVE_ENABLE</id>
+            <default></default>
+        </attribute>
 		<attribute>
 			<id>EEPROM_SBE_BACKUP_INFO</id>
 			<default>
