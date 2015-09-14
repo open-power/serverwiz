@@ -77,13 +77,12 @@ my $xmldir = dirname($serverwiz_file);
 $targetObj->loadXML($serverwiz_file);
 
 
-
-my $str=sprintf(" %30s | %10s | %6s | %4s | %4s | %4s | %4s | %s\n",
-           "Sensor Name","FRU Name","Ent ID","Type","ID","Inst","FRU","Target");
+my $str=sprintf(" %30s | %10s | %6s | %4s | %4s | %4s | %4s | %10s | %s\n",
+           "Sensor Name","FRU Name","Ent ID","Type","ID","Inst","FRU","HUID","Target");
 $targetObj->writeReport($str);
-$str=sprintf(" %30s | %10s | %6s | %4s | %4s | %4s | %4s | %s\n",
+$str=sprintf(" %30s | %10s | %6s | %4s | %4s | %4s | %4s | %10s | %s\n",
                    "------------------------------","----------",
-                   "------","----","----","----","----","----------");
+                   "------","----","----","----","----","----------","----------");
 $targetObj->writeReport($str);
 #--------------------------------------------------
 ## loop through all targets and do stuff
@@ -202,6 +201,11 @@ sub processIpmiSensors {
     {
         $fru_id=$targetObj->getAttribute($target,"FRU_ID");
     }
+    my $huid="";
+    if (!$targetObj->isBadAttribute($target,"HUID"))
+    {
+        $huid=$targetObj->getAttribute($target,"HUID");
+    }
     my @sensors;
 
     foreach my $child (@{$targetObj->getTargetChildren($target)})
@@ -229,15 +233,15 @@ sub processIpmiSensors {
             my $s=sprintf("0x%02X%02X,0x%02X",
                   oct($sensor_type),oct($entity_id),oct($sensor_id));
             push(@sensors,$s);
-            my $sensor_id_str = "Err";
+            my $sensor_id_str = "";
             if ($sensor_id ne "")
             {
                 $sensor_id_str = sprintf("0x%02X",oct($sensor_id));
             }
             my $str=sprintf(
-                    " %30s | %10s |  0x%02X  | 0x%02X | %4s | %4d | %4d | %s\n",
+                    " %30s | %10s |  0x%02X  | 0x%02X | %4s | %4d | %4d | %10s | %s\n",
                     $sensor_name,$name,oct($entity_id),oct($sensor_type),
-                    $sensor_id_str,$instance,$fru_id,$target);
+                    $sensor_id_str,$instance,$fru_id,$huid,$target);
             $targetObj->writeReport($str);
         }
     }
@@ -288,7 +292,7 @@ sub processApss {
             $name=~s/\s+//g;
             $name=~s/\t+//g;
 
-            my $sensor_id_str = "Err";
+            my $sensor_id_str = "";
             if ($sensor_id ne "")
             {
                 $sensor_id_str = sprintf("0x%02X",oct($sensor_id));
@@ -301,14 +305,10 @@ sub processApss {
                 $channel_offsets[$channel] = $channel_offset;
                 $channel_gains[$channel] = $channel_gain;
             }
-            else
-            {
-                $sensor_id_str="N/A";
-            }
             my $str=sprintf(
-                    " %30s | %10s |  0x%02X  | 0x%02X | %4s | %4d | %4d | %s\n",
+                    " %30s | %10s |  0x%02X  | 0x%02X | %4s | %4d | %4d | %10s | %s\n",
                     $name,"",oct($entity_id),oct($sensor_type),
-                    $sensor_id_str,$channel,"",$systemTarget);
+                    $sensor_id_str,$channel,"","",$systemTarget);
             $targetObj->writeReport($str);
         }
     }
@@ -508,7 +508,7 @@ sub processProcessor
     else
     {
         $targetObj->setAttribute($target, "PROC_MASTER_TYPE",
-            "MASTER_CANDIDATE");
+            "NOT_MASTER");
     }
     ## Update bus speeds
     processI2cSpeeds($targetObj,$target);
@@ -588,6 +588,11 @@ sub setupBars
               "INTP_BASE_ADDR","PHB_BASE_ADDRS","PCI_BASE_ADDRS_32",
               "PCI_BASE_ADDRS_64","RNG_BASE_ADDR","IBSCOM_PROC_BASE_ADDR");
 
+    # Attribute only valid in naples-based systems
+    if (!$targetObj->isBadAttribute($target,"NPU_MMIO_BAR_BASE_ADDR") ) {
+          push(@bars,"NPU_MMIO_BAR_BASE_ADDR");
+    }
+
     foreach my $bar (@bars)
     {
         my ($num,$base,$node_offset,$proc_offset,$offset) = split(/,/,
@@ -606,8 +611,10 @@ sub setupBars
         {
             for (my $i=0;$i<$num;$i++)
             {
+                #Note: Hex convert method avoids overflow on 32bit machine
                 my $b=sprintf("0x%016s",substr((
-			$i_base+$i_node_offset*$node+$i_proc_offset*$proc+$i_offset*$i)->as_hex(),2));  #Note: Hex convert method avoids overflow on 32bit machines.
+                        $i_base+$i_node_offset*$node+
+                        $i_proc_offset*$proc+$i_offset*$i)->as_hex(),2));
                 my $sep=",";
                 if ($i==$num-1)
                 {
@@ -640,8 +647,10 @@ sub processMcs
     my $i_offset = Math::BigInt->new($offset);
 
     my $mcs = $targetObj->getAttribute($target, "MCS_NUM");
+    #Note: Hex convert method avoids overflow on 32bit machines
     my $mcsStr=sprintf("0x%016s",substr((
-         $i_base+$i_node_offset*$node+$i_proc_offset*$proc+$i_offset*$mcs)->as_hex(),2));  #Note: Hex convert method avoids overflow on 32bit machines.
+         $i_base+$i_node_offset*$node+
+         $i_proc_offset*$proc+$i_offset*$mcs)->as_hex(),2));
     $targetObj->setAttribute($target, "IBSCOM_MCS_BASE_ADDR", $mcsStr);
 }
 
@@ -657,23 +666,23 @@ sub processXbus
     my $target    = shift;
 
     my $found_xbus = 0;
-    
+
     my $xbus_child_conn = $targetObj->getFirstConnectionDestination($target);
     if ($xbus_child_conn ne "")
     {
-    	## set attributes for both directions
+        ## set attributes for both directions
         $targetObj->setAttribute($xbus_child_conn, "PEER_TARGET",
-            $targetObj->getAttribute($target, "PHYS_PATH"));
+        $targetObj->getAttribute($target, "PHYS_PATH"));
         $targetObj->setAttribute($target, "PEER_TARGET",
-            $targetObj->getAttribute($xbus_child_conn, "PHYS_PATH"));
+        $targetObj->getAttribute($xbus_child_conn, "PHYS_PATH"));
 
         $targetObj->setAttribute($xbus_child_conn, "PEER_TARGET",
-            $targetObj->getAttribute($target, "PHYS_PATH"));
+        $targetObj->getAttribute($target, "PHYS_PATH"));
         $targetObj->setAttribute($target, "PEER_TARGET",
-            $targetObj->getAttribute($xbus_child_conn, "PHYS_PATH"));
+        $targetObj->getAttribute($xbus_child_conn, "PHYS_PATH"));
 
         $found_xbus = 1;
-    }   
+    }
 
 }
 
@@ -697,8 +706,6 @@ sub processAbus
     {
         $targetObj->setAttribute($target, "EI_BUS_TX_MSBSWAP","0");
     }
-    # $targetObj->setAttribute($target, "PEER_TARGET","");
-
     my $abus_child_conn = $targetObj->getFirstConnectionDestination($target);
     if ($abus_child_conn ne "")
     {
@@ -828,23 +835,23 @@ sub processPcie
     $iop_swap{0}{1}{'11'}=$t[7];
 
     $iop_swap{1}{0}{'00'}=$t[8];
-    $iop_swap{1}{0}{'01'}=$t[9];
-    $iop_swap{1}{0}{'10'}=$t[10];
+    $iop_swap{1}{0}{'10'}=$t[9];
+    $iop_swap{1}{0}{'01'}=$t[10];
     $iop_swap{1}{0}{'11'}=$t[11];
     $iop_swap{1}{1}{'00'}=$t[12];
     $iop_swap{1}{1}{'10'}=$t[13];
     $iop_swap{1}{1}{'01'}=$t[14];
     $iop_swap{1}{1}{'11'}=$t[15];
 
-    $iop_swap{2}{0}{'00'}=$t[8];
-    $iop_swap{2}{0}{'01'}=$t[9];
-    $iop_swap{2}{0}{'10'}=$t[10];
-    $iop_swap{2}{0}{'11'}=$t[11];
-    $iop_swap{2}{1}{'00'}=$t[12];
-    $iop_swap{2}{1}{'10'}=$t[13];
-    $iop_swap{2}{1}{'01'}=$t[14];
-    $iop_swap{2}{1}{'11'}=$t[15];
 
+    $iop_swap{2}{0}{'00'}=$t[16];
+    $iop_swap{2}{0}{'01'}=$t[17];
+    $iop_swap{2}{0}{'10'}=$t[18];
+    $iop_swap{2}{0}{'11'}=$t[19];
+    $iop_swap{2}{1}{'00'}=$t[20];
+    $iop_swap{2}{1}{'10'}=$t[21];
+    $iop_swap{2}{1}{'01'}=$t[22];
+    $iop_swap{2}{1}{'11'}=$t[23];
 
     my @lane_eq;
     my $NUM_PHBS=4;
@@ -940,30 +947,33 @@ sub processPcie
           die "PCIE config for $iop,$iop_lane_swap[$iop],$lane_rev not found\n";
         }
     }
-    my $lane_swap_attr0 = sprintf("%s,%s,%s",$iop_lane_swap[0],
-                          $iop_lane_swap[1],$iop_lane_swap[2]);
-    my $lane_swap_attr1 = sprintf("%s,0,%s,0,%s,0",$iop_lane_swap[0],
-                          $iop_lane_swap[1],$iop_lane_swap[2]);
+
+    my $lane_rev_attr0 = sprintf("%s,%s,%s",
+                            oct($iop_swap_lu[0]),
+                            oct($iop_swap_lu[1]),
+                            oct($iop_swap_lu[2]));
+    my $lane_rev_attr1 = sprintf("%s,0,%s,0,%s,0",
+                            oct($iop_swap_lu[0]),
+                            oct($iop_swap_lu[1]),
+                            oct($iop_swap_lu[2]));
 
     $targetObj->setAttribute($parentTarget, "PROC_PCIE_IOP_SWAP",
-        $lane_swap_attr0);
+        $lane_rev_attr0);
     $targetObj->setAttribute($parentTarget, "PROC_PCIE_IOP_SWAP_NON_BIFURCATED",
-        $lane_swap_attr1);
+        $lane_rev_attr1);
     $targetObj->setAttribute($parentTarget, "PROC_PCIE_IOP_SWAP_BIFURCATED",
         "0,0,0,0");
-
-    my $lane_rev_attr = sprintf("%s,0,%s,0,%s,0",
-                         oct($iop_swap_lu[0]),oct($iop_swap_lu[1]),oct($iop_swap_lu[2]));
-
     $targetObj->setAttribute($parentTarget, "PROC_PCIE_IOP_REVERSAL",
-        $lane_rev_attr);
+        "0,0,0,0");
     $targetObj->setAttribute($parentTarget,
-        "PROC_PCIE_IOP_REVERSAL_NON_BIFURCATED",$lane_rev_attr);
+        "PROC_PCIE_IOP_REVERSAL_NON_BIFURCATED","0,0,0,0");
     $targetObj->setAttribute($parentTarget, "PROC_PCIE_IOP_REVERSAL_BIFURCATED",
         "0,0,0,0");
 
-    my $is_slot_attr = sprintf("%s,%s,%s,%s",
-        $is_slot[0][0], $is_slot[0][1], $is_slot[1][0], $is_slot[1][1], $is_slot[2][0], $is_slot[2][1]);
+    my $is_slot_attr = sprintf("%s,%s,%s,%s,%s,%s",
+                        $is_slot[0][0], $is_slot[0][1],
+                        $is_slot[1][0], $is_slot[1][1],
+                        $is_slot[2][0], $is_slot[2][1]);
     $targetObj->setAttribute($parentTarget, "PROC_PCIE_IS_SLOT", $is_slot_attr);
 
     ## don't support DSMP
@@ -1012,7 +1022,6 @@ sub processMembufVpdAssociation
                 my $membuf_target = $membuf_assoc->{DEST_PARENT};
                 setEepromAttributes($targetObj,
                        "EEPROM_VPD_PRIMARY_INFO",$membuf_target,$vpd);
-
                 my $index = $targetObj->getBusAttribute($membuf_assoc->{SOURCE},
                                 $membuf_assoc->{BUS_NUM}, "ISDIMM_MBVPD_INDEX");
                 $targetObj->setAttribute(
@@ -1032,7 +1041,6 @@ sub processMembufVpdAssociation
                        "EEPROM_VPD_PRIMARY_INFO",$node_target,$vpd);
                 $targetObj->setAttribute($node_target,
                             "VPD_REC_NUM",$targetObj->{vpd_num});
-                print ">>> $node_target,$targetObj->{vpd_num}\n";
             }
         }
         $targetObj->{vpd_num}++;
@@ -1113,7 +1121,6 @@ sub processMembuf
             setEepromAttributes($targetObj,
                        "EEPROM_VPD_PRIMARY_INFO",$dimm_target,
                        $dimm);
-
             my $field=getI2cMapField($targetObj,$dimm_target,$dimm);
             my $map = $dimm_portmap{$dimm_target};
             if ($map eq "") {
@@ -1123,7 +1130,7 @@ sub processMembuf
             $addr_map[$map] = $field;
         }
     }
-    $targetObj->setAttribute($targetObj->{targeting}->{SYS}[0]->{KEY},
+    $targetObj->setAttribute($target,
             "MRW_MEM_SENSOR_CACHE_ADDR_MAP","0x".join("",@addr_map));
 
     ## Update bus speeds
@@ -1309,7 +1316,8 @@ sub errorCheck
                     }
                     else
                     {
-                        $abus_error = sprintf("proc not connected to proc via Abus or Xbus (Target=%s)",$child);
+                        $abus_error = sprintf(
+"proc not connected to proc via Abus or Xbus (Target=%s)",$child);
                     }
                 }
             }

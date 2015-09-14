@@ -22,6 +22,11 @@
 			<default></default>
 		</attribute>
 		<attribute>
+		<attribute>
+			<id>BMC_FRU_ID</id>
+			<default></default>
+        </attribute>
+        <attribute>
 			<id>OPAL_MODEL</id>
 			<default></default>
 		</attribute>
@@ -509,6 +514,10 @@
 		</attribute>
 		<attribute>
 			<id>MODEL</id>
+		</attribute>
+		<attribute>
+			<id>RESOURCE_IS_CRITICAL</id>
+			<default>0</default>
 		</attribute>
 	</targetType>
 	<targetType>
@@ -1735,6 +1744,10 @@
 		</attribute>
 		<attribute>
 			<id>FRU_ID</id>
+		</attribute>
+		<attribute>
+			<id>CENTAUR_ECID_FRU_ID</id>
+			<default>0xFF</default>
 		</attribute>
 	</targetType>
 

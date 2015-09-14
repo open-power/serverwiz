@@ -55,7 +55,7 @@ sub new
             '4' => '7',
             '5' => '6'
         }
-        # TODO RTC: TBD
+        # TODO RTC:132549
         # DMI_FSI_MAP is a lookup table for DMI channel to FSI and ref clock.
         # It is processor specific and needs to be pulled from a
         # processor attribute instead of being hardcoded
