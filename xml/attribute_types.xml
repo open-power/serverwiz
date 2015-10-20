@@ -301,225 +301,6 @@
     </enumerator>
     <default>NO_MASTER</default>
 </enumerationType>
-
-
-
-<enumerationType>
-    <id>ENTITY_ID</id>
-    <description>Enumeration indicating the IPMI entity ID, these values are
-        defined in the IPMI specification.  These values will be used in place
-        of target type when events are sent to the BMC.</description>
-    <enumerator>
-        <name>NA</name>
-        <value>0</value>
-    </enumerator>
-    <enumerator>
-        <name>OTHER</name>
-        <value>0x01</value>
-    </enumerator>
-    <enumerator>
-        <name>PROCESSOR</name>
-        <value>0x03</value>
-    </enumerator>
-    <enumerator>
-        <name>SYSTEM_BOARD</name>
-        <value>0x07</value>
-    </enumerator>
-    <enumerator>
-        <name>POWER_MGMT</name>
-        <value>0x15</value>
-    </enumerator>
-    <enumerator>
-        <name>CHASSIS</name>
-        <value>0x17</value>
-    </enumerator>
-    <enumerator>
-        <name>MEMORY_DEVICE</name>
-        <value>0x20</value>
-    </enumerator>
-    <enumerator>
-        <name>BIOS</name>
-        <value>0x22</value>
-    </enumerator>
-    <enumerator>
-        <name>OS</name>
-        <value>0x23</value>
-    </enumerator>
-    <enumerator>
-        <name>CORE</name>
-        <value>0xD0</value>
-    </enumerator>
-    <enumerator>
-        <name>CENTAUR</name>
-        <value>0xD1</value>
-    </enumerator>
-    <enumerator>
-        <name>OCC</name>
-        <value>0xD2</value>
-    </enumerator>
-    <enumerator>
-        <name>REF_CLOCK</name>
-        <value>0xD4</value>
-    </enumerator>
-    <enumerator>
-        <name>PCI_CLOCK</name>
-        <value>0xD5</value>
-    </enumerator>
-    <enumerator>
-        <name>TOD_CLOCK</name>
-        <value>0xD6</value>
-    </enumerator>
-    <enumerator>
-        <name>APSS</name>
-        <value>0xD7</value>
-    </enumerator>
-</enumerationType>
-<enumerationType>
-    <id>SENSOR_NAME</id>
-    <description>Enumeration indicating the IPMI sensor name, which will
-        be used by hostboot when determining the sensor number to return.
-        The name is unique per hostboot sensor type, actual IPMI sensor
-        types have been overloaded to map our needs.  The sensor name consists
-        of one byte of sensor type plus one byte of sub-type, to differentiate
-        similar sensors under the same target</description>
-    <enumerator>
-        <name>TEMPERATURE</name>
-        <value>0x0100</value>
-    </enumerator>
-    <enumerator>
-        <name>VOLTAGE</name>
-        <value>0x0200</value>
-    </enumerator>
-    <enumerator>
-        <name>CURRENT</name>
-        <value>0x0300</value>
-    </enumerator>
-    <enumerator>
-        <name>INTRUSION</name>
-        <value>0x0400</value>
-    </enumerator>
-    <enumerator>
-        <name>STATE</name>
-        <value>0x0500</value>
-    </enumerator>
-    <enumerator>
-        <name>POWER_UNIT</name>
-        <value>0x0600</value>
-    </enumerator>
-    <enumerator>
-        <name>OS_BOOT</name>
-        <value>0x0700</value>
-    </enumerator>
-    <enumerator>
-        <name>HOST_STATUS</name>
-        <value>0x0800</value>
-    </enumerator>
-    <enumerator>
-        <name>FW_BOOT_PROGRESS</name>
-        <value>0x0900</value>
-    </enumerator>
-    <enumerator>
-        <name>OCC_ACTIVE</name>
-        <value>0x0A00</value>
-    </enumerator>
-    <enumerator>
-        <name>SYSTEM_POWER_CAP</name>
-        <value>0x0b00</value>
-    </enumerator>
-    <enumerator>
-        <name>PCI_ACTIVE</name>
-        <value>0x0c00</value>
-    </enumerator>
-    <enumerator>
-        <name>BOOT_WATCHDOG</name>
-        <value>0x0d00</value>
-    </enumerator>
-    <enumerator>
-        <name>REBOOT_COUNT</name>
-        <value>0x0e00</value>
-    </enumerator>
-    <enumerator>
-        <name>FAULT</name>
-        <value>0x1000</value>
-    </enumerator>
-    <enumerator>
-        <name>APSS_FAULT</name> <!-- APSS Fault -->
-        <value>0x1010</value>
-    </enumerator>
-    <enumerator>
-        <name>TOD_CLOCK_FAULT</name>
-        <value>0x1017</value>
-    </enumerator>
-    <enumerator>
-        <name>REF_CLOCK_FAULT</name>
-        <value>0x101A</value>
-    </enumerator>
-    <enumerator>
-        <name>PCI_CLOCK_FAULT</name>
-        <value>0x101B</value>
-    </enumerator>
-    <enumerator>
-        <name>APSS_CHANNEL</name> <!-- Power sensors -->
-        <value>0x1100</value>     <!-- 16 channels -->
-    </enumerator>
-
-</enumerationType>
-
-<enumerationType>
-    <id>SENSOR_TYPE</id>
-    <description>Enumeration indicating the IPMI sensor type, these values
-        are defined in the IPMI specification. These values will be used when
-    sending sensor reading events to the BMC.</description>
-    <enumerator>
-        <name>NA</name>
-        <value>0</value>
-    </enumerator>
-    <enumerator>
-        <name>TEMPERATURE</name>
-        <value>0x01</value>
-    </enumerator>
-    <enumerator>
-        <name>VOLTAGE</name>
-        <value>0x02</value>
-    </enumerator>
-    <enumerator>
-        <name>CURRENT</name>
-        <value>0x03</value>
-    </enumerator>
-    <enumerator>
-        <name>PHYSICAL_SECURITY</name>
-        <value>0x05</value>
-    </enumerator>
-    <enumerator>
-        <name>PROCESSOR</name>
-        <value>0x07</value>
-    </enumerator>
-    <enumerator>
-        <name>MEMORY</name>
-        <value>0x0c</value>
-    </enumerator>
-    <enumerator>
-        <name>POWER_UNIT</name>
-        <value>0x09</value>
-    </enumerator>
-    <enumerator>
-        <name>OS_BOOT</name>
-        <value>0x1F</value>
-    </enumerator>
-    <enumerator>
-        <name>APCI_POWER_STATE</name>
-        <value>0x22</value>
-    </enumerator>
-    <enumerator>
-        <name>SYSTEM_FIRMWARE_PROGRESS</name>
-        <value>0x0F</value>
-    </enumerator>
-     <enumerator>
-        <name>REBOOT_COUNT</name>
-        <value>0xC0</value>
-    </enumerator>
-</enumerationType>
-
 <attribute>
     <id>CLASS</id>
     <description>Attribute indicating the target's class</description>
@@ -531,7 +312,6 @@
     <persistency>non-volatile</persistency>
     <readable/>
     <hasStringConversion/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -544,7 +324,6 @@
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
     <hasStringConversion/>
 </attribute>
 
@@ -558,7 +337,6 @@
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
     <hasStringConversion/>
 </attribute>
 
@@ -574,42 +352,6 @@
     <readable/>
     <hasStringConversion/>
 </attribute>
-
-<!-- IPMI Sensor numbers are defined in the IPMI spec as 8 bit values. However
-in the hostboot code they will be defined as a uint16_t to allow us to add
-additonal information. An example relates to error logs returned by the OCC,
-we might want to pass the Entity ID in the upper byte of the sensor ID, this
-would allow hostboot to search only the target type identifed by the Entity
-ID for the sensor number returned with the elog. -->
-
-<!-- attribute to hold 16 pairs of sensor type, sensor number values -->
-<attribute>
-    <id>IPMI_SENSORS</id>
-    <description>Attribute to hold 16 pairs of sensor name, sensor number
-        pairs. A sensor name consists of one byte of general sensor type
-        and one byte of sub-type</description>
-    <simpleType>
-        <uint16_t></uint16_t>
-        <array>16,2</array>
-    </simpleType>
-    <persistency>non-volatile</persistency>
-    <readable/>
-</attribute>
-
-<enumerationType>
-    <id>IPMI_SENSOR_ARRAY</id>
-    <description>Enumeration defining the offsets into the
-        IPMI_SENSORS array.</description>
-    <enumerator>
-        <name>NAME_OFFSET</name>
-        <value>0x00</value>
-    </enumerator>
-    <enumerator>
-        <name>NUMBER_OFFSET</name>
-        <value>0x01</value>
-    </enumerator>
-</enumerationType>
-
 <attribute>
     <id>SCRATCH_UINT8_1</id>
     <description>Scratch attribute that can be used for dev/test</description>
@@ -1113,7 +855,6 @@ ID for the sensor number returned with the elog. -->
         <id>ATTR_EXECUTION_PLATFORM</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -1184,6 +925,16 @@ ID for the sensor number returned with the elog. -->
             <description>FSP Only, used by DUMP applet;
              0b0: target is dump capabile;
              0b1: target is not dump capabile;
+            </description>
+            <type>uint8_t</type>
+            <bits>1</bits>
+            <default>0</default>
+        </field>
+        <field>
+            <name>specdeconfig</name>
+            <description>Set for speculative deconfig;
+             0b0: target not speculative deconfig;
+             0b1: target is speculatively deconfigured;
             </description>
             <type>uint8_t</type>
             <bits>1</bits>
@@ -1425,88 +1176,7 @@ ID for the sensor number returned with the elog. -->
     </complexType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
-
-<attribute>
-    <id>EEPROM_VPD_FRU_INFO</id>
-    <description>Information needed to address the EEPROM slaves for
-                 IPMI Fru Inventory Purposes</description>
-    <complexType>
-        <description>Structure to define the addressing for an I2C
-                     slave device.</description>
-        <field>
-            <name>i2cMasterPath</name>
-            <description>Entity path to the chip that contains the I2C
-                         master</description>
-            <type>EntityPath</type>
-            <default>physical:sys-0</default>
-        </field>
-        <field>
-            <name>port</name>
-            <description>Port from the I2C Master device. This is a 6-bit
-                         value.</description>
-            <type>uint8_t</type>
-            <default>0x80</default>
-        </field>
-        <field>
-            <name>devAddr</name>
-            <description>Device address on the I2C bus. This is a 7-bit value,
-                         but then shifted 1 bit left.</description>
-            <type>uint8_t</type>
-            <default>0x80</default>
-        </field>
-        <field>
-            <name>engine</name>
-            <description>I2C master engine. This is a 2-bit
-                         value.</description>
-            <type>uint8_t</type>
-            <default>0x80</default>
-        </field>
-        <field>
-            <name>byteAddrOffset</name>
-            <description>The number of bytes a device requires to set its
-                         internal address/offset.</description>
-            <type>uint8_t</type>
-            <default>0x02</default>
-        </field>
-        <field>
-            <name>maxMemorySizeKB</name>
-            <description>The number of kilobytes a device can hold.  'Zero'
-                         value possible for some devices.</description>
-            <type>uint64_t</type>
-            <default>0x0</default>
-        </field>
-        <field>
-            <name>writePageSize</name>
-            <description>The maximum number of bytes that can be written to
-                         a device at one time. 'Zero' value means no maximum
-                         value is expected or checked.</description>
-            <type>uint64_t</type>
-            <default>0x0</default>
-        </field>
-        <field>
-            <name>writeCycleTime</name>
-            <description>The amount of time in milliseconds a device requires
-                         on the completion of a write command to update its
-                         internal memory.</description>
-            <type>uint64_t</type>
-            <default>0x0</default>
-        </field>
-        <field>
-            <name>fruId</name>
-            <description>The IPMI Fru Inventory ID number. This must be a
-                         unique number for every individual FRU within a
-                         system.</description>
-            <type>uint8_t</type>
-            <default>0x0</default>
-        </field>
-    </complexType>
-    <persistency>non-volatile</persistency>
-    <readable/>
-    <serverwizHide/>
-</attribute>
-
 
 <attribute>
     <id>EEPROM_VPD_BACKUP_INFO</id>
@@ -1575,7 +1245,6 @@ ID for the sensor number returned with the elog. -->
     </complexType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -1645,7 +1314,6 @@ ID for the sensor number returned with the elog. -->
     </complexType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -1715,7 +1383,130 @@ ID for the sensor number returned with the elog. -->
     </complexType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
+</attribute>
+
+<attribute>
+    <id>TPM_PRIMARY_INFO</id>
+    <description>Information needed to address the TPM slaves</description>
+    <complexType>
+        <description>Structure to define the addressing for an I2C
+                     TPM.</description>
+        <field>
+            <name>tpmEnabled</name>
+            <description>Boolean indicating whether this TPM is available
+              in the system</description>
+            <type>uint8_t</type>
+            <default>0x0</default>
+        </field>
+        <field>
+            <name>i2cMasterPath</name>
+            <description>Entity path to the chip that contains the I2C
+                         master</description>
+            <type>EntityPath</type>
+            <default>physical:sys-0</default>
+        </field>
+        <field>
+            <name>port</name>
+            <description>Port from the I2C Master device. This is a 6-bit
+                         value.</description>
+            <type>uint8_t</type>
+            <default>0x01</default>
+        </field>
+        <field>
+            <name>devAddrLocality0</name>
+            <description>Device address on the I2C bus for Locality 0.
+                         This is a 7-bit value, but then shifted 1
+                         bit left.</description>
+            <type>uint8_t</type>
+            <default>0xAE</default>
+        </field>
+        <field>
+            <name>devAddrLocality4</name>
+            <description>Device address on the I2C bus for Locality 4.
+                         This is a 7-bit value, but then shifted 1
+                         bit left.</description>
+            <type>uint8_t</type>
+            <default>0xFF</default>
+        </field>
+        <field>
+            <name>engine</name>
+            <description>I2C master engine. This is a 2-bit
+                         value.</description>
+            <type>uint8_t</type>
+            <default>0x00</default>
+        </field>
+        <field>
+            <name>byteAddrOffset</name>
+            <description>The number of bytes a device requires to set its
+                         internal address/offset.</description>
+            <type>uint8_t</type>
+            <default>0x01</default>
+        </field>
+    </complexType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>TPM_BACKUP_INFO</id>
+    <description>Information needed to address the TPM slaves</description>
+    <complexType>
+        <description>Structure to define the addressing for an I2C
+                     TPM device.</description>
+        <field>
+            <name>tpmEnabled</name>
+            <description>Boolean indicating whether this TPM is available
+              in the system</description>
+            <type>uint8_t</type>
+            <default>0x0</default>
+        </field>
+        <field>
+            <name>i2cMasterPath</name>
+            <description>Entity path to the chip that contains the I2C
+                         master</description>
+            <type>EntityPath</type>
+            <default>physical:sys-0</default>
+        </field>
+        <field>
+            <name>port</name>
+            <description>Port from the I2C Master device. This is a 6-bit
+                         value.</description>
+            <type>uint8_t</type>
+            <default>0x01</default>
+        </field>
+        <field>
+            <name>devAddrLocality0</name>
+            <description>Device address on the I2C bus for Locality 0.
+                         This is a 7-bit value, but then shifted 1
+                         bit left.</description>
+            <type>uint8_t</type>
+            <default>0xAE</default>
+        </field>
+        <field>
+            <name>devAddrLocality4</name>
+            <description>Device address on the I2C bus for Locality 4.
+                         This is a 7-bit value, but then shifted 1
+                         bit left.</description>
+            <type>uint8_t</type>
+            <default>0xFF</default>
+        </field>
+        <field>
+            <name>engine</name>
+            <description>I2C master engine. This is a 2-bit
+                         value.</description>
+            <type>uint8_t</type>
+            <default>0x00</default>
+        </field>
+        <field>
+            <name>byteAddrOffset</name>
+            <description>The number of bytes a device requires to set its
+                         internal address/offset.</description>
+            <type>uint8_t</type>
+            <default>0x01</default>
+        </field>
+    </complexType>
+    <persistency>non-volatile</persistency>
+    <readable/>
 </attribute>
 
 <attribute>
@@ -1748,7 +1539,6 @@ ID for the sensor number returned with the elog. -->
        <id>ATTR_CHIP_ID</id>
        <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -2397,7 +2187,6 @@ ID for the sensor number returned with the elog. -->
         </complexType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -3000,6 +2789,119 @@ ID for the sensor number returned with the elog. -->
 
 <!-- ===== Processor Chip Attributes ===== -->
 
+<enumerationType>
+    <id>NPU_MMIO_BAR_ENABLE</id>
+    <description>Enumeration indicating whether MMIO BAR is enabled or not to be
+        used with ATTR_PROC_NPU_MMIO_BAR_ENABLE</description>
+    <enumerator>
+        <name>DISABLE</name>
+        <value>0</value>
+    </enumerator>
+    <enumerator>
+        <name>ENABLE</name>
+        <value>1</value>
+    </enumerator>
+</enumerationType>
+
+<attribute>
+    <id>NPU_MMIO_BAR_ENABLE</id>
+    <description>NPU MMIO BAR enables
+        creator: platform
+        consumer: proc_setup_bars
+        firmware notes: none
+            first dimension: unit number (0:3)
+            second dimension: BAR number (0:1)
+    </description>
+    <simpleType>
+        <uint8_t>
+            <default>0</default>
+        </uint8_t>
+        <array>4,2</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_PROC_NPU_MMIO_BAR_ENABLE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+<attribute>
+    <id>NPU_MMIO_BAR_BASE_ADDR</id>
+    <description>NPU MMIO BAR base address values
+        creator: platform
+        consumer: proc_setup_bars
+        firmware notes:
+            64-bit address representing BAR RA
+            NOTE: BAR register covers RA 14:51
+            first dimension: unit number (0:3)
+            second dimension: BAR number (0:1)
+    </description>
+    <simpleType>
+        <uint64_t>
+            <default>0</default>
+        </uint64_t>
+        <array>4,2</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_PROC_NPU_MMIO_BAR_BASE_ADDR</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<enumerationType>
+    <id>NPU_MMIO_BAR_SIZE</id>
+    <description>Enumeration indicating the BAR size
+        used with ATTR_PROC_NPU_MMIO_BAR_SIZE</description>
+    <enumerator>
+        <name>2_MB</name>
+        <value>0x0000000000200000</value>
+    </enumerator>
+    <enumerator>
+        <name>1_MB</name>
+        <value>0x0000000000100000</value>
+    </enumerator>
+    <enumerator>
+        <name>512_KB</name>
+        <value>0x0000000000080000</value>
+    </enumerator>
+    <enumerator>
+        <name>256_KB</name>
+        <value>0x0000000000040000</value>
+    </enumerator>
+    <enumerator>
+        <name>128_KB</name>
+        <value>0x0000000000020000</value>
+    </enumerator>
+    <enumerator>
+        <name>64_KB</name>
+        <value>0x0000000000010000</value>
+    </enumerator>
+</enumerationType>
+<attribute>
+    <id>NPU_MMIO_BAR_SIZE</id>
+    <description>NPU MMIO BAR size values
+        creator: platform
+        consumer: proc_setup_bars
+        firmware notes: none
+            first dimension: unit number (0:3)
+            second dimension: BAR number (0:1)
+    </description>
+    <simpleType>
+        <uint64_t>
+            <default>0</default>
+        </uint64_t>
+        <array>4,2</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_PROC_NPU_MMIO_BAR_SIZE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
 <attribute>
     <id>FSP_BASE_ADDR</id>
     <description>Base Address of FSP IO Region</description>
@@ -3434,6 +3336,11 @@ ID for the sensor number returned with the elog. -->
         <!-- FSP is responsible for updating Processor SBE Image -->
         <name>FSP_UPDATE_SBE_IMAGE</name>
         <value>0x00020000</value>
+    </enumerator>
+    <enumerator>
+        <!-- Update both sides of SBE Image if update is needed -->
+        <name>UPDATE_BOTH_SIDES_OF_SBE</name>
+        <value>0x00040000</value>
     </enumerator>
 </enumerationType>
 
@@ -4436,7 +4343,6 @@ Consumers: proc_pcbs_init.C, proc_pcbs_lpst_init.C,
         <id>ATTR_PM_IVRMS_ENABLED</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -4489,7 +4395,6 @@ The value of Psafe needs to be at or below the nominal Pstate to make sure safe 
         <id>ATTR_PM_RESONANT_CLOCK_ENABLE</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -4508,7 +4413,6 @@ Defines the Pstate for the point at which clock sector buffers should be at full
         <id>ATTR_PM_RESONANT_CLOCK_FULL_CSB_PSTATE</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -4526,7 +4430,6 @@ Defines the Pstate for the point at which clock sector buffers should be at full
         <id>ATTR_PM_RESONANT_CLOCK_LFRLOW_PSTATE</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -4544,7 +4447,6 @@ Defines the Pstate for the point at which clock sector buffers should be at full
         <id>ATTR_PM_RESONANT_CLOCK_LFRUPPER_PSTATE</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -4562,7 +4464,6 @@ Defines the Pstate for the point at which clock sector buffers should be at full
         <id>ATTR_PM_RESONANT_CLOCK_HFRLOW_PSTATE</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -4580,7 +4481,6 @@ Defines the Pstate for the point at which clock sector buffers should be at full
         <id>ATTR_PM_RESONANT_CLOCK_HFRHIGH_PSTATE</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -5046,7 +4946,6 @@ Divider for the 1us PBAX hang pulse.  A hang is detected after two divided hang 
         <id>ATTR_PM_SAFE_FREQUENCY</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -5068,7 +4967,6 @@ Divider for the 1us PBAX hang pulse.  A hang is detected after two divided hang 
         <id>ATTR_PM_RESONANT_CLOCK_FULL_CLOCK_SECTOR_BUFFER_FREQUENCY</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -5089,7 +4987,6 @@ Divider for the 1us PBAX hang pulse.  A hang is detected after two divided hang 
         <id>ATTR_PM_RESONANT_CLOCK_LOW_BAND_LOWER_FREQUENCY</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -5110,7 +5007,6 @@ Divider for the 1us PBAX hang pulse.  A hang is detected after two divided hang 
         <id>ATTR_PM_RESONANT_CLOCK_LOW_BAND_UPPER_FREQUENCY</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -5131,7 +5027,6 @@ Divider for the 1us PBAX hang pulse.  A hang is detected after two divided hang 
         <id>ATTR_PM_RESONANT_CLOCK_HIGH_BAND_LOWER_FREQUENCY</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -5152,7 +5047,6 @@ Divider for the 1us PBAX hang pulse.  A hang is detected after two divided hang 
         <id>ATTR_PM_RESONANT_CLOCK_HIGH_BAND_UPPER_FREQUENCY</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -5176,7 +5070,6 @@ Divider for the 1us PBAX hang pulse.  A hang is detected after two divided hang 
         <id>ATTR_PM_SPIPSS_FREQUENCY</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -5785,11 +5678,11 @@ firmware notes: Used as override attribute for pstate procedure
       consumer: proc_pcie_scominit
       firmware notes:
         Encoded PCIE IOP swap configuration
-        Array index: IOP number (0:1)
+        Array index: IOP number (0:2)
   </description>
   <simpleType>
       <uint8_t></uint8_t>
-      <array>2</array>
+      <array>3</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -5807,7 +5700,7 @@ firmware notes: Used as override attribute for pstate procedure
       consumer: proc_pcie_scominit
       firmware notes:
         Bit mask defining set of active/valid PHBs
-        bit0=PHB0, bit1=PHB1, bit2=PHB2
+        bit0=PHB0, bit1=PHB1, bit2=PHB2, bit3=PHB3
   </description>
   <simpleType><uint8_t></uint8_t></simpleType>
   <persistency>non-volatile</persistency>
@@ -5827,11 +5720,11 @@ firmware notes: Used as override attribute for pstate procedure
       firmware notes:
         PCIe Gen3 PLL Control Register 0.
         ATUNE/CPISEL.
-        Array index: IOP number(0:1)
+        Array index: IOP number(0:2)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2</array>
+      <array>3</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -5849,11 +5742,11 @@ firmware notes: Used as override attribute for pstate procedure
       firmware notes:
         PCIe Gen2/Gen1 PLL Control Register 0.
         ATUNE/CPISEL.
-        Array index: IOP number(0:1)
+        Array index: IOP number(0:2)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2</array>
+      <array>3</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -5871,11 +5764,11 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe PLL Global Control Register 0.
         REFISRC/REFISINK.
-        Array index: IOP number (0:1)
+        Array index: IOP number (0:2)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2</array>
+      <array>3</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -5893,11 +5786,11 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe PLL Global Control Register 1.
     ENBGDOCPSRC/ENBGDOCAMP/REFVREG.
-        Array index: IOP number (0:1)
+        Array index: IOP number (0:2)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2</array>
+      <array>3</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -5916,11 +5809,11 @@ firmware notes: Used as override attribute for pstate procedure
         PCIe PCS Control Register 0.
         BITLOCKTIME/ADDDREMDELTA_810_B/STARTUPDELTA_810_B/ADDDREMDELTA_810_A/
         STARTUPDELTA_A/RXREJECTHANDLING/EQCOMLETERESPONSE.
-        Array index: IOP number (0:1)
+        Array index: IOP number (0:2)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2</array>
+      <array>3</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -5939,11 +5832,11 @@ firmware notes: Used as override attribute for pstate procedure
         PCIe PCS Control Register 1.
     RXSIGDETSETTING/ADDDREMDELTA_128130_B/STARTUPDELTA_128130_B/
         ADDDREMDELTA_128130_A/STARTUPDELTA_128130_A.
-        Array index: IOP number (0:1)
+        Array index: IOP number (0:2)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2</array>
+      <array>3</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -5961,12 +5854,12 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe TX FIFO Offset Register.
     G3OFFSET/G2OFFSET/G1OFFSET.
-        First array index: IOP number (0:1)
+        First array index: IOP number (0:2)
         Second array index: Lane number (0:15)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2,16</array>
+      <array>3,16</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -5984,12 +5877,12 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe TX Receiver Detect Control Register.
         VREFSEL/RCVRDETCNT/DETDRVC/PH1WAIT.
-        First array index: IOP number (0:1)
+        First array index: IOP number (0:2)
         Second array index: Lane number (0:15)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2,16</array>
+      <array>3,16</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -6007,12 +5900,12 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe TX Bandwidth Loss Coefficient Register.
         GEN3BWCOEFF/GEN2BWCOEFF/GEN1BWCOEFF.
-        First array index: IOP number (0:1)
+        First array index: IOP number (0:2)
         Second array index: Lane number (0:15)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2,16</array>
+      <array>3,16</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -6030,12 +5923,12 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe RX VGA Control Register 2.
         GAIN2/GAIN1.
-        First array index: IOP number (0:1)
+        First array index: IOP number (0:2)
         Second array index: Lane number (0:15)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2,16</array>
+      <array>3,16</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -6053,12 +5946,12 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe RX Receiver Peaking Value Register.
     PEAK1/PEAK2/PEAK3.
-        First array index: IOP number (0:1)
+        First array index: IOP number (0:2)
         Second array index: Lane number (0:15)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2,16</array>
+      <array>3,16</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -6076,12 +5969,12 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe RX Signal Detect Level Register.
         SDLVL3/SDLVL2/SDLVL1.
-        First array index: IOP number (0:1)
+        First array index: IOP number (0:2)
         Second array index: Lane number (0:15)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2,16</array>
+      <array>3,16</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -6099,11 +5992,11 @@ firmware notes: Used as override attribute for pstate procedure
       notes:
         PCIe ZCAL Control Register.
         CMPEVALDLY.
-        Array index: IOP number (0:1)
+        Array index: IOP number (0:2)
   </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2</array>
+      <array>3</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -10923,11 +10816,10 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
       consumer: proc_pcie_scominit
       firmware notes:
         Bit mask defining state of refclock drive enables
-        bit0=PCI0, bit1=PCI1, bit2=PCI2
+        bit0=PCI0, bit1=PCI1, bit2=PCI2, bit3=PCI3
     </description>
     <simpleType>
        <uint8_t>
-         <default>0xE0</default>
        </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
@@ -10987,7 +10879,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_PROC_DCM_INSTALLED</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 
@@ -11010,7 +10901,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_X_EREPAIR_THRESHOLD_FIELD</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -11031,7 +10921,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_A_EREPAIR_THRESHOLD_FIELD</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -11052,7 +10941,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_DMI_EREPAIR_THRESHOLD_FIELD</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -11073,7 +10961,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_X_EREPAIR_THRESHOLD_MNFG</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -11094,7 +10981,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_A_EREPAIR_THRESHOLD_MNFG</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -11115,7 +11001,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_DMI_EREPAIR_THRESHOLD_MNFG</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 <!-- ===== End Attributes supporting erepair_thresholds.xml HWPF Attributes ===== -->
 
@@ -11775,11 +11660,29 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
 
 <attribute>
     <id>FRU_ID</id>
-    <description>FRU ID attribute for chip class</description>
+    <description>FRU ID attribute used to report FRU information to the BMC for each
+    fru in the system.</description>
     <simpleType><uint32_t><default>0</default></uint32_t></simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <global/>
+</attribute>
+
+<attribute>
+    <id>BMC_FRU_ID</id>
+    <description>BMC FRU ID attribute to report the system firmware levels to the BMC.</description>
+    <simpleType><uint32_t><default>0</default></uint32_t></simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>CENTAUR_ECID_FRU_ID</id>
+    <description>FRU ID attribute for centaur ECID data. This fru ID is used to
+        report the ECID data to the BMC and make it available for systems which
+        have then centaur chips soldered to the backplane.</description>
+    <simpleType><uint8_t><default>0xFF</default></uint8_t></simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
 </attribute>
 
 <attribute>
@@ -12184,7 +12087,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <description>
         MFG_Guard policy:
         Used in MFG only to prevent and disable the following:
-        . Storing or creation of new Guard records from Diagnostic or other
+        . Storing or creation of new Guard records from Diagno`stic or other
             faults through error logs. This is all domains, CEC
             processor/memory, VPD, FSP, etc.
         . Storing or creation of Manual Guard record from user.
@@ -12991,6 +12894,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
+    <writeable/>
     <hwpfToHbAttrMap>
         <id>ATTR_PROC_VRM_VOFFSET_VDD</id>
         <macro>DIRECT</macro>
@@ -13012,6 +12916,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
+    <writeable/>
     <hwpfToHbAttrMap>
         <id>ATTR_PROC_VRM_VOFFSET_VCS</id>
         <macro>DIRECT</macro>
@@ -13059,6 +12964,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
+    <writeable/>
     <hwpfToHbAttrMap>
         <id>ATTR_PROC_R_LOADLINE_VDD</id>
         <macro>DIRECT</macro>
@@ -13080,6 +12986,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
+    <writeable/>
     <hwpfToHbAttrMap>
         <id>ATTR_PROC_R_LOADLINE_VCS</id>
         <macro>DIRECT</macro>
@@ -13101,6 +13008,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
+    <writeable/>
     <hwpfToHbAttrMap>
         <id>ATTR_PROC_R_DISTLOSS_VDD</id>
         <macro>DIRECT</macro>
@@ -13122,6 +13030,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
+    <writeable/>
     <hwpfToHbAttrMap>
         <id>ATTR_PROC_R_DISTLOSS_VCS</id>
         <macro>DIRECT</macro>
@@ -13154,7 +13063,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_PM_UNDERVOLTING_FRQ_MINIMUM</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13183,7 +13091,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_PM_UNDERVOLTING_FREQ_MAXIMUM</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13207,7 +13114,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_PM_WINKLE_ENTRY</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13233,7 +13139,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_PM_WINKLE_EXIT</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <enumerationType>
@@ -13367,7 +13272,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13392,12 +13296,12 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
       consumer: proc_pcie_scominit
       notes:
         PCIe TX FFE (Gen1)
-        First array index: IOP number (0:1)
+        First array index: IOP number (0:2)
         Second array index: Lane number (0:15)
     </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2,16</array>
+      <array>3,16</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -13414,12 +13318,12 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
       consumer: proc_pcie_scominit
       notes:
         PCIe TX FFE (Gen2)
-        First array index: IOP number (0:1)
+        First array index: IOP number (0:2)
         Second array index: Lane number (0:15)
     </description>
   <simpleType>
       <uint32_t></uint32_t>
-      <array>2,16</array>
+      <array>3,16</array>
   </simpleType>
   <persistency>non-volatile</persistency>
   <readable/>
@@ -13541,7 +13445,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_PM_SYSTEM_IVRMS_ENABLED</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13561,7 +13464,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_PM_SYSTEM_IVRM_VPD_MIN_LEVEL</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13761,7 +13663,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_REDUNDANT_CLOCKS</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13850,7 +13751,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_MNFG_DMI_MIN_EYE_WIDTH</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13872,7 +13772,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_MNFG_DMI_MIN_EYE_HEIGHT</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13894,7 +13793,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_MNFG_ABUS_MIN_EYE_WIDTH</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13916,7 +13814,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_MNFG_ABUS_MIN_EYE_HEIGHT</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -13938,7 +13835,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_MNFG_XBUS_MIN_EYE_WIDTH</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -14285,10 +14181,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_VDD_SLOPE_ACTIVE</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14302,10 +14195,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_VDD_SLOPE_INACTIVE</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14319,10 +14209,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_VDD_SLOPE_INTERCEPT</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14336,10 +14223,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_VCS_SLOPE_ACTIVE</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14353,10 +14237,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_VCS_SLOPE_INACTIVE</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14370,10 +14251,7 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_VCS_SLOPE_INTERCEPT</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14387,10 +14265,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_VPP_SLOPE</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
 </attribute>
 
 <attribute>
@@ -14404,10 +14278,34 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_VPP_SLOPE_INTERCEPT</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>MSS_VOLT_VPP_SLOPE_POST_DRAM_INIT</id>
+    <description>Units: uV/DRAM
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>MSS_VOLT_VPP_INTERCEPT_POST_DRAM_INIT</id>
+    <description>Units: mV
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14421,10 +14319,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_DDR3_VDDR_SLOPE</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
 </attribute>
 
 <attribute>
@@ -14438,10 +14332,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_DDR3_VDDR_INTERCEPT</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
 </attribute>
 
 <attribute>
@@ -14456,10 +14346,49 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MRW_DDR3_VDDR_MAX_LIMIT</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>MSS_VOLT_DDR3_VDDR_SLOPE_POST_DRAM_INIT</id>
+    <description>Units: 1/Amps
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>MSS_VOLT_DDR3_VDDR_INTERCEPT_POST_DRAM_INIT</id>
+    <description>Units: mV
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>MRW_DDR3_VDDR_MAX_LIMIT_POST_DRAM_INIT</id>
+    <description>Maximum voltage limit for the dynamic VID DDR3 VDDR
+        voltage setpoint. In mV.
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14473,10 +14402,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_DDR4_VDDR_SLOPE</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
 </attribute>
 
 <attribute>
@@ -14490,10 +14415,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MSS_DDR4_VDDR_INTERCEPT</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
 </attribute>
 
 <attribute>
@@ -14508,10 +14429,49 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hwpfToHbAttrMap>
-        <id>ATTR_MRW_DDR4_VDDR_MAX_LIMIT</id>
-        <macro>DIRECT</macro>
-    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>MSS_VOLT_DDR4_VDDR_SLOPE_POST_DRAM_INIT</id>
+    <description>Units: 1/Amps
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>MSS_VOLT_DDR4_VDDR_INTERCEPT_POST_DRAM_INIT</id>
+    <description>Units: mV
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+    <id>MRW_DDR4_VDDR_MAX_LIMIT_POST_DRAM_INIT</id>
+    <description>Maximum voltage limit for the dynamic VID DDR4 VDDR voltage
+        setpoint. In mV.
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
 </attribute>
 
 <attribute>
@@ -14533,6 +14493,26 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     <writeable/>
     <hwpfToHbAttrMap>
         <id>ATTR_MSS_VOLT_OVERRIDE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>MSS_VOLT_COMPLIANT_DIMMS</id>
+    <description>
+        Compliant Voltages. Created to call out non-compliant dimms
+        if they exist in the system.
+    </description>
+    <simpleType>
+        <uint8_t>
+            <default>0</default>
+        </uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_MSS_VOLT_COMPLIANT_DIMMS</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
 </attribute>
@@ -14802,22 +14782,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
         <id>ATTR_ISDIMM_POWER_CURVE_ALGORITHM_VERSION</id>
         <macro>DIRECT</macro>
     </hwpfToHbAttrMap>
-</attribute>
-
-<attribute>
-    <id>IOP_LANES_PER_PROC</id>
-    <description>Number of PCIE lanes per processor
-        Creator: Targeting definition
-        Purpose: Determines which IOP configuration table is used to build the
-            PE lane config value and PHB active masks for the HWPs
-        Data format: value of 24 or 32 (lanes per processor)
-    </description>
-    <simpleType>
-        <uint8_t>
-        </uint8_t>
-    </simpleType>
-    <persistency>non-volatile</persistency>
-    <readable/>
 </attribute>
 
 <attribute>
@@ -15155,7 +15119,6 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15170,6 +15133,60 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     <persistency>volatile-zeroed</persistency>
     <readable/>
     <writeable/>
+</attribute>
+<enumerationType>
+    <id>SUPPORTED_HOT_PLUG</id>
+    <description>
+        Enumeration indication which Hot Plug Controllers are supported by
+        the current system.
+    </description>
+    <enumerator>
+        <name>NA</name>
+        <value>0</value>
+    </enumerator>
+    <enumerator>
+        <name>MAX5961</name>
+        <value>0x01</value>
+    </enumerator>
+    <enumerator>
+        <name>PCA9551</name>
+        <value>0x02</value>
+    </enumerator>
+    <default>NA</default>
+</enumerationType>
+
+<attribute>
+    <id>HOT_PLUG_POWER_CONTROLLER_INFO</id>
+    <description>Hot Plug Controller values for a specific processor.
+        Purpose: Holds information about the hot plug controllers so that a
+            Hardware procedure is able to turn them on and off.
+        Data Format: up to 8 Hot Plug Controllers x 7 variables of information
+            This data is at the processor level.
+            The needed information and their individual sizes are as follows:
+            (1) I2C Master processor engine (uint8_t)
+            (2) I2C Master processor port (uint8_t)
+            (3) Bus Speed (uint16_t value: 2 uint8_t values: MSB, LSB)
+            (4) Slave address (uint8_t)
+            (5) Device type (uint8_t: see SUPPORTED_HOT_PLUG enum)
+            (6) I2C Master processor node (uint8_t)
+            (7) I2C Master processor position (uint8_t)
+            Thus, the information will be 8 bytes.
+    </description>
+    <simpleType>
+        <uint8_t>
+            <default>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+            </default>
+        </uint8_t>
+        <array>8,8</array>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_HOT_PLUG_POWER_CONTROLLER_INFO</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
 </attribute>
 
 <attribute>
@@ -15219,6 +15236,64 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </hwpfToHbAttrMap>
 </attribute>
 
+<attribute>
+  <id>PROC_PCIE_NUM_PHB</id>
+  <description>
+      creator: platform
+        Number of PCIe PHB units present on target
+        Murano/Venice: 3
+        Naples: 4
+  </description>
+  <simpleType>
+      <uint8_t></uint8_t>
+  </simpleType>
+  <persistency>non-volatile</persistency>
+  <readable/>
+  <hwpfToHbAttrMap>
+      <id>ATTR_PROC_PCIE_NUM_PHB</id>
+      <macro>DIRECT</macro>
+  </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+  <id>PROC_PCIE_NUM_IOP</id>
+  <description>
+      creator: platform
+        Number of PCIe IOP units present on target
+        Murano/Venice: 2
+        Naples: 3
+  </description>
+  <simpleType>
+      <uint8_t></uint8_t>
+  </simpleType>
+  <persistency>non-volatile</persistency>
+  <readable/>
+  <hwpfToHbAttrMap>
+      <id>ATTR_PROC_PCIE_NUM_IOP</id>
+      <macro>DIRECT</macro>
+  </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+  <id>PROC_PCIE_NUM_LANES</id>
+  <description>
+      creator: platform
+        Number of PCIe I/O lanes supported by target
+        Murano: 24
+        Venice: 32
+        Naples: 40
+  </description>
+  <simpleType>
+      <uint8_t></uint8_t>
+  </simpleType>
+  <persistency>non-volatile</persistency>
+  <readable/>
+  <hwpfToHbAttrMap>
+      <id>ATTR_PROC_PCIE_NUM_LANES</id>
+      <macro>DIRECT</macro>
+  </hwpfToHbAttrMap>
+</attribute>
+
 <!-- === Manufacturing threshold Attributes of PRD === -->
 
 <attribute>
@@ -15230,11 +15305,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>1</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15246,11 +15321,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>1</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15262,11 +15337,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>3</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15278,11 +15353,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>1</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15294,11 +15369,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>6</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15310,11 +15385,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>6</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15326,11 +15401,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>7</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15342,11 +15417,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>7</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15358,11 +15433,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>0</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15374,11 +15449,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>0</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15390,11 +15465,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>0</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15406,11 +15481,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>0</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15422,11 +15497,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>2</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15438,11 +15513,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>2</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15454,11 +15529,11 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>2</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
 <attribute>
@@ -15469,40 +15544,268 @@ firmware notes: Platforms should initialize this attribute to AUTO (0)</descript
     </description>
     <simpleType>
       <uint8_t>
+        <default>2</default>
       </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <serverwizHide/>
 </attribute>
 
-<!-- === Manufacturing threshold Attributes of PRD === -->
 <attribute>
-    <id>OPAL_MODEL</id>
+    <id>RESOURCE_IS_CRITICAL</id>
     <description>
-        Specifies the compatible model name for Opal to key off of.
-        This is sourced from the MRW and should be of the format
-        'vendor,model', e.g. 'tyan,palmetto'.
+        Used to tell if a resource is critical to perform an IPL. If this
+        attribute is set to 1 and the target is deconfigured, the IPL MUST
+        terminate.
     </description>
     <simpleType>
-        <string>
-            <default>tyan,palmetto</default><!-- @fixme-RTC:120092 -->
-            <sizeInclNull>32</sizeInclNull>
-        </string>
+        <uint8_t>
+            <default>0</default>
+        </uint8_t>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
 </attribute>
+
+
 <attribute>
-    <id>ENTITY_ID</id>
-    <description></description>
+    <id>BRAZOS_RX_FIFO_OVERRIDE</id>
+    <description>
+      Defines where to apply Brazos rx_fifo_final_l2u_dly override settings for SW299500.
+    </description>
+    <simpleType>
+      <uint8_t>
+        <default>0</default>
+      </uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_BRAZOS_RX_FIFO_OVERRIDE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<!-- === Manufacturing threshold Attributes of PRD === -->
+
+<attribute>
+    <id>MSS_VMEM_REGULATOR_MAX_DIMM_COUNT</id>
+    <description>Maximum number of installed DIMMs per VMEM regulator for all
+    VMEM regulators in the system.
+    </description>
+    <simpleType>
+        <uint8_t>
+            <default>0</default>
+        </uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_MSS_VMEM_REGULATOR_MAX_DIMM_COUNT</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>MRW_VMEM_REGULATOR_POWER_LIMIT_PER_DIMM_ADJ_ENABLE</id>
+    <description>Machine Readable Workbook enablement of the HWP code to adjust 
+    the VMEM regulator power limit based on number of installed DIMMs.
+    </description>
+    <simpleType>
+        <uint8_t>
+            <default>0</default>
+        </uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_MRW_VMEM_REGULATOR_POWER_LIMIT_PER_DIMM_ADJ_ENABLE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>MRW_MAX_NUMBER_DIMMS_POSSIBLE_PER_VMEM_REGULATOR</id>
+    <description>Machine Readable Workbook value for the maximum possible number
+    of dimms that can be installed under any of the VMEM regulators.
+    </description>
+    <simpleType>
+        <uint8_t>
+            <default>0</default>
+        </uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_MRW_MAX_NUMBER_DIMMS_POSSIBLE_PER_VMEM_REGULATOR</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>MRW_VMEM_REGULATOR_MEMORY_POWER_LIMIT_PER_DIMM</id>
+    <description>Machine Readable Workbook VMEM regulator power limit per CDIMM 
+    assuming a full configuration. Units in cW.
+    </description>
+    <simpleType>
+        <uint32_t>
+            <default>0</default>
+        </uint32_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_MRW_VMEM_REGULATOR_MEMORY_POWER_LIMIT_PER_DIMM</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<enumerationType>
+    <id>MRW_NEST_CAPABLE_FREQUENCIES_SYS</id>
+    <description>Enumeration of MRW_NEST_CAPABLE_FREQUENCIES_SYS</description>
+    <enumerator>
+        <name>UNSUPPORTED_FREQ</name>
+        <value>0</value>
+    </enumerator>
+    <enumerator>
+        <name>2000_MHZ</name>
+        <value>1</value>
+    </enumerator>
+    <enumerator>
+        <name>2400_MHZ</name>
+        <value>2</value>
+    </enumerator>
+    <enumerator>
+        <name>2000_MHZ_OR_2400_MHZ</name>
+        <value>3</value>
+    </enumerator>
+</enumerationType>
+
+<attribute>
+    <id>MRW_NEST_CAPABLE_FREQUENCIES_SYS</id>
+    <description>The NEST frequencies that the system can support.  This is a bit-wise value that represents which of the possible nest frequencies are supported : 2.0GHz, 2.4GHz, or both.
+    </description>
     <simpleType>
         <enumeration>
-            <id>ENTITY_ID</id>
+            <id>MRW_NEST_CAPABLE_FREQUENCIES_SYS</id>
+            <default>UNSUPPORTED_FREQ</default>
         </enumeration>
     </simpleType>
     <persistency>non-volatile</persistency>
     <readable/>
-    <hasStringConversion/>
 </attribute>
+
+<attribute>
+    <id>WOF_ENABLED</id>
+    <description>
+        Defines if the Workload Optimization Frequency (WOF) system feature
+        where OCC algorithms will change (typically boost) the operational 
+        frequency based on measured power available and any currently idling 
+        cores.        
+    </description>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_WOF_ENABLED</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>TRUSTED_SLAVE_SCAN_PATH_ACTIVE</id>
+    <description>
+        Set to indicate state of master->slave scan path.
+        Platform should default to false at beginning of IPL, and set to
+        true once trusted XSCOM path is active to all slave chips in drawer
+    </description>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_TRUSTED_SLAVE_SCAN_PATH_ACTIVE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>FORCE_SKIP_SBE_MASTER_INTR_SERVICE</id>
+    <description>
+        Set to force skip of SBE interrupt service for master chip.
+        Default is to disable the use of the SBE interrupt service.
+    </description>
+    <simpleType>
+        <uint8_t>
+        <default>1</default>
+        </uint8_t>
+    </simpleType>
+    <persistency>volatile</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_FORCE_SKIP_SBE_MASTER_INTR_SERVICE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>FORCE_USE_SBE_SLAVE_SCAN_SERVICE</id>
+    <description>
+        Set to force use of SBE scan service for slave chips.
+        Default is to enable the use of the SBE scan service
+        only for slave chips with security enabled.
+    </description>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_FORCE_USE_SBE_SLAVE_SCAN_SERVICE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>SBE_MASTER_INTR_SERVICE_DELAY_CYCLES</id>
+    <description>
+        Cycle delay of SBE master interrupt service loop wait statement.
+        Paces rate of decrementer progress and prevents SBE from consuming PIB.
+    </description>
+    <simpleType>
+        <uint32_t></uint32_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_SBE_MASTER_INTR_SERVICE_DELAY_CYCLES</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>SBE_MASTER_INTR_SERVICE_DELAY_US</id>
+    <description>
+        Execution delay (in microseconds) of SBE master interrupt service loop.
+    </description>
+    <simpleType>
+        <uint32_t></uint32_t>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_SBE_MASTER_INTR_SERVICE_DELAY_US</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
 </attributes>
