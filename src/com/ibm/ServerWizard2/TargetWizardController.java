@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -214,7 +215,7 @@ public class TargetWizardController implements PropertyChangeListener {
 	public Field getGlobalSetting(String path,String attribute) {
 		return model.getGlobalSetting(path, attribute);
 	}
-	public HashMap<String,Field> getGlobalSettings(String path) {
+	public TreeMap<String,Field> getGlobalSettings(String path) {
 		return model.getGlobalSettings(path);
 	}
 	public Vector<Target> getChildTargets(Target target) {

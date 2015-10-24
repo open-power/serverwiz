@@ -38,7 +38,7 @@ public class SystemModel {
 	public HashMap<String, Vector<Target>> childTargetTypes = new HashMap<String, Vector<Target>>();
 
 	// From attribute types
-	public HashMap<String, Enumerator> enumerations = new HashMap<String, Enumerator>();
+	public TreeMap<String, Enumerator> enumerations = new TreeMap<String, Enumerator>();
 	public HashMap<String, Attribute> attributes = new HashMap<String, Attribute>();
 
 	// List of targets in current system
@@ -48,7 +48,7 @@ public class SystemModel {
 	private Vector<Target> busTypes = new Vector<Target>();
 	private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
-	private HashMap<String, HashMap<String, Field>> globalSettings = new HashMap<String, HashMap<String, Field>>();
+	private TreeMap<String, TreeMap<String, Field>> globalSettings = new TreeMap<String, TreeMap<String, Field>>();
 
 	public String logData;
 
@@ -358,9 +358,9 @@ public class SystemModel {
 	}
 
 	public Field setGlobalSetting(String path, String attribute, String value) {
-		HashMap<String, Field> s = globalSettings.get(path);
+		TreeMap<String, Field> s = globalSettings.get(path);
 		if (s == null) {
-			s = new HashMap<String, Field>();
+			s = new TreeMap<String, Field>();
 			globalSettings.put(path, s);
 		}
 		Field f = s.get(attribute);
@@ -374,7 +374,7 @@ public class SystemModel {
 	}
 
 	public Boolean isGlobalSetting(String path, String attribute) {
-		HashMap<String, Field> s = globalSettings.get(path);
+		TreeMap<String, Field> s = globalSettings.get(path);
 		if (s == null) {
 			return false;
 		}
@@ -386,7 +386,7 @@ public class SystemModel {
 	}
 
 	public Field getGlobalSetting(String path, String attribute) {
-		HashMap<String, Field> s = globalSettings.get(path);
+		TreeMap<String, Field> s = globalSettings.get(path);
 		if (s == null) {
 			Field f=this.setGlobalSetting(path, attribute, "");
 			return f;
@@ -398,13 +398,13 @@ public class SystemModel {
 		return f;
 	}
 
-	public HashMap<String, Field> getGlobalSettings(String path) {
-		HashMap<String, Field> s = globalSettings.get(path);
+	public TreeMap<String, Field> getGlobalSettings(String path) {
+		TreeMap<String, Field> s = globalSettings.get(path);
 		return s;
 	}
 
 	public void writeGlobalSettings(Writer out) throws Exception {
-		for (Map.Entry<String, HashMap<String, Field>> entry : this.globalSettings.entrySet()) {
+		for (Map.Entry<String, TreeMap<String, Field>> entry : this.globalSettings.entrySet()) {
 			out.write("<globalSetting>\n");
 			out.write("\t<id>" + entry.getKey() + "</id>\n");
 			for (Map.Entry<String, Field> setting : entry.getValue().entrySet()) {

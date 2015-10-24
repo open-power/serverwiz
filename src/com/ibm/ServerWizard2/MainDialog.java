@@ -2,6 +2,7 @@ package com.ibm.ServerWizard2;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -752,7 +753,7 @@ public class MainDialog extends Dialog {
 				if (attribute.isGlobal()) {
 					if (ep !=null) {
 						String path="/"+ep.getName();
-						HashMap<String,Field> settings = controller.getGlobalSettings(path);
+						TreeMap<String,Field> settings = controller.getGlobalSettings(path);
 						if (settings == null) {
 							controller.setGlobalSetting(path, attribute.name, "");
 							controller.setGlobalSetting(path, "INSTANCE_ID", ep.getTargetName());
