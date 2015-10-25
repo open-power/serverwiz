@@ -425,26 +425,6 @@ public class MainDialog extends Dialog {
 		btnSaveAs.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnSaveAs.setEnabled(true);
 
-		Button btnImportSDR = createButton(parent, IDialogConstants.NO_ID, "Import SDR", false);
-		btnImportSDR.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Button b = (Button) e.getSource();
-				FileDialog fdlg = new FileDialog(b.getShell(), SWT.OPEN);
-				String ext[] = { "*.xml" };
-				fdlg.setFilterExtensions(ext);
-				String filename = fdlg.open();
-				if (filename == null) {
-					return;
-				}
-				controller.importSDR(filename);
-				setDirtyState(true);
-			}
-		});
-
-		btnImportSDR.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		btnImportSDR.setEnabled(true);
-
 		btnRunChecks = createButton(parent, IDialogConstants.NO_ID, "Run Checks", false);
 		btnRunChecks.addSelectionListener(new SelectionAdapter() {
 			@Override

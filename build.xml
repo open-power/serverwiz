@@ -2,6 +2,7 @@
 <project>
 	<property name="one-jar.dist.dir" value="c:/one-jar-ant"/>
 	<property name="plugin.dir" value="C:\eclipse\plugins"/>
+	<property name="hbxml.dir" value="C:\Users\IBM_ADMIN\git\hostboot\src\usr\targeting\common\xmltohb"/>
 	<import file="${one-jar.dist.dir}/one-jar-ant-task.xml" optional="true" />
     <path id="classpath">
         <fileset dir="lib" includes="**/*.jar"/>
@@ -68,8 +69,8 @@
 	        	</lib>
 	        </one-jar>
 	    	<zip destfile="build/serverwiz2_lib.zip">
-	    	    <zipfileset dir="xml/" includes="attribute_types.xml" fullpath="xml/attribute_types.xml"/>
-	    		<zipfileset dir="xml/" includes="attribute_types_hb.xml" fullpath="xml/attribute_types_hb.xml"/>
+	    	    <zipfileset dir="${hbxml.dir}/" includes="attribute_types.xml" fullpath="xml/attribute_types.xml"/>
+	    		<zipfileset dir="${hbxml.dir}/" includes="attribute_types_hb.xml" fullpath="xml/attribute_types_hb.xml"/>
 	    		<zipfileset dir="xml/" includes="attribute_types_mrw.xml" fullpath="xml/attribute_types_mrw.xml"/>
 	    		<zipfileset dir="xml/" includes="target_types_mrw.xml" fullpath="xml/target_types_mrw.xml"/>
 	    		<zipfileset dir="xml/" includes="target_instances_v3.xml" fullpath="xml/target_instances_v3.xml"/>

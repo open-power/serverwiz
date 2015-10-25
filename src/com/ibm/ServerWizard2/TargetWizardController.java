@@ -60,55 +60,6 @@ public class TargetWizardController implements PropertyChangeListener {
 		//model.addTarget(null, sys);
 	}
 
-	public void importSDR(String filename) {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-		Vector<SdrRecord> sdrs = new Vector<SdrRecord>();
-		HashMap<Integer,HashMap<Integer,Vector<SdrRecord>>> sdrLookup = new HashMap<Integer,HashMap<Integer,Vector<SdrRecord>>>();
-
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			builder.setErrorHandler(new XmlHandler());
-
-			Document document = builder.parse(filename);
-
-			NodeList deviceList = document
-					.getElementsByTagName("device");
-
-			model.logData="Importing SDR's...\n";
-			for (int i = 0; i < deviceList.getLength(); ++i) {
-				Element deviceElement = (Element) deviceList.item(i);
-				SdrRecord s = new SdrRecord();
-				s.readXML(deviceElement);
-
-				HashMap<Integer,Vector<SdrRecord>> idLookup = sdrLookup.get(s.getEntityId());
-				if (idLookup==null) {
-					idLookup = new HashMap<Integer,Vector<SdrRecord>>();
-					sdrLookup.put(s.getEntityId(), idLookup);
-				}
-				Vector<SdrRecord> sdrRecords = idLookup.get(s.getEntityInstance());
-				if (sdrRecords==null) {
-					sdrRecords = new Vector<SdrRecord>();
-					idLookup.put(s.getEntityInstance(), sdrRecords);
-				}
-				sdrRecords.add(s);
-				sdrs.add(s);
-				model.logData=model.logData+s.toString()+"\n";
-			}
-			HashMap<String,Integer> instCheck = new HashMap<String,Integer>();
-			model.logData=model.logData+"Matching SDR's to targets...\n";
-			model.importSdr2(null,sdrLookup,instCheck,"");
-			LogViewerDialog dlg = new LogViewerDialog(null);
-			ServerWizard2.LOGGER.info(model.logData);
-			dlg.setData(model.logData);
-			dlg.open();
-		} catch (Exception e) {
-			MessageDialog.openError(null, "SDR Import Error", e.getMessage());
-			ServerWizard2.LOGGER.info(model.logData);
-			e.printStackTrace();
-		}
-	}
-
 	public Target getTargetModel(String type) {
 		return model.getTargetModel(type);
 	}
