@@ -65,8 +65,11 @@ public class Launcher {
 		}
 		LOGGER.config("======================================================================");
 		LOGGER.config("Retreiving ServerWiz...");
-
+		
+		boolean isMac = false;
+		if (getOSName() == "macosx") { isMac = true; }
 		String jarName = getArchFilename("serverwiz2");
+		
 		LOGGER.info("JarName = "+jarName);
 		GithubFile jar = new GithubFile(REPOSITORY,version,jarName,"jars",true,LOGGER);
 		GithubFile zip = new GithubFile(REPOSITORY,version,ZIP_NAME,"jars",true,LOGGER);
@@ -134,6 +137,9 @@ public class Launcher {
 
 		for (String arg : args) {
 			commandLine.add(arg);
+		}
+		if (isMac) {
+			commandLine.add("-XstartOnFirstThread");
 		}
 		if (updated) {
 			commandLine.add("-v");
@@ -207,6 +213,9 @@ public class Launcher {
 	   } else if (osNameProperty.contains("linux") || osNameProperty.contains("nix"))
 	   {
 	       return "linux";
+	   } else if (osNameProperty.contains("mac"))
+	   {
+	       return "macosx";
 	   } else {
 	       throw new RuntimeException("Unknown OS name: " + osNameProperty);
 	   }
