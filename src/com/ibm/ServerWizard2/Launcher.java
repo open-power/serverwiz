@@ -132,14 +132,14 @@ public class Launcher {
 		}
 		Vector<String> commandLine = new Vector<String>();
 		commandLine.add("java");
+		if (isMac) {
+			commandLine.add("-XstartOnFirstThread");
+		}
 		commandLine.add("-jar");
 		commandLine.add(jar.getLocalPath());
 
 		for (String arg : args) {
 			commandLine.add(arg);
-		}
-		if (isMac) {
-			commandLine.add("-XstartOnFirstThread");
 		}
 		if (updated) {
 			commandLine.add("-v");
