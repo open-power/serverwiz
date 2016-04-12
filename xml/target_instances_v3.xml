@@ -905,7 +905,7 @@
 		<child_id>p8p_ex-14</child_id>
 		<child_id>p8p_pore-0</child_id>
 		<child_id>p8p_capp-0</child_id>
-                <child_id>p8p_capp-1</child_id>
+		<child_id>p8p_capp-1</child_id>
 		<child_id>p8p_nx-0</child_id>
 		<child_id>p8p_occ-0</child_id>
 		<child_id>p8p_pci_configs</child_id>
@@ -1080,6 +1080,17 @@
 			<default>0</default>
 		</attribute>
 	</targetInstance>
+
+	<targetInstance>
+		<type>occ</type>
+		<id>p8p_occ-0</id>
+		<hidden_child_id>occ_active_sensor</hidden_child_id>
+		<attribute>
+			<id>CHIP_UNIT</id>
+			<default>0</default>
+		</attribute>
+	</targetInstance>
+
 
 	<!-- PCIe instances -->
 	<targetInstance>
