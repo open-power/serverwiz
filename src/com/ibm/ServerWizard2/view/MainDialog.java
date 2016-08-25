@@ -167,12 +167,28 @@ public class MainDialog extends Dialog {
 		
 		buttonRow1 = new Composite(container, SWT.NONE);
 		GridData gd_buttonRow1 = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
-		gd_buttonRow1.widthHint = 751;
+		gd_buttonRow1.widthHint = 789;
 		buttonRow1.setLayoutData(gd_buttonRow1);
 		GridLayout rl_buttonRow1 = new GridLayout(18, false);
 		buttonRow1.setLayout(rl_buttonRow1);
 
 		this.createButtonsForButtonBar2(buttonRow1);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
 
 		
 		sashForm = new SashForm(sashForm_1, SWT.NONE);
@@ -479,12 +495,12 @@ public class MainDialog extends Dialog {
 		label = new Label(buttonRow1, SWT.SEPARATOR | SWT.VERTICAL);
 		GridData gd_sep = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_sep.heightHint = 30;
-		gd_sep.widthHint = 50;
+		gd_sep.widthHint = 30;
 		label.setLayoutData(gd_sep);
 
 		btnOpenLib = createButton(row1, IDialogConstants.NO_ID, "Open Lib", false);
 		GridData gd_btnOpenLib = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnOpenLib.widthHint = 74;
+		gd_btnOpenLib.widthHint = 90;
 
 		btnOpenLib.setLayoutData(gd_btnOpenLib);
 		btnOpenLib.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
@@ -506,7 +522,7 @@ public class MainDialog extends Dialog {
 		
 		btnRunChecks = createButton(row1, IDialogConstants.NO_ID, "Export HTML", false);
 		GridData gd_btnRunChecks = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnRunChecks.widthHint = 80;
+		gd_btnRunChecks.widthHint = 90;
 		btnRunChecks.setLayoutData(gd_btnRunChecks);
 		btnRunChecks.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -523,7 +539,7 @@ public class MainDialog extends Dialog {
 
 		Button btnForceUpdate = createButton(row1, IDialogConstants.NO_ID, "Force Update", false);
 		GridData gd_btnForceUpdate = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnForceUpdate.widthHint = 80;
+		gd_btnForceUpdate.widthHint = 90;
 		btnForceUpdate.setLayoutData(gd_btnForceUpdate);
 		btnForceUpdate.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnForceUpdate.addSelectionListener(new SelectionAdapter() {
@@ -536,7 +552,7 @@ public class MainDialog extends Dialog {
 		label_1 = new Label(buttonRow1, SWT.SEPARATOR | SWT.VERTICAL);
 		GridData gd_sep2 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_sep2.heightHint = 30;
-		gd_sep2.widthHint = 50;
+		gd_sep2.widthHint = 30;
 		label_1.setLayoutData(gd_sep2);
 
 		Button btnExit = createButton(row1, IDialogConstants.CLOSE_ID, "Exit", false);
