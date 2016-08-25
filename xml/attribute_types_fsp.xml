@@ -1,0 +1,575 @@
+
+<!-- attribute defining the required system policy for a fsp based system -->
+
+<attributes>
+
+<attribute>
+	<id>IM_ID</id>
+	<description>
+		Used to indicate a certain target is valid only
+		for a certain IM ID.
+	</description>
+    <simpleType>
+        <string></string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+	<id>IM_VALUE</id>
+	<description>
+		Used to indicate the IM keyword value
+	</description>
+    <simpleType>
+        <string></string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+	<id>PART_NUMBER</id>
+	<description>
+		Used to indicate the part number information
+	</description>
+    <simpleType>
+        <string></string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<enumerationType>
+    <id>SYS_POLICY_NAME</id>
+    <description>An enumeration of all system policies</description>
+    <enumerator>
+        <name>all_mcs_in_interleaving_groups</name>
+        <value>0</value>
+    </enumerator>
+    <enumerator>
+        <name>mss_interleave_enables</name>
+        <value>1</value>
+    </enumerator>
+    <enumerator>
+        <name>power-def-filenames</name>
+        <value>2</value>
+    </enumerator>
+    <enumerator>
+        <name>powr-vrm-xml-filenames</name>
+        <value>3</value>
+    </enumerator>
+    <default></default>
+</enumerationType>
+
+<attribute>
+	<id>SYS_POLICY_NAME</id>
+	<description>
+		The name of the system policy
+	</description>
+    <simpleType>
+        <enumeration>
+            <id>SYS_POLICY_NAME</id>
+        </enumeration>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+</attribute>
+
+<attribute>
+	<id>SYS_POLICY_VALUE</id>
+	<description>
+		The value of the system policy
+	</description>
+    <simpleType>
+        <string></string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<enumerationType>
+    <id>CARD_USE</id>
+    <description>An enumeration of all possible places where a card can be used</description>
+    <enumerator>
+        <name>FIELD</name>
+        <value>0</value>
+    </enumerator>
+    <enumerator>
+        <name>LAB_ONLY</name>
+        <value>1</value>
+    </enumerator>
+    <default>FIELD</default>
+</enumerationType>
+
+<attribute>
+    <id>CARD_USE</id>
+    <description>
+        Where is the card used? field/lab-only
+    </description>
+    <simpleType>
+        <enumeration>
+            <id>CARD_USE</id>
+        </enumeration>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<enumerationType>
+    <id>RU_TYPE</id>
+    <description>An enumeration of all possible places where a card can be replaced</description>
+    <enumerator>
+        <name>FRU</name>
+        <value>0</value>
+    </enumerator>
+    <enumerator>
+        <name>CRU</name>
+        <value>1</value>
+    </enumerator>
+    <enumerator>
+        <name>MRU</name>
+        <value>2</value>
+    </enumerator>
+    <default>FRU</default>
+</enumerationType>
+
+<attribute>
+    <id>RU_TYPE</id>
+    <description>
+        Where can the card replaced? field/client/manufacturing
+    </description>
+    <simpleType>
+        <enumeration>
+            <id>RU_TYPE</id>
+        </enumeration>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<enumerationType>
+    <id>SUPPORTED_MTMS</id>
+    <description>An enumeration of all possible MTMs supporting a given CCIN</description>
+    <enumerator>
+        <name>9040-MR9</name>
+        <value>0</value>
+    </enumerator>
+    <enumerator>
+        <name>ALL</name>
+        <value>1</value>
+    </enumerator>
+    <default>ALL</default>
+</enumerationType>
+
+<attribute>
+    <id>SUPPORTED_MTMS</id>
+    <description>
+        MTMs where this CCIN will be supported. A comma separated list of MTMs.
+    </description>
+    <simpleType>
+        <enumeration>
+            <id>SUPPORTED_MTMS</id>
+        </enumeration>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>CORES</id>
+    <description>
+        The number of cores - for modules only
+    </description>
+    <simpleType>
+        <uint8_t/>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>FREQUENCY</id>
+    <description>
+        The core frequency - for modules only
+    </description>
+    <simpleType>
+        <string></string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>MTM_NAME</id>
+    <description>
+        System MTM
+    </description>
+    <simpleType>
+        <string></string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>IM_ID</id>
+    <description>
+        IM Keyword
+    </description>
+    <simpleType>
+        <string></string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>REDUNDANT_FSPS</id>
+    <description>
+        1 = System has redundant FSPs
+        0 = System does not have redundant FSPs
+        From the Machine Readable Workbook
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_REDUNDANT_FSP</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>AVERAGE_IPL_TIME</id>
+    <description>
+        The average amount of time it may take for this enclosure to IPL in minutes.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>LED_STRATEGY</id>
+    <description>
+        The LED service strategy.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <string>
+            <default>lightpath</default>
+        </string>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+	<id>power-def-filenames</id>
+	<description>Names of the system power management def files</description>
+	<group>SYS_POLICIES</group>
+	<simpleType>
+		<string>
+			<default></default>
+		</string>
+	</simpleType>
+	<persistency>non-volatile</persistency>
+	<readable/>
+</attribute>
+
+<attribute>
+	<id>powr-vrm-xml-filenames</id>
+	<description>Name of the powr VRM xml file</description>
+	<group>SYS_POLICIES</group>
+	<simpleType>
+		<string>
+			<default></default>
+		</string>
+	</simpleType>
+	<persistency>non-volatile</persistency>
+	<readable/>
+</attribute>
+
+<attribute>
+    <id>LED_ON_DEFAULT_GPIO_VALUE</id>
+    <description>
+        The LED on-value for the GPIO-controlled LEDs in the platform:
+                1 means "VLED will set the GPIO pin value to '1' causing the LED to turn on."
+                0 means "VLED will set the GPIO pin value to '0' causing the LED to turn on."
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t><default></default></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>MRW_MEM_MIRRORING_ALLOWED</id>
+    <description>
+        Is memory mirroring allowed on this platform?
+        0 - No
+        1 - Yes
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t><default></default></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>MRW_MEM_MIRRORING_ENABLE_DEFAULT</id>
+    <description>
+        By default, is memory mirroring enabled on this platform?
+        0 - No
+        1 - Yes
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t><default></default></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>MRW_MEM_POWER_CONTROL_USAGE</id>
+    <description>
+        Determines if any power controls should be used by memory on this
+        platform.  This is a system-wide policy setting that is used when
+        configuring the memory.  Note that individual DIMMs will also know if
+        they are capable of doing any of this so the eventual answer is
+        combination of the requested value specified here and the capable
+        value from the VPD.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t>
+            <default>0x00</default>
+        </uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_MRW_MEM_POWER_CONTROL_USAGE</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>OCC_LOAD_TIMEOUT</id>
+    <description>
+        The maximum amount of time it should take for all OCCs in the system to be loaded and started in seconds.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>OCC_RESET_TIMEOUT</id>
+    <description>
+        The maximum amount of time it should take for all OCCs to be reset in seconds.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>FREQ_PB_HFT</id>
+    <description>
+        System attribute.
+        The frequency of a processor's PB chiplet in MHz.
+        Provided by the MRW.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType><uint32_t></uint32_t></simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_FREQ_PB_HFT</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>FREQ_X_HFT</id>
+    <description>
+        System attribute.
+        The frequency of a processor's X bus in MHz.
+        Provided by the MRW.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType><uint32_t></uint32_t></simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_FREQ_X_HFT</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>FREQ_NEST_HFT</id>
+    <description>
+        System attribute.
+        The frequency of a processor's Nest chiplet in MHz.
+        Provided by the MRW.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType><uint32_t></uint32_t></simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+    <writeable/>
+    <hwpfToHbAttrMap>
+        <id>ATTR_FREQ_X_HFT</id>
+        <macro>DIRECT</macro>
+    </hwpfToHbAttrMap>
+</attribute>
+
+<attribute>
+    <id>PCIE_DEFAULT_HDDW_SLOT_COUNT</id>
+    <description>
+        The default HDDW slot count.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>PCIE_MIN_HDDW_SLOT_COUNT</id>
+    <description>
+        The minimum HDDW slot count.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>PCIE_MAX_HDDW_SLOT_COUNT</id>
+    <description>
+        The maximum HDDW slot count.
+    </description>
+    <group>SYS_POLICIES</group>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+<attribute>
+    <id>APPLY_PCIE_WORKAROUND</id>
+    <description>
+        Should the PCIE workaround fix be applied on this platform?
+                If "yes", use the pcie-workaround-perst-control-table element to determine
+                the device and pin to use.
+    </description>
+    <simpleType>
+        <uint8_t></uint8_t>
+    </simpleType>
+    <persistency>non-volatile</persistency>
+    <readable/>
+</attribute>
+
+
+
+
+<!-- Types of Location code -->
+<!--  RELATIVE : Location code attached to parent card location code  -->
+<!--  ABSOLUTE : Location code attached to system location code (Ufcs) -->
+<!--  ASSEMBLY : Location code is shared with another card(s) location code -->
+<enumerationType>
+    <id>LOCATION_CODE_TYPE</id>
+    <description>Type of Location code</description>
+    <enumerator>
+        <name>RELATIVE</name>
+        <value>0</value>
+    </enumerator>
+    <enumerator>
+        <name>ABSOLUTE</name>
+        <value>1</value>
+    </enumerator>
+    <enumerator>
+        <name>ASSEMBLY</name>
+        <value>2</value>
+    </enumerator>
+    <default>RELATIVE</default>
+</enumerationType>
+
+<!-- attribute defining the type of the Location code -->
+<attribute>
+    <id>LOCATION_CODE_TYPE</id>
+    <description>Type of the Location code</description>
+    <simpleType>
+        <enumeration>
+            <id>LOCATION_CODE_TYPE</id>
+        </enumeration>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable />
+    <writeable/>
+    <fspOnly/>
+</attribute>
+
+<!-- attribute defining the required system mtms for a fsp based system -->
+<attribute>
+    <id>SYSTEM_MTM</id>
+    <description>Describes a list of Machine Type Model</description>
+    <simpleType>
+        <string>
+            <default>NULL</default>
+            <sizeInclNull>9</sizeInclNull>
+        </string>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <fspOnly/>
+</attribute>
+
+<!-- attribute defining the required system CCINs for a fsp based system -->
+<attribute>
+    <id>CCIN</id>
+    <description>Defines CCINs</description>
+    <simpleType>
+        <string>
+            <default>NULL</default>
+            <sizeInclNull>4</sizeInclNull>
+        </string>
+    </simpleType>
+    <persistency>volatile-zeroed</persistency>
+    <readable/>
+    <writeable/>
+    <fspOnly/>
+</attribute>
+
+</attributes>

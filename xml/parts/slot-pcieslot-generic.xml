@@ -1,0 +1,13 @@
+<partInstance>
+  <targetPart>
+		<id>slot-pcieslot-generic</id>
+		<parent>slot-pcieslot</parent>
+		<parent_type>card-motherboard</parent_type>
+		<parent_type>card-daughtercard</parent_type>
+	    <instance_name>pciecard</instance_name>
+   		<is_root>true</is_root>
+        <position>0</position>
+        <type>slot-pcieslot-generic</type>
+  </targetPart>
+</partInstance>
+	

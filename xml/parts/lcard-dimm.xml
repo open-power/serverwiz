@@ -1,0 +1,27 @@
+<partInstance>
+  <targetPart>
+    <id>lcard-dimm</id>
+    <attribute>
+      <id>FRU_ID</id>
+      <default></default>
+    </attribute>
+    <attribute>
+      <id>FRU_NAME</id>
+    </attribute>
+    <attribute>
+      <id>IPMI_INSTANCE</id>
+    </attribute>
+    <attribute>
+      <id>POSITION</id>
+    </attribute>
+    <attribute>
+      <id>TYPE</id>
+      <default>DIMM</default>
+    </attribute>
+    <instance_name>lcard</instance_name>
+    <is_root>true</is_root>
+    <parent>card</parent>
+    <position>-1</position>
+    <type>lcard-dimm</type>
+  </targetPart>
+</partInstance>

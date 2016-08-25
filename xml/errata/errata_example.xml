@@ -1,0 +1,15 @@
+<erratas>
+<errata>
+	<errata_id>errata.date.id</errata_id>
+	<description>Issue with clocking</description>
+	<target_type>target_type</target_type>
+	<attribute>
+		<id>REDUNDANT_CLOCKS</id>
+		<default>1</default>
+	</attribute>
+	<attribute>
+		<id>TEST_MIN_STRING</id>
+		<default>false</default>
+	</attribute>
+</errata>
+</erratas>

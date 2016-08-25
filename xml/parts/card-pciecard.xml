@@ -1,0 +1,14 @@
+<partInstance>
+  <targetPart>
+    <id>card-pciecard</id>
+    <attribute>
+      <id>CLASS</id>
+      <default>CARD</default>
+    </attribute>
+    <instance_name>card</instance_name>
+    <is_root>true</is_root>
+    <parent>base</parent>
+    <position>-1</position>
+    <type>card-pciecard</type>
+  </targetPart>
+</partInstance>

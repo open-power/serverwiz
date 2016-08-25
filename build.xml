@@ -25,8 +25,8 @@
 	        	</main>
 	        	<lib>
 	        		<fileset file="lib/json-simple-1.1.1.jar"/>
-	        		<fileset file="${plugin.dir}/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
-	        		<fileset file="${plugin.dir}/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
+	        		<fileset file="lib/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
+	        		<fileset file="lib/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
 	        	</lib>
 	        </one-jar>
 	    	<one-jar destfile="build/serverwiz2_win64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
@@ -36,10 +36,7 @@
 	        	<lib>
 	        		<fileset file="lib/swt_win64.jar"/>
 	        		<fileset file="lib/json-simple-1.1.1.jar"/>
-	        		<fileset file="${plugin.dir}/org.eclipse.jface_3.10.2.v20141021-1035.jar"/>
-	        		<fileset file="${plugin.dir}/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
-	        		<fileset file="${plugin.dir}/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
-	        		<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
+	        		<fileset file="lib/org.eclipse*.jar"/>
 	        	</lib>
 	        </one-jar>
 		    <one-jar destfile="build/serverwiz2_linux64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
@@ -49,10 +46,7 @@
 		        	<lib>
 		        		<fileset file="lib/swt_linux64.jar"/>
 		        		<fileset file="lib/json-simple-1.1.1.jar"/>
-			        	<fileset file="${plugin.dir}/org.eclipse.jface_3.10.2.v20141021-1035.jar"/>
-			        	<fileset file="${plugin.dir}/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
-			        	<fileset file="${plugin.dir}/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
-			        	<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
+		        		<fileset file="lib/org.eclipse*.jar"/>
 		        	</lib>
 		    </one-jar>
 	        <one-jar destfile="build/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
@@ -62,10 +56,7 @@
 	        	<lib>
 	        		<fileset file="lib/swt_win32.jar"/>
 	        		<fileset file="lib/json-simple-1.1.1.jar"/>
-		        	<fileset file="${plugin.dir}/org.eclipse.jface_3.10.2.v20141021-1035.jar"/>
-		        	<fileset file="${plugin.dir}/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
-		        	<fileset file="${plugin.dir}/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
-		        	<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
+	        		<fileset file="lib/org.eclipse*.jar"/>
 	        	</lib>
 	        </one-jar>
 	        <one-jar destfile="build/serverwiz2_macosx64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
@@ -75,20 +66,11 @@
 	        	<lib>
 	        		<fileset file="lib/swt_macosx.jar"/>
 	        		<fileset file="lib/json-simple-1.1.1.jar"/>
-		        	<fileset file="${plugin.dir}/org.eclipse.jface_3.10.2.v20141021-1035.jar"/>
-		        	<fileset file="${plugin.dir}/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
-		        	<fileset file="${plugin.dir}/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
-		        	<fileset file="${plugin.dir}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
+	        		<fileset file="lib/org.eclipse*.jar"/>
 	        	</lib>
 	        </one-jar>
 	    	<zip destfile="build/serverwiz2_lib.zip">
-	    	    <zipfileset dir="${hbxml.dir}/" includes="attribute_types.xml" fullpath="xml/attribute_types.xml"/>
-	    		<zipfileset dir="${hbxml.dir}/" includes="attribute_types_hb.xml" fullpath="xml/attribute_types_hb.xml"/>
-	    		<zipfileset dir="xml/" includes="attribute_types_mrw.xml" fullpath="xml/attribute_types_mrw.xml"/>
-	    		<zipfileset dir="xml/" includes="target_types_mrw.xml" fullpath="xml/target_types_mrw.xml"/>
-	    		<zipfileset dir="xml/" includes="target_instances_v3.xml" fullpath="xml/target_instances_v3.xml"/>
-	    		<zipfileset dir="scripts/" includes="processMrw.pl" fullpath="scripts/processMrw.pl"/>
-	    		<zipfileset dir="scripts/" includes="Targets.pm" fullpath="scripts/Targets.pm"/>
+	    		<zipfileset dir="xml" prefix="xml"/>
 	    	</zip>
 	    </target>
 </project>

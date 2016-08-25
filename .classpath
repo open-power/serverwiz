@@ -2,11 +2,15 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/IBM_ADMIN/Documents/git/serverwiz/lib/swt_win64.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/eclipse/plugins/org.eclipse.jface_3.10.2.v20141021-1035.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/IBM_ADMIN/Documents/git/serverwiz/lib/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/eclipse/plugins/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
-	<classpathentry kind="lib" path="C:/eclipse/plugins/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
-	<classpathentry kind="lib" path="C:/eclipse/plugins/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/json-simple-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/swt_win64.jar"/>
+	<classpathentry kind="lib" path="lib/swt_linux32.jar"/>
+	<classpathentry kind="lib" path="lib/swt_linux64.jar"/>
+	<classpathentry kind="lib" path="lib/swt_win32.jar"/>
+	<classpathentry kind="lib" path="lib/swt_macosx.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.runtime-3.10.0-v20140318-2214.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common-3.6.200.v20130402-1505.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.10.2.v20141021-1035.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

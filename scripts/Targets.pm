@@ -45,7 +45,7 @@ sub new
         version      => "",
         errorsExist  => 0,
         NUM_PROCS    => 0,
-        TOP_LEVEL    => "sys-0",
+        TOP_LEVEL    => "sys",
         TOPOLOGY     => undef,
         report_log   => "",
         vpd_num      => 0,
@@ -87,8 +87,9 @@ sub loadXML
     print "Loading MRW XML: $filename\n";
     $self->{xml} =
       XMLin($filename,forcearray => [ 'child_id', 'hidden_child_id', 'bus',
-                                      'property' ]);
+                                      'property', 'field','attribute' ]);
     $self->storeEnumerations();
+    $self->storeGroups();
     $self->buildHierarchy($self->{TOP_LEVEL});
     $self->buildAffinity();
     $self->{report_filename}=$filename.".rpt";
@@ -232,15 +233,25 @@ sub storeEnumerations
 {
     my $self = shift;
 
-    foreach my $enumType (keys(%{ $self->{xml}->{enumerationType} }))
+    foreach my $enumType (keys(%{ $self->{xml}->{enumerationTypes}->{enumerationType} }))
     {
         foreach my $enum (
-            keys(%{$self->{xml}->{enumerationType}->{$enumType}->{enumerator}}))
+            keys(%{$self->{xml}->{enumerationTypes}->{enumerationType}->{$enumType}->{enumerator}}))
         {
             $self->{enumeration}->{$enumType}->{$enum} =
-              $self->{xml}->{enumerationType}->{$enumType}->{enumerator}
+              $self->{xml}->{enumerationTypes}->{enumerationType}->{$enumType}->{enumerator}
               ->{$enum}->{value};
         }
+    }
+}
+sub storeGroups
+{
+    my $self = shift;
+	foreach my $grp (keys(%{ $self->{xml}->{attributeGroups}->{attributeGroup} }))
+    {
+       	foreach my $attr (@{$self->{xml}->{attributeGroups}->{attributeGroup}->{$grp}->{'attribute'}}) {
+       		$self->{groups}->{$grp}->{$attr} = 1;
+       	}
     }
 }
 
@@ -278,13 +289,24 @@ sub buildHierarchy
     my $self   = shift;
     my $target = shift;
 
-    my $old_path        = $self->{data}->{INSTANCE_PATH};
-    my $target_xml      = $self->{xml}->{'targetInstance'}{$target};
-    my $affinity_target = $target;
-    my $key             = $self->{data}->{INSTANCE_PATH} . "/" . $target;
-
     my $instance_path = $self->{data}->{INSTANCE_PATH};
-    $instance_path = "instance:" . substr($instance_path, 1);
+    if (!defined $instance_path)
+    { 
+    	$instance_path = "";
+    }
+
+    my $old_path        = $instance_path;
+    my $target_xml      = $self->{xml}->{'targetInstances'}->{'targetInstance'}{$target};
+    my $affinity_target = $target;
+    my $key             = $instance_path . "/" . $target;
+	
+	if ($instance_path ne "") 
+	{
+    	$instance_path = "instance:" . substr($instance_path, 1);
+	} else
+	{
+		$instance_path = "instance:";
+	}
     $self->setAttribute($key, "INSTANCE_PATH", $instance_path);
     $self->{data}->{TARGETS}->{$key}->{TARGET} = $target_xml;
     $self->{data}->{INSTANCE_PATH} = $old_path . "/" . $target;
@@ -322,9 +344,9 @@ sub buildHierarchy
         }
     }
     ## global attributes overwrite local
-    foreach my $prop (keys %{$self->{xml}->{globalSetting}->{$key}->{property}})
+    foreach my $prop (keys %{$self->{xml}->{globalSettings}->{globalSetting}->{$key}->{property}})
     {
-        my $val=$self->{xml}->{globalSetting}->{$key}->{property}->
+        my $val=$self->{xml}->{globalSettings}->{globalSetting}->{$key}->{property}->
                        {$prop}->{value};
         $self->setAttribute($key, $prop, $val);
     }
@@ -413,8 +435,8 @@ sub buildAffinity
             $node = -1;
 
             $self->{targeting}{SYS}[0]{KEY} = $target;
-            $self->setAttribute($target, "AFFINITY_PATH", "affinity:sys-0");
-            $self->setAttribute($target, "PHYS_PATH",     "physical:sys-0");
+            $self->setAttribute($target, "AFFINITY_PATH", "affinity:sys");
+            $self->setAttribute($target, "PHYS_PATH",     "physical:sys");
             $self->setAttribute($target, "ENTITY_INSTANCE","0");
         }
         elsif ($type eq "NODE")
@@ -424,13 +446,13 @@ sub buildAffinity
             $self->{dimm_tpos} = 0;
             $self->{membuf_inst_num}=0;
             $node++;
-            $node_phys = "physical:sys-0/node-$node";
-            $node_aff  = "affinity:sys-0/node-$node";
+            $node_phys = "physical:sys/node-$node";
+            $node_aff  = "affinity:sys/node-$node";
             $self->{targeting}{SYS}[0]{NODES}[$node]{KEY} = $target;
             $self->setAttribute($target, "AFFINITY_PATH",
-                "affinity:sys-0/node-$node");
+                "affinity:sys/node-$node");
             $self->setAttribute($target, "PHYS_PATH",
-                "physical:sys-0/node-$node");
+                "physical:sys/node-$node");
             $self->setHuid($target, 0, $node);
             $self->setAttribute($target, "ENTITY_INSTANCE",$node);
         }
@@ -458,8 +480,8 @@ sub buildAffinity
             $self->setHuid($target, 0, $node);
             my $socket = $self->getTargetParent(
                          $self->getTargetParent($target));
-            my $parent_affinity = "affinity:sys-0/node-$node/proc-$proc";
-            my $parent_physical = "physical:sys-0/node-$node/proc-$proc";
+            my $parent_affinity = "affinity:sys/node-$node/proc-$proc";
+            my $parent_physical = "physical:sys/node-$node/proc-$proc";
             $self->setAttribute($target, "AFFINITY_PATH",  $parent_affinity);
             $self->setAttribute($target, "PHYS_PATH",      $parent_physical);
             $self->setAttribute($target, "POSITION",       $proc);
@@ -609,7 +631,7 @@ sub processMcs
         $self->setAttribute($unit, "DMI_REFCLOCK_SWIZZLE",$fsi_port);
         my $dmi_swizzle =
              $dmi_bus->{bus_attribute}->{DMI_REFCLOCK_SWIZZLE}->{default};
-        my $dmi_swizzle =
+        $dmi_swizzle =
              $self->getBusAttribute($unit,0,"DMI_REFCLOCK_SWIZZLE");
         if ($dmi_swizzle ne "")
         {
@@ -963,7 +985,7 @@ sub isBadAttribute
     {
         return 1;
     }
-    if ($target_ptr->{ATTRIBUTES}->{$attribute}->{default} eq $badvalue)
+    if (defined $badvalue && $target_ptr->{ATTRIBUTES}->{$attribute}->{default} eq $badvalue)
     {
         return 1;
     }
@@ -1018,7 +1040,6 @@ sub getAttribute
         printf("ERROR: getAttribute(%s,%s) | Attribute not defined\n",
             $target, $attribute);
 
-        #print Dumper($target_ptr);
         $self->myExit(4);
     }
     if (ref($target_ptr->{ATTRIBUTES}->{$attribute}->{default}) eq "HASH")
@@ -1027,6 +1048,31 @@ sub getAttribute
     }
     return $target_ptr->{ATTRIBUTES}->{$attribute}->{default};
 }
+
+sub getAttributeGroup
+{
+    my $self       = shift;
+    my $target     = shift;
+    my $group      = shift;
+    my $target_ptr = $self->getTarget($target);
+    if (!defined($self->{groups}->{$group})) {
+ 
+        printf("ERROR: getAttributeGroup(%s,%s) | Group not defined\n",
+            $target, $group);
+        $self->myExit(4);    	
+    }
+    my %attr;
+    foreach my $attribute (keys(%{$self->{groups}->{$group}}))
+    {
+        if (defined($target_ptr->{ATTRIBUTES}->{$attribute}->{default}))
+    	{
+        	$attr{$attribute} = $target_ptr->{ATTRIBUTES}->{$attribute};
+    	}
+    }
+    return \%attr;
+}
+
+
 ## renames a target attribute
 sub renameAttribute
 {
@@ -1130,6 +1176,8 @@ sub getBusAttribute
     return $target_ptr->{CONNECTION}->{BUS}->[$busnum]->{bus_attribute}->{$attr}
       ->{default};
 }
+
+
 ## returns a pointer to an array of children target names
 sub getTargetChildren
 {
@@ -1205,7 +1253,7 @@ sub setMruid
 
     my $type          = $self->getType($target);
     my $mru_prefix_id = $self->{enumeration}->{MRU_PREFIX}->{$type};
-    if ($mru_prefix_id eq "") { $mru_prefix_id = "0xFFFF"; }
+    if (!defined $mru_prefix_id || $mru_prefix_id eq "") { $mru_prefix_id = "0xFFFF"; }
     if ($mru_prefix_id eq "0xFFFF") { return; }
     my $index = 0;
     if (defined($self->{mru_idx}->{$node}->{$type}))
@@ -1341,7 +1389,7 @@ There are no arguments for the constructor.
 C<TARGET> is a pointer to data structure containing all target information.
 C<TARGET_STRING> is the hierarchical target string used as key for data
 structure.  An example for C<TARGET_STRING> would be:
-C</sys-0/node-0/motherboard-0/dimm-0>
+C</sys/node-0/motherboard-0/dimm-0>
 
 =over 4
 
@@ -1475,4 +1523,3 @@ Prints to stdout log message is debug mode is turned on.
 Norman James <njames@us.ibm.com>
 
 =cut
-

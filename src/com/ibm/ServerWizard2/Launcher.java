@@ -16,6 +16,11 @@ import java.util.zip.ZipFile;
 
 import javax.swing.JOptionPane;
 
+import com.ibm.ServerWizard2.utility.GithubFile;
+import com.ibm.ServerWizard2.utility.MyLogFormatter;
+import com.ibm.ServerWizard2.view.DialogHandler;
+import com.ibm.ServerWizard2.view.MessagePopup;
+
 public class Launcher {
 	public final static String JAR_NAME = "serverwiz2";
 	public final static String ZIP_NAME = "serverwiz2_lib.zip";

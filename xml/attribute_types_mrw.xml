@@ -138,7 +138,19 @@
 			<name>INOUT</name>
 			<value>2</value>
 		</enumerator>
+		<enumerator>
+			<name>NA</name>
+			<value>3</value>
+		</enumerator>
 		<default>INOUT</default>
+	</enumerationType>
+	<enumerationType>
+		<id>DRIVER_TYPE</id>
+		<description>Driver Type</description>
+		<enumerator><name>NA</name><value>0</value></enumerator>
+		<enumerator><name>OPEN-DRAIN</name><value>1</value></enumerator>
+		<enumerator><name>PUSH-PULL</name><value>2</value></enumerator>
+		<default>NA</default>
 	</enumerationType>
 	<enumerationType>
 		<id>RAIL_NAME</id>
@@ -155,6 +167,42 @@
 			<name>VDD</name>
 			<value>2</value>
 		</enumerator>
+		<enumerator>
+			<name>VCS</name>
+			<value>3</value>
+		</enumerator>
+		<enumerator>
+			<name>VIO</name>
+			<value>4</value>
+		</enumerator>
+		<enumerator>
+			<name>VDN</name>
+			<value>5</value>
+		</enumerator>
+		<enumerator>
+			<name>VMEM</name>
+			<value>6</value>
+		</enumerator>
+		<enumerator>
+			<name>CentVDD</name>
+			<value>7</value>
+		</enumerator>
+		<enumerator>
+			<name>CentVCS</name>
+			<value>8</value>
+		</enumerator>	
+		<enumerator>
+			<name>MemIO</name>
+			<value>9</value>
+		</enumerator>
+		<enumerator>
+			<name>AVDD</name>
+			<value>10</value>
+		</enumerator>
+		<enumerator>
+			<name>VPP</name>
+			<value>11</value>
+		</enumerator>																
 		<default>UNKNOWN</default>
 	</enumerationType>
 	<enumerationType>
@@ -176,8 +224,261 @@
 			<name>ENABLE</name>
 			<value>3</value>
 		</enumerator>
+		<enumerator>
+			<name>PRESENCE</name>
+			<value>4</value>
+		</enumerator>
+		<enumerator>
+			<name>LED</name>
+			<value>5</value>
+		</enumerator>
+		<enumerator>
+			<name>GPIO_EXP</name>
+			<value>6</value>
+		</enumerator>
 		<default>GENERIC_OUTPUT</default>
 	</enumerationType>
+	<enumerationType>
+		<id>CARD_TYPE</id>
+		<description>Type of card</description>
+		<enumerator>
+			<name>ANCHOR</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>BATTERY</name>
+			<value>1</value>
+		</enumerator>
+		<enumerator>
+			<name>CLOCK</name>
+			<value>2</value>
+		</enumerator>
+		<enumerator>
+			<name>CLOCK_INTERFACE</name>
+			<value>3</value>
+		</enumerator>
+		<enumerator>
+			<name>DASD-BP</name>
+			<value>4</value>
+		</enumerator>
+		<enumerator>
+			<name>DAUGHTER</name>
+			<value>5</value>
+		</enumerator>
+		<enumerator>
+			<name>SCM-MODULE</name>
+			<value>6</value>
+		</enumerator>
+		<enumerator>
+			<name>DIMM</name>
+			<value>7</value>
+		</enumerator>
+		<enumerator>
+			<name>FAN</name>
+			<value>8</value>
+		</enumerator>
+		<enumerator>
+			<name>FAN_INTERFACE</name>
+			<value>9</value>
+		</enumerator>
+		<enumerator>
+			<name>FSI_INTERFACE</name>
+			<value>10</value>
+		</enumerator>
+		<enumerator>
+			<name>FSP</name>
+			<value>11</value>
+		</enumerator>
+		<enumerator>
+			<name>HDD</name>
+			<value>12</value>
+		</enumerator>	
+		<enumerator>
+			<name>LCC</name>
+			<value>13</value>
+		</enumerator>	
+		<enumerator>
+			<name>MEZZANINE</name>
+			<value>14</value>
+		</enumerator>	
+		<enumerator>
+			<name>OP_PANEL</name>
+			<value>15</value>
+		</enumerator>
+		<enumerator>
+			<name>PCIE</name>
+			<value>16</value>
+		</enumerator>	
+		<enumerator>
+			<name>PCIE_RISER</name>
+			<value>17</value>
+		</enumerator>	
+		<enumerator>
+			<name>PLANAR</name>
+			<value>18</value>
+		</enumerator>	
+		<enumerator>
+			<name>POWER_DIST</name>
+			<value>19</value>
+		</enumerator>	
+		<enumerator>
+			<name>POWER_INTERFACE</name>
+			<value>20</value>
+		</enumerator>	
+		<enumerator>
+			<name>POWERSUPPLY</name>
+			<value>21</value>
+		</enumerator>	
+		<enumerator>
+			<name>RAID</name>
+			<value>22</value>
+		</enumerator>	
+		<enumerator>
+			<name>RISER</name>
+			<value>23</value>
+		</enumerator>	
+		<enumerator>
+			<name>TPM</name>
+			<value>24</value>
+		</enumerator>	
+		<enumerator>
+			<name>VRM</name>
+			<value>25</value>
+		</enumerator>																																						
+		<default>NA</default>
+	</enumerationType>	
+	<enumerationType>
+		<id>CONNECTOR_TYPE</id>
+		<description>Type of connector</description>
+		<enumerator>
+			<name>AC_POWER</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>CLOCK</name>
+			<value>1</value>
+		</enumerator>
+		<enumerator>
+			<name>FSP</name>
+			<value>2</value>
+		</enumerator>
+		<enumerator>
+			<name>HMC</name>
+			<value>3</value>
+		</enumerator>
+		<enumerator>
+			<name>NET</name>
+			<value>4</value>
+		</enumerator>
+		<enumerator>
+			<name>PCIE_X8_CARD</name>
+			<value>5</value>
+		</enumerator>
+		<enumerator>
+			<name>PCIE_X16_CARD</name>
+			<value>6</value>
+		</enumerator>
+		<enumerator>
+			<name>SERIAL</name>
+			<value>7</value>
+		</enumerator>
+		<enumerator>
+			<name>SMP</name>
+			<value>8</value>
+		</enumerator>
+		<enumerator>
+			<name>USB</name>
+			<value>9</value>
+		</enumerator>
+		<enumerator>
+			<name>UPIC</name>
+			<value>10</value>
+		</enumerator>
+		<enumerator>
+			<name>CXP</name>
+			<value>11</value>
+		</enumerator>
+		<enumerator>
+			<name>BLUELINK</name>
+			<value>12</value>
+		</enumerator>
+		<default>NA</default>
+	</enumerationType>	
+	<enumerationType>
+		<id>LED_TYPE</id>
+		<description>Type of led</description>
+		<enumerator>
+			<name>ENC_ATTENTION</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>ENC_IDENTIFY</name>
+			<value>1</value>
+		</enumerator>
+		<enumerator>
+			<name>ENC_FAULT</name>
+			<value>2</value>
+		</enumerator>
+		<enumerator>
+			<name>SYS_POWER</name>
+			<value>3</value>
+		</enumerator>
+		<enumerator>
+			<name>FAULT</name>
+			<value>4</value>
+		</enumerator>
+		<enumerator>
+			<name>POWER</name>
+			<value>5</value>
+		</enumerator>
+		<enumerator>
+			<name>ACTIVITY</name>
+			<value>6</value>
+		</enumerator>	
+		<enumerator>
+			<name>STANDBY_GOOD</name>
+			<value>7</value>
+		</enumerator>						
+		<default>NA</default>		
+		</enumerationType>
+	<enumerationType>
+		<id>VPD_SIZE</id>
+		<description>Size of VPD EEPROM device</description>
+		<enumerator>
+			<name>NA</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>24c32</name>
+			<value>1</value>
+		</enumerator>
+		<enumerator>
+			<name>24c64</name>
+			<value>2</value>
+		</enumerator>
+		<enumerator>
+			<name>24c512</name>
+			<value>3</value>
+		</enumerator>				
+		<default>NA</default>
+	</enumerationType>
+	<enumerationType>
+		<id>I2C_CONNECTION_TYPE</id>
+		<description>Type of I2C connection</description>
+		<enumerator>
+			<name>NA</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>CFAM</name>
+			<value>1</value>
+		</enumerator>
+		<enumerator>
+			<name>PIB</name>
+			<value>2</value>
+		</enumerator>			
+		<default>NA</default>
+	</enumerationType>					
 	<enumerationType>
 		<id>VPD_TYPE</id>
 		<description>Types of VPD</description>
@@ -186,25 +487,41 @@
 			<value>0</value>
 		</enumerator>
 		<enumerator>
-			<name>MVPD</name>
+			<name>PMVPD</name>
 			<value>1</value>
 		</enumerator>
 		<enumerator>
-			<name>CVPD</name>
+			<name>RMVPD</name>
 			<value>2</value>
 		</enumerator>
 		<enumerator>
-			<name>SPD</name>
+			<name>PCVPD</name>
 			<value>3</value>
 		</enumerator>
 		<enumerator>
-			<name>PVPD</name>
+			<name>RCVPD</name>
 			<value>4</value>
 		</enumerator>
 		<enumerator>
-			<name>SBE</name>
+			<name>SPD</name>
 			<value>5</value>
 		</enumerator>
+		<enumerator>
+			<name>PVPD</name>
+			<value>6</value>
+		</enumerator>
+		<enumerator>
+			<name>PSBE</name>
+			<value>7</value>
+		</enumerator>
+		<enumerator>
+			<name>RSBE</name>
+			<value>8</value>
+		</enumerator>	
+		<enumerator>
+			<name>DVPD</name>
+			<value>9</value>
+		</enumerator>		
 		<default>NA</default>
 	</enumerationType>
 	<enumerationType>
@@ -278,7 +595,42 @@
 			<name>U750</name>
 			<value>16</value>
 		</enumerator>
-
+		<enumerator>
+			<name>PSI</name>
+			<value>17</value>
+		</enumerator>
+		<enumerator>
+			<name>SPI</name>
+			<value>18</value>
+		</enumerator>
+		<enumerator>
+			<name>UART</name>
+			<value>19</value>
+		</enumerator>
+		<enumerator>
+			<name>PWM</name>
+			<value>20</value>
+		</enumerator>
+		<enumerator>
+			<name>TACH</name>
+			<value>21</value>
+		</enumerator>
+		<enumerator>
+			<name>USB</name>
+			<value>22</value>
+		</enumerator>
+		<enumerator>
+			<name>LPC</name>
+			<value>23</value>
+		</enumerator>
+		<enumerator>
+			<name>CLK</name>
+			<value>24</value>
+		</enumerator>
+		<enumerator>
+			<name>ETHERNET</name>
+			<value>25</value>
+		</enumerator>
 	</enumerationType>
 	<enumerationType>
 		<id>MRW_TYPE</id>
@@ -338,7 +690,38 @@
 			<name>APSS_SENSOR</name>
 			<value>13</value>
 		</enumerator>
-
+		<enumerator>
+			<name>SMARTCHIP</name>
+			<value>13</value>
+		</enumerator>
+		<enumerator>
+			<name>NONIOMUX_GROUP</name>
+			<value>14</value>
+		</enumerator>
+		<enumerator>
+			<name>PASSTHROUGH</name>
+			<value>15</value>
+		</enumerator>
+		<enumerator>
+			<name>USB</name>
+			<value>16</value>
+		</enumerator>
+		<enumerator>
+			<name>TMP</name>
+			<value>17</value>
+		</enumerator>
+		<enumerator>
+			<name>CLK</name>
+			<value>18</value>
+		</enumerator>
+		<enumerator>
+			<name>TARGET_OVERRIDE</name>
+			<value>19</value>
+		</enumerator>
+		<enumerator>
+			<name>TARGET_OVERRIDE_GROUP</name>
+			<value>20</value>
+		</enumerator>
 		<default>NA</default>
 	</enumerationType>
 
@@ -355,6 +738,10 @@
 		<enumerator>
 			<name>FRU</name>
 			<value>2</value>
+		</enumerator>
+		<enumerator>
+			<name>LED</name>
+			<value>3</value>
 		</enumerator>
 		<default>NA</default>
 	</enumerationType>
@@ -374,9 +761,57 @@
 		</enumerator>
 		<enumerator>
 			<name>BLUE</name>
-			<value>2</value>
+			<value>3</value>
 		</enumerator>
 		<default>GREEN</default>
+	</enumerationType>
+	<enumerationType>
+		<id>BLINK_ROLLUP</id>
+		<enumerator>
+			<name>YES</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>NO</name>
+			<value>1</value>
+		</enumerator>
+		<default>NO</default>
+	</enumerationType>
+	<enumerationType>
+		<id>VIEW_REAR</id>
+		<enumerator>
+			<name>YES</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>NO</name>
+			<value>1</value>
+		</enumerator>
+		<default>NO</default>
+	</enumerationType>
+		<enumerationType>
+		<id>VIEW_FRONT</id>
+		<enumerator>
+			<name>YES</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>NO</name>
+			<value>1</value>
+		</enumerator>
+		<default>NO</default>
+	</enumerationType>
+		<enumerationType>
+		<id>VIEW_INTERNAL</id>
+		<enumerator>
+			<name>YES</name>
+			<value>0</value>
+		</enumerator>
+		<enumerator>
+			<name>NO</name>
+			<value>1</value>
+		</enumerator>
+		<default>NO</default>
 	</enumerationType>
 
 	<attribute>
@@ -391,6 +826,44 @@
 		<persistency>volatile-zeroed</persistency>
 		<readable />
 	</attribute>
+	<attribute>
+		<id>BUS_WIDTH</id>
+		<description>Bus Width</description>
+		<simpleType><uint32_t></uint32_t></simpleType>
+		<persistency>volatile-zeroed</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>REGISTER_OFFSET</id>
+		<description>Register offset</description>
+		<simpleType><uint8_t></uint8_t></simpleType>
+		<persistency>volatile-zeroed</persistency>
+		<readable />
+	</attribute>		
+	<attribute>
+		<id>GROUP_NAME</id>
+		<description>Group Name</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<writeable />
+		<readable />
+	</attribute>
+
+	<attribute>
+		<id>GROUPED_ATTRIBUTE_NAME</id>
+		<description>Attribute Name to be added to a Group</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<writeable />
+		<readable />
+	</attribute>
 
 	<attribute>
 		<id>LED_COLOR</id>
@@ -399,6 +872,54 @@
 		<simpleType>
 			<enumeration>
 				<id>LED_COLOR</id>
+			</enumeration>
+		</simpleType>
+		<persistency>volatile-zeroed</persistency>
+		<readable />
+		<writeable />
+	</attribute>
+	<attribute>
+		<id>BLINK_ROLLUP</id>
+		<description>Identifies if an LED is a blink rollup</description>
+		<simpleType>
+			<enumeration>
+				<id>BLINK_ROLLUP</id>
+			</enumeration>
+		</simpleType>
+		<persistency>volatile-zeroed</persistency>
+		<readable />
+		<writeable />
+	</attribute>
+		<attribute>
+		<id>VIEW_REAR</id>
+		<description>Identifies if an LED can be viewed from the rear</description>
+		<simpleType>
+			<enumeration>
+				<id>VIEW_REAR</id>
+			</enumeration>
+		</simpleType>
+		<persistency>volatile-zeroed</persistency>
+		<readable />
+		<writeable />
+	</attribute>
+	<attribute>
+		<id>VIEW_FRONT</id>
+		<description>Identifies if an LED can be viewed from the front</description>
+		<simpleType>
+			<enumeration>
+				<id>VIEW_FRONT</id>
+			</enumeration>
+		</simpleType>
+		<persistency>volatile-zeroed</persistency>
+		<readable />
+		<writeable />
+	</attribute>
+	<attribute>
+		<id>VIEW_INTERNAL</id>
+		<description>Identifies if an LED can be viewed internally</description>
+		<simpleType>
+			<enumeration>
+				<id>VIEW_INTERNAL</id>
 			</enumeration>
 		</simpleType>
 		<persistency>volatile-zeroed</persistency>
@@ -443,6 +964,7 @@
 		</simpleType>
 		<persistency>volatile-zeroed</persistency>
 		<readable />
+		<global />
 	</attribute>
 	<attribute>
 		<id>MRU_PREFIX</id>
@@ -469,6 +991,30 @@
 		<serverwizHide/>
 	</attribute>
 	<attribute>
+		<id>FUNCTION</id>
+		<description>Function description</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<writeable />
+		<readable />
+		<global />
+	</attribute>
+		<attribute>
+		<id>BLINK_RATE</id>
+		<description>Blink rate</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<writeable />
+		<readable />
+		<global />
+	</attribute>
+	<attribute>
 		<id>LOCATION_CODE</id>
 		<description>Location Code</description>
 		<simpleType>
@@ -478,6 +1024,29 @@
 		<persistency>non-volatile</persistency>
 		<writeable />
 		<readable />
+	</attribute>
+	<attribute>
+		<id>CCIN</id>
+		<description>CCIN</description>
+		<simpleType>
+			<string>
+			</string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<writeable />
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSI_ENGINE</id>
+		<description>PSI engine number</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<writeable />
+		<readable />
+		<global />
 	</attribute>
 	<attribute>
 		<id>FSI_ENGINE</id>
@@ -510,11 +1079,34 @@
 		</simpleType>
 		<persistency>non-volatile</persistency>
 		<readable />
-		<serverwizReadonly/>
+		<writeable />
+		<global />
 	</attribute>
 	<attribute>
 		<id>CMFSI</id>
 		<description>CMFSI number</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SPI_PORT</id>
+		<description>SPI Port</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SPI_ENGINE</id>
+		<description>SPI Engine</description>
 		<simpleType>
 			<uint8_t>
 			</uint8_t>
@@ -555,7 +1147,35 @@
 		<persistency>non-volatile</persistency>
 		<readable />
 		<writeable />
+		<global />
 	</attribute>
+	<attribute>
+		<id>VPD_SIZE</id>
+		<description>Size of VPD EEPROM device</description>
+		<simpleType>
+			<enumeration>
+				<id>VPD_SIZE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<writeable />
+		<global />
+	</attribute>
+	<attribute>
+		<id>I2C_CONNECTION_TYPE</id>
+		<description>Type of I2C connection</description>
+		<simpleType>
+			<enumeration>
+				<id>I2C_CONNECTION_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<writeable />
+	</attribute>		
 	<attribute>
 		<id>I2C_SPEED</id>
 		<description>I2C Speed in kHz</description>
@@ -567,6 +1187,50 @@
 		<readable />
 		<writeable />
 	</attribute>
+	<attribute>
+		<id>CARD_TYPE</id>
+		<description>Type of card
+		</description>
+		<simpleType>
+			<enumeration>
+				<id>CARD_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<writeable />
+	</attribute>
+	<attribute>
+		<id>CONNECTOR_TYPE</id>
+		<description>Type of connector
+		</description>
+		<simpleType>
+			<enumeration>
+				<id>CONNECTOR_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<writeable />
+		<global />
+	</attribute>
+	<attribute>
+		<id>LED_TYPE</id>
+		<description>Type of LED
+		</description>
+		<simpleType>
+			<enumeration>
+				<id>LED_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<writeable />
+		<global />
+	</attribute>		
 	<attribute>
 		<id>VPD_TYPE</id>
 		<description>MVPD,CVPD, or SPD</description>
@@ -958,6 +1622,7 @@
 		<persistency>non-volatile</persistency>
 		<readable />
 		<writeable />
+		<global />
 	</attribute>
 	<attribute>
 		<id>GPIO_TYPE</id>
@@ -972,6 +1637,7 @@
 		<persistency>non-volatile</persistency>
 		<readable />
 		<writeable />
+		<global />
 	</attribute>
 	<attribute>
 		<id>IOP_NUM</id>
@@ -1123,6 +1789,15 @@
 		<serverwizReadonly/>
 	</attribute>
 	<attribute>
+		<id>GROUP_KEY</id>
+		<description>Key</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
 		<id>ASSOCIATION_TYPE</id>
 		<description>Associates 2 parts together
 		</description>
@@ -1135,6 +1810,7 @@
 		<persistency>non-volatile</persistency>
 		<readable />
 		<writeable />
+		<global />
 	</attribute>
 	<attribute>
 		<id>MEMORY_SIZE_IN_KB</id>
@@ -1149,6 +1825,7 @@
 	<attribute>
 		<id>WRITE_CYCLE_TIME</id>
 		<description>write cycle time of seeprom</description>
+		<group>SYS_POLICY</group>
 		<simpleType>
 			<uint8_t></uint8_t>
 		</simpleType>
@@ -1233,8 +1910,91 @@
 		<readable />
 		<serverwizReadonly/>
 	</attribute>
+	
+	<!-- FSP stuff -->
 	<attribute>
-		<id>SP_IO_NAME0</id>
+		<id>PIN_NAME[0]</id>
+		<description>pin name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>PIN_NAME[1]</id>
+		<description>pin name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>PIN_NAME[2]</id>
+		<description>pin name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>PIN_NAME[3]</id>
+		<description>pin name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>PIN_NUM[0]</id>
+		<description>pin name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>PIN_NUM[1]</id>
+		<description>pin name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>PIN_NUM[2]</id>
+		<description>pin name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>PIN_NUM[3]</id>
+		<description>pin name</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+
+	<attribute>
+		<id>SP_IO_NAME[0]</id>
 		<description>dio name for offset 1</description>
 		<simpleType>
 			<string></string>
@@ -1244,7 +2004,7 @@
 		<serverwizReadonly/>
 	</attribute>
 	<attribute>
-		<id>SP_IO_NAME1</id>
+		<id>SP_IO_NAME[1]</id>
 		<description>dio name for offset 2</description>
 		<simpleType>
 			<string></string>
@@ -1254,7 +2014,7 @@
 		<serverwizReadonly/>
 	</attribute>
 	<attribute>
-		<id>SP_IO_NAME2</id>
+		<id>SP_IO_NAME[2]</id>
 		<description>dio name for offset 3</description>
 		<simpleType>
 			<string></string>
@@ -1264,7 +2024,7 @@
 		<serverwizReadonly/>
 	</attribute>
 	<attribute>
-		<id>SP_IO_NAME3</id>
+		<id>SP_IO_NAME[3]</id>
 		<description>dio name for offset 4</description>
 		<simpleType>
 			<string></string>
@@ -1272,6 +2032,130 @@
 		<persistency>non-volatile</persistency>
 		<readable />
 		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SP_DIRECTION[0]</id>
+		<description>direction</description>
+		<simpleType>
+			<enumeration>
+				<id>DIRECTION</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SP_DIRECTION[1]</id>
+		<description>direction</description>
+		<simpleType>
+			<enumeration>
+				<id>DIRECTION</id>
+					<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SP_DIRECTION[2]</id>
+		<description>direction</description>
+		<simpleType>
+			<enumeration>
+				<id>DIRECTION</id>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SP_DIRECTION[3]</id>
+		<description>direction</description>
+		<simpleType>
+			<enumeration>
+				<id>DIRECTION</id>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>DRIVER_TYPE</id>
+		<description>driver type</description>
+		<simpleType>
+			<enumeration>
+				<id>DRIVER_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<global />
+	</attribute>	
+	<attribute>
+		<id>SP_DRIVER_TYPE[0]</id>
+		<description>driver type</description>
+		<simpleType>
+			<enumeration>
+				<id>DRIVER_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SP_DRIVER_TYPE[1]</id>
+		<description>driver type</description>
+		<simpleType>
+			<enumeration>
+				<id>DRIVER_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SP_DRIVER_TYPE[2]</id>
+		<description>driver type</description>
+		<simpleType>
+			<enumeration>
+				<id>DRIVER_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SP_DRIVER_TYPE[3]</id>
+		<description>driver type</description>
+		<simpleType>
+			<enumeration>
+				<id>DRIVER_TYPE</id>
+				<default>NA</default>
+			</enumeration>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>POR_VALUE</id>
+		<description>gpio power on reset value</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
 	</attribute>
 	<attribute>
 		<id>SP_MUX_GROUP</id>
@@ -1294,6 +2178,16 @@
 		<serverwizReadonly/>
 	</attribute>
 	<attribute>
+		<id>DIO_START</id>
+		<description>DIO starting index</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>	
+	<attribute>
 		<id>SP_DIO_NUM</id>
 		<description>IOMUX DIO number</description>
 		<simpleType>
@@ -1313,6 +2207,84 @@
 		<readable />
 		<serverwizReadonly/>
 	</attribute>
+	<attribute>
+		<id>SP_ENGINE_NUM[0]</id>
+		<description>IOMUX Engine number</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>	
+	<attribute>
+		<id>SP_ENGINE_NUM[1]</id>
+		<description>IOMUX Engine number</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>	
+	<attribute>
+		<id>SP_ENGINE_NUM[2]</id>
+		<description>IOMUX Engine number</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>	
+	<attribute>
+		<id>SP_ENGINE_NUM[3]</id>
+		<description>IOMUX Engine number</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+		<serverwizReadonly/>
+	</attribute>
+	<attribute>
+		<id>SP_MODE_CONTROL[0]</id>
+		<description>IOMUX Engine number</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>SP_MODE_CONTROL[1]</id>
+		<description>IOMUX Engine number</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>SP_MODE_CONTROL[2]</id>
+		<description>IOMUX Engine number</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>SP_MODE_CONTROL[3]</id>
+		<description>IOMUX Engine number</description>
+		<simpleType>
+			<uint8_t></uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	
+
 	<attribute>
 		<id>ENTITY_ID_LOOKUP</id>
 		<description>These entity ids map to current target</description>
@@ -1471,7 +2443,7 @@
 	</attribute>
 	<attribute>
 		<id>ADC_CHANNEL_GAIN</id>
-		<description>APSS channel assignment</description>
+		<description>APSS channel gain</description>
 		<simpleType>
 			<string>
 			</string>
@@ -1481,7 +2453,7 @@
 	</attribute>
 	<attribute>
 		<id>ADC_CHANNEL_GROUND</id>
-		<description>APSS channel groud</description>
+		<description>APSS channel ground</description>
 		<simpleType>
 			<string>
 			</string>
@@ -1499,5 +2471,2799 @@
 		<persistency>non-volatile</persistency>
 		<readable />
 	</attribute>
-
+	<attribute>
+		<id>PWM_CHANNEL_ID</id>
+		<description>PWM channel #</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_PWM_ADDRESS</id>
+		<description>Fan PWM address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_PWM_BITMASK</id>
+		<description>Fan PWM bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PWM_DUTY_CYCLE_ADDRESS</id>
+		<description>Fan PWM duty cycle address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+		<attribute>
+		<id>PWM_DUTY_CYCLE_BITMASK</id>
+		<description>Fan PWM duty cycle bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_CHANNEL_ID</id>
+		<description>Fan tach channel #</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_DOMAIN_REG_ADDRESS</id>
+		<description>Fan tach domain register address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+		<attribute>
+		<id>FAN_DOMAIN_REG_BITMASK</id>
+		<description>Fan tach domain register bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERROR_MASK_ADDRESS</id>
+		<description>Fan tach error mask address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERROR_MASK_BITMASK</id>
+		<description>Fan tach error mask bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERROR_REG_ADDRESS</id>
+		<description>Fan tach error register address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>FAN_ERROR_REG_BITMASK</id>
+		<description>Fan tach error register bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>FAN_PARTNER_HS_REG_ADDRESS</id>
+		<description>Fan tach partner HS register address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>FAN_PARTNER_HS_REG_BITMASK</id>
+		<description>Fan tach partner HS register bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_SPD_REG_HIGH_ADDRESS</id>
+		<description>Fan tach SPD register high address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>FAN_SPD_REG_HIGH_BITMASK</id>
+		<description>Fan tach SPD register high bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_SPD_REG_LOW_ADDRESS</id>
+		<description>Fan tach SPD register low address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>FAN_SPD_REG_LOW_BITMASK</id>
+		<description>Fan tach SPD register low bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_TYPE_SEL_ADDRESS</id>
+		<description>Fan tach type select address</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>	
+	<attribute>
+		<id>FAN_TYPE_SEL_BITMASK</id>
+		<description>Fan tach type select bitmask</description>
+		<simpleType>
+			<uint8_t>
+			</uint8_t>
+		</simpleType>
+		<persistency>non-volatile</persistency>
+		<readable />
+	</attribute>
+	<!-- Start DPSS attributes -->	
+	<attribute>
+		<id>PIN_NUM</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>BITS</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>CHANNEL</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>CHECK_STAGE</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>CONFIG_ID</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>CURRENT_MAX</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>CURRENT_NOM</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEFAULT_VALUE</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_CPU</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_CPU_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_CPU_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_CPU_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_CPU_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_INT</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_INT_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_INT_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_INT_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_INT_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_IO</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_IO_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_IO_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_IO_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DEGATE_IO_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DELAY_CPU</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>DELAY_IO</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>ENABLE_HOLD</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>END_COUNT</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>ENGINE</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>EN_OD</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>EN_OD_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>EN_OD_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>EN_OD_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>EN_OD_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_DOMAIN_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_DOMAIN_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_DOMAIN_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_DOMAIN_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_DOMAIN_REG</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERRORS_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERRORS_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERRORS_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERRORS_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERROR_MASK</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERROR_MASK_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERROR_MASK_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_ERROR_REG</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_FFS_CH_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_FFS_CH_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_HYST_HIGH0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_HYST_HIGH1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_HYST_LOW0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_HYST_LOW1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_MAN_MODE</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_MODE</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_PARTNER_HS_REG</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_PPR0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_PPR1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_PRESENCE_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_PRESENCE_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_PWM_MANUAL</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_SPD_REG_HIGH</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_SPD_REG_LOW</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_TYPE_SEL</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_TYPE_SEL0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_TYPE_SEL1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAN_WARNING_CNT</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAULT_ACTION</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FAULT_DELAY</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FFS_MIN_TACH_HIGH0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FFS_MIN_TACH_HIGH1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FFS_MIN_TACH_LOW0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FFS_MIN_TACH_LOW1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FIXED_ADDRESS</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>GPIO_IN</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>I2C_FFS</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>I2C_INT</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>I2C_INT_MASK</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>INSTANCE_ID</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>INVERT_RESETS</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>LS_REG</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>MAN_ENABLE</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>MAX_FAN_PWM0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>MAX_FAN_PWM1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>MIN_FAN_PWM0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>MIN_FAN_PWM1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>NUM_PS</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD INVERT_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD INVERT_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD INVERT_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD INVERT_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_INVERT</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_LATCHED</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_LATCHED_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_LATCHED_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_LATCHED_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_LATCHED_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_MASK</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_MASK_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_MASK_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_MASK_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_MASK_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_PORT</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_PORT_0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_PORT_1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_PORT_2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_PORT_3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PGOOD_SLOT</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PIN_NAME</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PORT</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PRIMARY_DELAY</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PRSNT_REG</id>
+		<complexType>
+		<field>
+			<name>Bit-mask</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSC0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSC1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_CTRL</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_OVERRIDE</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT10</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT11</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT12</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT13</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT14</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT15</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT16</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT17</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT18</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT19</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT20</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT21</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT22</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT23</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT24</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT25</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT26</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT27</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT28</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT29</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT30</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT31</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT4</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT5</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT6</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT7</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT8</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT9</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PSEQ_SLOT_CNT</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PWM0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PWM1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PWM_DELAY</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PWM_DUTY_CYCLE</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PWM_STEP</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>REBOOT</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>RESERV_REV_CODE</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>RESETS_OUT</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>REV_CODE</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>SECONDARY_DELAY</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>SEC_SEQ</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>SEQUENCE_CNT</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>SLIDING_INDEX</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>SOFT_PGOOD</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_SET_H0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_SET_H1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_SET_H2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_SET_H3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_SET_L0</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_SET_L1</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_SET_L2</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>TACH_SET_L3</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>VOLTAGE</id>
+		<complexType>
+		<field>
+			<name>Value</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>WDT_RESET</id>
+		<complexType>
+		<field>
+			<name>Register</name>
+			<type>uint8_t</type>
+			<bits>8</bits>
+		</field>
+		</complexType>
+		<readable />
+	</attribute>
+	<!-- End DPSS attributes -->
+	<!-- APSS attributes -->
+		<attribute>
+		<id>ADC_MAX</id>
+		<description>12 bit max value</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>ADC_VREF</id>
+		<description>V</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>CHANNEL</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FUNCTION_ID</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>FUNCTION_NAME</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>GAIN</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>GND</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>GPIO_P0_MODE</id>
+		<description>1 = output, 0 = input � use GPIO modes tab to fill these out</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>GPIO_P1_MODE</id>
+		<description>1 = output, 0 = input � use GPIO modes tab to fill these out</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>OFFSET</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PIN-NAME</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>PORT</id>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>VOLTAGE</id>
+		<description>volts</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<!-- end APSS attributes -->
+	<attribute>
+		<id>TARGET_NAME</id>
+		<description>Name of target</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>MRW_ID</id>
+		<description>Name identifying a given system MRW</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
+	<attribute>
+		<id>CHECK_SCRIPT</id>
+		<description>Name of checking script to run when Run Checks button is clicked</description>
+		<simpleType>
+			<string></string>
+		</simpleType>
+		<readable />
+	</attribute>
 </attributes>

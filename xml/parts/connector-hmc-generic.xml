@@ -1,0 +1,16 @@
+<partInstance>
+  <targetPart>
+    <id>connector-hmc-generic</id>
+    <attribute>
+      <id>CONNECTOR_TYPE</id>
+      <default>HMC</default>
+    </attribute>
+    <instance_name>connector</instance_name>
+    <is_root>true</is_root>
+    <parent>connector</parent>
+    <parent_type>card-motherboard</parent_type>
+    <parent_type>card-daughtercard</parent_type>
+    <position>-1</position>
+    <type>connector-hmc-generic</type>
+  </targetPart>
+</partInstance>
