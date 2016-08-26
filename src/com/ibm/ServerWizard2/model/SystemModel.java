@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -200,11 +201,15 @@ public class SystemModel {
 	}
 	public void loadLibrary(String path) throws Exception {
 		File xmlDir = new File(path);
-		File[] filesList = xmlDir.listFiles();
-		if (filesList == null) {
+		//Loads files in alphabetical order
+		String[] filesStr = xmlDir.list();
+		if (filesStr == null) {
 			ServerWizard2.LOGGER.warning("No library loaded");
 		} else {
-			for (File file : filesList) {
+			Arrays.sort(filesStr);
+			
+			for (String fstr : filesStr) {
+				File file = new File(path+File.separator+fstr);
 			    if (file.isFile() && file.getAbsolutePath().endsWith(".xml")) {
 			    	if (file.getName().startsWith("attribute_types")) {
 			    		this.loadAttributes(file.getPath());
@@ -216,7 +221,7 @@ public class SystemModel {
 			}	
 		}
 		File partsDir = new File(path+File.separator+"parts"+File.separator);
-		filesList = partsDir.listFiles();
+		File filesList[] = partsDir.listFiles();
 		if (filesList == null) {
 			ServerWizard2.LOGGER.warning("No parts loaded");
 		} else {		
