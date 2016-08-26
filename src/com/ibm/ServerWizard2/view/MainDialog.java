@@ -175,29 +175,11 @@ public class MainDialog extends Dialog {
 		buttonRow1.setLayout(rl_buttonRow1);
 
 		this.createButtonsForButtonBar2(buttonRow1);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-		new Label(buttonRow1, SWT.NONE);
-
 		
 		sashForm = new SashForm(sashForm_1, SWT.NONE);
 
 		// Target Instances View
 		tree = new Tree(sashForm, SWT.BORDER | SWT.VIRTUAL);
-		tree.setToolTipText("To add an instance\r\n- click on parent\r\n- choose an instance type\r\n- click add instance");
 		tree.setHeaderVisible(true);
 		tree.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		columnName = new TreeColumn(tree, 0);
@@ -1112,11 +1094,14 @@ public class MainDialog extends Dialog {
 				final TreeItem treeItem = (TreeItem) e.item;
 				getShell().getDisplay().asyncExec(new Runnable() {
 					public void run() {
-						treeItem.getParent().getColumns()[0].pack();
+						if (!treeItem.isDisposed()) {
+							treeItem.getParent().getColumns()[0].pack();
+						}
 					}
-				});
+				});	
 			}
 		});
+
 		btnAddTarget.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
