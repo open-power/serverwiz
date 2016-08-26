@@ -8,8 +8,10 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
@@ -1229,7 +1231,8 @@ public class MainDialog extends Dialog {
 
 	private void createAttributeTable() {
 		Table table = viewer.getTable();
-
+		ColumnViewerToolTipSupport.enableFor(viewer, ToolTip.NO_RECREATE); 
+		
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
@@ -1281,10 +1284,15 @@ public class MainDialog extends Dialog {
 		colDesc.getColumn().setWidth(350);
 		colDesc.getColumn().setText("Description");
 		colDesc.setLabelProvider(new ColumnLabelProvider() {
+		    public String getToolTipText(Object element) {
+				Field f = (Field) element;
+		    	return f.desc;
+		    }
 			@Override
 			public String getText(Object element) {
 				Field f = (Field) element;
-				return f.desc;
+				String desc = f.desc.replace("\n", "");
+				return desc;
 			}
 		});
 
