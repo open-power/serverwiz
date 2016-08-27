@@ -1,4 +1,32 @@
 <partInstance>
+<targetPart>
+  	<type>unit-ipmi-sensor</type>
+ 	<id>ps_redundancy_state_sensor</id>
+    <instance_name>ps_redundancy_state_sensor</instance_name>
+    <is_root>false</is_root>
+    <parent>unit</parent>
+    <position>-1</position> 	
+ 	<attribute>
+ 		<id>IPMI_SENSOR_NAME_SUFFIX</id>
+ 		<default>Ps_Redundancy</default>
+ 	</attribute>
+ 	<attribute>
+ 		<id>IPMI_ENTITY_ID</id>
+ 		<default>0x22</default>
+ 	</attribute>
+ 	<attribute>
+ 		<id>IPMI_SENSOR_TYPE</id>
+ 		<default>0xCA</default>
+ 	</attribute>
+ 	<attribute>
+ 		<id>IPMI_SENSOR_READING_TYPE</id>
+ 		<default>0x03</default>
+ 	</attribute>
+ 	<attribute>
+ 		<id>IPMI_SENSOR_OFFSETS</id>
+ 	<default>0x00,0x01</default>
+ 	</attribute>
+ </targetPart>
   <targetPart>
     <id>boot_count_sensor</id>
     <attribute>
@@ -861,6 +889,7 @@
     <hidden_child_id>power_limit_sensor</hidden_child_id>
     <hidden_child_id>ps_derating_sensor</hidden_child_id>
     <hidden_child_id>dimm_freq_sensor</hidden_child_id>
+    <hidden_child_id>ps_redundancy_state_sensor</hidden_child_id>
     <instance_name>sys</instance_name>
     <is_root>true</is_root>
     <parent>base</parent>
