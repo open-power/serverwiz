@@ -189,7 +189,6 @@ public class MainDialog extends Dialog {
 						+ "Select and Instance type.  You can optionally enter a custom name.  Then click 'Add Instance' button.");
 
 		columnName.setResizable(true);
-		// sashForm.setWeights(new int[] { 283, 283 });
 
 		// Create attribute table
 		viewer = new TableViewer(sashForm_1, SWT.VIRTUAL | SWT.H_SCROLL | SWT.V_SCROLL
@@ -246,7 +245,7 @@ public class MainDialog extends Dialog {
 		
 				btnShowHidden = new Button(compositeInstance, SWT.CHECK);
 				GridData gd_btnShowHidden = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-				gd_btnShowHidden.heightHint = 10;
+				gd_btnShowHidden.heightHint = 20;
 				btnShowHidden.setLayoutData(gd_btnShowHidden);
 				btnShowHidden.setText(" Show Hidden");
 		
@@ -938,15 +937,11 @@ public class MainDialog extends Dialog {
 		TreeItem treeitem = item;
 		if (item == null) {
 			if (parentItem == null) {
-				//clearTreeAll();
 				treeitem = new TreeItem(tree, SWT.VIRTUAL | SWT.BORDER);
 			} else {
 				treeitem = new TreeItem(parentItem, SWT.VIRTUAL | SWT.BORDER);
 			}
 		}
-		//Just display last part of instance name path
-		//String nameA[] = name.split("\\.");
-		//treeitem.setText(nameA[nameA.length-1]);
 		treeitem.setText(name);
 		treeitem.setData(target);
 
