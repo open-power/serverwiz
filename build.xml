@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
-	<property name="one-jar.dist.dir" value="c:/one-jar-ant"/>
-	<property name="plugin.dir" value="C:\eclipse\plugins"/>
-	<property name="hbxml.dir" value="C:\Users\IBM_ADMIN\git\hostboot\src\usr\targeting\common\xmltohb"/>
-	<import file="${one-jar.dist.dir}/one-jar-ant-task.xml" optional="true" />
+    <property name="one-jar.dist.dir" value="./lib"/>
+    <property name="one-jar.version" value="0.97"/>
+    <property name="one-jar.ant.jar" value="${one-jar.dist.dir}/one-jar-ant-task-${one-jar.version}.jar"/>
+    <taskdef name="one-jar" classname="com.simontuffs.onejar.ant.OneJarTask" 
+        classpath="${one-jar.ant.jar}" onerror="report"/>
+
     <path id="classpath">
         <fileset dir="lib" includes="**/*.jar"/>
-    	<fileset dir="C:\eclipse\plugins" includes="**/*.jar"/>
     </path>
 	  <target name="clean">
 	        <delete dir="build"/>
