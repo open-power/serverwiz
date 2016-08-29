@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
+	<!-- Setup one-jar -->
     <property name="one-jar.dist.dir" value="./lib"/>
     <property name="one-jar.version" value="0.97"/>
     <property name="one-jar.ant.jar" value="${one-jar.dist.dir}/one-jar-ant-task-${one-jar.version}.jar"/>
     <taskdef name="one-jar" classname="com.simontuffs.onejar.ant.OneJarTask" 
         classpath="${one-jar.ant.jar}" onerror="report"/>
 
+	<!-- All required jars are in ./lib -->
     <path id="classpath">
         <fileset dir="lib" includes="**/*.jar"/>
     </path>
@@ -17,7 +19,10 @@
 	        <mkdir dir="build/classes"/>
 	    	<javac srcdir="src" destdir="build/classes" classpathref="classpath"/>
 	    </target>
-
+		<!-- 
+		Build OS specific jars
+		Serverwiz uses SWT which has OS specific SWT jars
+		-->
 	    <target name="jar">
 	        <mkdir dir="build"/>
 	        <one-jar destfile="build/serverwiz2.jar" onejarmainclass="com.ibm.ServerWizard2.Launcher">
