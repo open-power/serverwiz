@@ -43,6 +43,7 @@
 	        		<fileset file="lib/swt_win64.jar"/>
 	        		<fileset file="lib/json-simple-1.1.1.jar"/>
 	        		<fileset file="lib/org.eclipse*.jar"/>
+	        		<fileset file="lib/jgit/*.jar"/>
 	        	</lib>
 	        </one-jar>
 		    <one-jar destfile="build/serverwiz2_linux64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
@@ -53,6 +54,7 @@
 		        		<fileset file="lib/swt_linux64.jar"/>
 		        		<fileset file="lib/json-simple-1.1.1.jar"/>
 		        		<fileset file="lib/org.eclipse*.jar"/>
+		        		<fileset file="lib/jgit/*.jar"/>
 		        	</lib>
 		    </one-jar>
 	        <one-jar destfile="build/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
@@ -63,6 +65,7 @@
 	        		<fileset file="lib/swt_win32.jar"/>
 	        		<fileset file="lib/json-simple-1.1.1.jar"/>
 	        		<fileset file="lib/org.eclipse*.jar"/>
+	        		<fileset file="lib/jgit/*.jar"/>
 	        	</lib>
 	        </one-jar>
 	        <one-jar destfile="build/serverwiz2_macosx64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
@@ -73,10 +76,8 @@
 	        		<fileset file="lib/swt_macosx.jar"/>
 	        		<fileset file="lib/json-simple-1.1.1.jar"/>
 	        		<fileset file="lib/org.eclipse*.jar"/>
+	        		<fileset file="lib/jgit/*.jar"/>
 	        	</lib>
 	        </one-jar>
-	    	<zip destfile="build/serverwiz2_lib.zip">
-	    		<zipfileset dir="xml" prefix="xml"/>
-	    	</zip>
 	    </target>
 </project>
