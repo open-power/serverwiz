@@ -29,7 +29,6 @@ import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.view.ErrataViewer;
 
 public class SystemModel {
-	// public Target rootTarget;
 	public Vector<Target> rootTargets = new Vector<Target>();
 	private DocumentBuilder builder;
 
@@ -58,11 +57,12 @@ public class SystemModel {
 
 	private TreeMap<String, TreeMap<String, Field>> globalSettings = new TreeMap<String, TreeMap<String, Field>>();
 
+	private HashMap<String,Boolean> loadedLibraries = new HashMap<String,Boolean>();
+	
 	public Boolean partsMode = false;
 	public Boolean cleanupMode = false;
 	public Boolean errataUpdated = false;
 	
-
 	public Vector<Target> getBusTypes() {
 		return busTypes;
 	}
@@ -200,6 +200,11 @@ public class SystemModel {
 		return null;
 	}
 	public void loadLibrary(String path) throws Exception {
+		if (this.loadedLibraries.containsKey(path)) {
+			ServerWizard2.LOGGER.info("Library already loaded: "+path);
+			return;
+		}
+		this.loadedLibraries.put(path, true);
 		File xmlDir = new File(path);
 		//Loads files in alphabetical order
 		String[] filesStr = xmlDir.list();
@@ -344,6 +349,9 @@ public class SystemModel {
 		checkErrata();
 	}
 	
+	/*
+	 * Compare attributes in errata*.xml against currently loaded XML
+	 */
 	public void checkErrata() {
 		Vector<Errata> errataNew = new Vector<Errata>();
 		
@@ -396,8 +404,9 @@ public class SystemModel {
 		}
 	}
 	
-	///////////////////////////////////////////////
-	// global settings
+	/*
+	 * Global settings get/sets
+	 */
 	
 	public Field setGlobalSetting(String path, String attribute, String value) {
 		TreeMap<String, Field> s = globalSettings.get(path);
@@ -471,6 +480,9 @@ public class SystemModel {
 			this.setGlobalSetting(targetId, property, value);
 		}
 	}
+	/*
+	 * Read errata file
+	 */
 	private void readErrata(Element setting) {
 		String errata_id = SystemModel.getElement(setting, "id");
 		if (this.errata.containsKey(errata_id)) {
@@ -479,8 +491,40 @@ public class SystemModel {
 		}
 	}
 	
-	/////////////////////////////////////////////////
-	// Writes MRW to file
+	/*
+	 * Returns a vector of attributes located in the target and global settings
+	 * associated with a particular target instance
+	 */
+	public Vector<Field> getAttributesAndGlobals(Target targetInstance, String path, Boolean showGlobalSettings) {
+		Vector<Field> attributes = new Vector<Field>();
+		for (Map.Entry<String, Attribute> entry : targetInstance.getAttributes().entrySet()) {
+			Attribute attribute = entry.getValue();
+			if (!attribute.isHidden()) {
+				if (attribute.isGlobal() && showGlobalSettings) {
+					if (!path.isEmpty()) {
+						Field field = getGlobalSetting(path, attribute.name);
+						if (field==null) {
+							setGlobalSetting(path, attribute.name, "");
+							field = getGlobalSetting(path, attribute.name);
+						}
+						field.type = attribute.getValue().getType();
+						if (field.type.equals("enumeration")) {
+							field.enumerator = attribute.getValue().getFields().get(0).enumerator;
+						}
+						attributes.add(field);
+					}
+				} else {
+					for (Field field : attribute.getValue().getFields())
+						attributes.add(field);
+				}
+			}
+		}
+		return attributes;
+	}
+
+	/*
+	 * Write XML to a file
+	 */
 	public void writeXML(String filename, Boolean partsMode) throws Exception {
 		Writer out = new BufferedWriter(new FileWriter(filename));
 		String topTag = "systemInstance";
@@ -508,6 +552,9 @@ public class SystemModel {
 		out.close();
 	}
 
+	/*
+	 * Add a target instance to the model
+	 */
 	public void addTarget(Target parentTarget, Target newTarget,Boolean pathMode) throws Exception {
 		if (parentTarget == null) {
 			this.rootTargets.add(newTarget);
