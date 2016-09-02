@@ -1,11 +1,15 @@
 package com.ibm.ServerWizard2.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Properties;
 import java.util.Vector;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -27,6 +31,7 @@ public class TargetWizardController {
 	private String PROCESSING_SCRIPT = "scripts/gen_html.pl";
 
 	public TargetWizardController() {
+
 	}
 
 	public void setModelCreationMode() {
@@ -38,8 +43,6 @@ public class TargetWizardController {
 
 	public void init() {
 		try {
-			//xmlLib.init();
-			//xmlLib.loadModel(model);
 			model.loadLibrary("xml");
 			this.initModel();
 		} catch (Exception e) {
@@ -70,7 +73,10 @@ public class TargetWizardController {
 	public void deleteTarget(Target target) {
 		model.deleteTarget(target);
 	}
-
+	public Vector<Field> getAttributesAndGlobals(Target targetInstance, String path) {
+		return model.getAttributesAndGlobals(targetInstance, path, !this.modelCreationMode);
+	}
+	
 	public void addTargetInstance(Target targetModel, Target parentTarget,
 			TreeItem parentItem, String nameOverride) {
 
