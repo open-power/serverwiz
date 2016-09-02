@@ -67,6 +67,7 @@ public class ServerWizard2 {
 	    tc.setView(view);
 	    tc.setModel(systemModel);
 	    view.setController(tc);
+	    tc.init();
 	    systemModel.cleanupMode = cleanupMode;
 		if (!inputFilename.isEmpty()) {
 			view.mrwFilename=inputFilename;
