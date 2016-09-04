@@ -210,6 +210,15 @@ public class GitDialog extends Dialog {
 				}
 				GithubRepository g = (GithubRepository) listViewer
 						.getElementAt(listViewer.getList().getSelectionIndex());
+				
+				boolean delete = MessageDialog.openConfirm(null, "Delete Respository",
+						"Are you sure you want to delete the following repository?\n" + g.getRemoteUrl() +"\n" +
+						"Note: This will NOT delete repository from disk"
+						);
+				
+				if (!delete) {
+					return;
+				}
 				if (g.getRemoteUrl().equals(ServerWizard2.DEFAULT_REMOTE_URL)) {
 					MessageDialog.openError(null, "Error", "Deleting of default repository is not allowed");
 				} else {
