@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -35,8 +34,7 @@ public class PasswordPrompt extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
-		GridLayout gridLayout = (GridLayout) container.getLayout();
-		
+				
 		Label lblEnterPasswordFor = new Label(container, SWT.NONE);
 		GridData gd_lblEnterPasswordFor = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_lblEnterPasswordFor.widthHint = 352;

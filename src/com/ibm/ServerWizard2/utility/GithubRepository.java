@@ -1,7 +1,6 @@
 package com.ibm.ServerWizard2.utility;
 
 import java.io.File;
-import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.HashMap;
 
