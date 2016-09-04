@@ -1,7 +1,16 @@
 package com.ibm.ServerWizard2;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import com.ibm.ServerWizard2.controller.TargetWizardController;
 import com.ibm.ServerWizard2.model.SystemModel;
@@ -14,7 +23,12 @@ public class ServerWizard2 {
 	 */
 	public final static Logger LOGGER = Logger.getLogger(ServerWizard2.class.getName());
 	public final static int VERSION_MAJOR = 2;
-	public final static int VERSION_MINOR = 1;
+	public final static int VERSION_MINOR = 2;
+	
+	public final static String PROPERTIES_FILE = "serverwiz.preferences";
+	public static String GIT_LOCATION = "";
+	public final static String DEFAULT_REMOTE_URL = "https://github.com/open-power/common-mrw-xml.git";
+	
 
 	public static String getVersionString() {
 		return VERSION_MAJOR+"."+VERSION_MINOR;
@@ -61,6 +75,9 @@ public class ServerWizard2 {
 
 		LOGGER.config("======================================================================");
 		LOGGER.config("ServerWiz2 Version "+getVersionString()+" Starting...");
+	
+		getPreferences();
+		
 		TargetWizardController tc = new TargetWizardController();
 		SystemModel systemModel = new SystemModel();
 	    MainDialog view = new MainDialog(null);
@@ -74,4 +91,48 @@ public class ServerWizard2 {
 		}
 	    view.open();
 	}
+	private static void getPreferences() {
+		   Display display = new Display();
+		    Shell shell = new Shell(display);
+		try {
+			boolean newFile = false;
+			File f = new File(ServerWizard2.PROPERTIES_FILE);
+			if (!f.exists()) {
+				ServerWizard2.LOGGER.info("Preferences file doesn't exist, creating...");
+				f.createNewFile();
+				newFile = true;
+			}
+			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
+			Properties p = new Properties();
+			p.load(propFile);
+			propFile.close();
+
+			if (newFile) {
+				DirectoryDialog fdlg = new DirectoryDialog(shell, SWT.OPEN);
+				fdlg.setFilterPath(ServerWizard2.getWorkingDir());
+				String libPath = fdlg.open();
+				if (libPath.isEmpty()) {
+					libPath = "git";
+				}
+				p.setProperty("git_location", libPath);
+				p.setProperty("repositories", ServerWizard2.DEFAULT_REMOTE_URL);
+				p.setProperty("needs_password", "false");
+				
+				FileOutputStream out = new FileOutputStream(ServerWizard2.PROPERTIES_FILE);
+				p.store(out, "");
+				out.close();
+			}
+			ServerWizard2.GIT_LOCATION = p.getProperty("git_location");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			ServerWizard2.LOGGER.severe(e.getMessage());
+			System.exit(0);
+		}
+	}	
+	public static String getWorkingDir() {
+		File f = new File("").getAbsoluteFile();
+		String workingDir = f.getAbsolutePath() + System.getProperty("file.separator");
+		return workingDir;
+	}	
 }
