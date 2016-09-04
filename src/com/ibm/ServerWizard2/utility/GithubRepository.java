@@ -1,7 +1,9 @@
 package com.ibm.ServerWizard2.utility;
 
 import java.io.File;
+import java.net.UnknownHostException;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.swing.ProgressMonitor;
 
@@ -25,15 +27,15 @@ public class GithubRepository implements Comparable<GithubRepository> {
 	private boolean needsPassword;
 	private boolean passwordValidated = false;
 	private UsernamePasswordCredentialsProvider credentials;
-	public final static String GIT_LOCAL_LOCATION = "git";
+	
 	private boolean cloned;
 	private final RefSpec refSpec = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
 
-	public GithubRepository(String remoteUrl, boolean needsPassword) {
+	public GithubRepository(String remoteUrl, String localDir, boolean needsPassword) {
 		this.remoteUrl = remoteUrl;
 		this.needsPassword = needsPassword;
 		File f = new File(remoteUrl);
-		String localPath = GIT_LOCAL_LOCATION + File.separator + f.getName().replace(".git", "");
+		String localPath = localDir + File.separator + f.getName().replace(".git", "");
 		rootDirectory = new File(localPath);
 		gitDirectory = new File(localPath + File.separator + ".git");
 		cloned = false;
@@ -94,6 +96,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			}
 		} catch (Exception e) {
 			ServerWizard2.LOGGER.severe(e.getMessage());
+			this.betterError(e);
 		}
 		if (!found) {
 			passwordValidated = false;
@@ -121,13 +124,12 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			cloned = true;
 			result.close();
 		} catch (Exception e1) {
-			ServerWizard2.LOGGER.severe(e1.getMessage());
 			passwordValidated = false;
-			throw new Exception("Unable to clone");
+			this.betterError(e1);
 		}
 	}
 
-	public void fetch(boolean reset) {
+	public void fetch(boolean reset) throws Exception {
 		if (!passwordValidated) {
 			this.getPassword();
 		}
@@ -153,7 +155,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			result.close();
 		} catch (Exception e1) {
 			passwordValidated = false;
-			ServerWizard2.LOGGER.severe(e1.getMessage());
+			this.betterError(e1);
 		}
 	}
 
@@ -171,6 +173,23 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			status = null;
 		}
 		return status;
+	}
+	
+	// The chained exceptions from jgit don't explain error
+	// Need to dive down to root cause and make better error message.
+	public void betterError(Exception e) throws Exception {
+		HashMap<String,String> errorLookup = new HashMap<String,String>();
+		errorLookup.put("java.net.UnknownHostException", "Unable to connect to location:");
+		errorLookup.put("org.eclipse.jgit.errors.NoRemoteRepositoryException", "Remote Repository not found:");
+		errorLookup.put("org.eclipse.jgit.errors.TransportException", "Invalid Remote Repository or Bad Password: ");
+		ServerWizard2.LOGGER.severe(e.getCause().toString());
+		Throwable t = getCause(e);
+		ServerWizard2.LOGGER.severe(t.toString());
+		String errorMsg = t.getMessage();
+		if (errorLookup.containsKey(t.getClass().getName())) {
+			errorMsg = errorLookup.get(t.getClass().getName()) + "\n" + t.getMessage();
+		}
+		throw new Exception(errorMsg);
 	}
 
 	public boolean isCloned() {
@@ -208,5 +227,14 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			return this.compareTo(p) == 0 ? true : false;
 		}
 		return false;
+	}
+	Throwable getCause(Throwable e) {
+	    Throwable cause = null; 
+	    Throwable result = e;
+
+	    while(null != (cause = result.getCause())  && (result != cause) ) {
+	        result = cause;
+	    }
+	    return result;
 	}
 }

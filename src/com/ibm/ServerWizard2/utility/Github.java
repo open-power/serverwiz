@@ -3,29 +3,22 @@ package com.ibm.ServerWizard2.utility;
 import java.io.File;
 import java.util.Vector;
 
-public class Github {
+public class Github { 
 	private Vector<GithubRepository> repositories = new Vector<GithubRepository>();
+	private String localPath;
 
-	public Github() {	
-		File f = new File(GithubRepository.GIT_LOCAL_LOCATION);
+	public Github(String path) {
+		this.localPath = path;
+		File f = new File(path);
 		if (!f.exists()) {
 			f.mkdirs();
 		}
 	}
-
+	public String getLocation() {
+		return this.localPath;
+	}
 	public boolean isRepository(GithubRepository repo) {
 		return repositories.contains(repo);
-	}
-	
-	public boolean addRepository(String repo, boolean needsPass) {
-		for (GithubRepository g : repositories) {
-			if (g.getRemoteUrl().equals(repo)) {
-				return false;
-			}
-		}
-		GithubRepository g = new GithubRepository(repo,needsPass);
-		repositories.add(g);
-		return true;
 	}
 	
 	public Vector<GithubRepository> getRepositories() {

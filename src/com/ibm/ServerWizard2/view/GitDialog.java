@@ -40,10 +40,8 @@ import com.ibm.ServerWizard2.utility.GithubRepository;
 
 public class GitDialog extends Dialog {
 	private Text txtNewRepo;
-	Github git = new Github();
+	Github git = new Github(ServerWizard2.GIT_LOCATION);
 
-	private final String PROPERTIES_FILE = "serverwiz.preferences";
-	private final String DEFAULT_REPO = "https://github.com/nkskjames/firestone-xml.git";
 	private ListViewer listViewer;
 	private Button btnCloned;
 	private Button btnAdded;
@@ -190,7 +188,7 @@ public class GitDialog extends Dialog {
 						MessageDialog.openInformation(null, "Refresh Complete", "Refresh Complete");
 					}
 				} catch (Exception e) {
-					MessageDialog.openError(null, "Git Refresh Error", "Unable to refresh: " + g.getRemoteUrl());
+					MessageDialog.openError(null, "Git Refresh: "+g.getRemoteUrl(), e.getMessage());
 				}
 			}
 		});
@@ -212,7 +210,7 @@ public class GitDialog extends Dialog {
 				}
 				GithubRepository g = (GithubRepository) listViewer
 						.getElementAt(listViewer.getList().getSelectionIndex());
-				if (g.getRemoteUrl().equals(DEFAULT_REPO)) {
+				if (g.getRemoteUrl().equals(ServerWizard2.DEFAULT_REMOTE_URL)) {
 					MessageDialog.openError(null, "Error", "Deleting of default repository is not allowed");
 				} else {
 					git.getRepositories().remove(g);
@@ -262,9 +260,10 @@ public class GitDialog extends Dialog {
 					MessageDialog.openError(null, "Error", "Repository URL is blank");
 					return;
 				}
-				GithubRepository g = new GithubRepository(repo, btnNeedsPassword.getSelection());
+				GithubRepository g = new GithubRepository(repo, git.getLocation(), btnNeedsPassword.getSelection());
 				if (git.isRepository(g)) {
 					MessageDialog.openError(null, "Error", "Repository already exists");
+					return;
 				}
 				try {
 					g.checkRemote();
@@ -273,7 +272,7 @@ public class GitDialog extends Dialog {
 					txtNewRepo.setText("");
 					listViewer.refresh();
 				} catch (Exception e) {
-					MessageDialog.openError(null, "Error", e.getMessage());
+					MessageDialog.openError(null, "Add Remote: "+g.getRemoteUrl(), e.getMessage());
 				}
 			}
 		});
@@ -336,19 +335,19 @@ public class GitDialog extends Dialog {
 	public void getRepositories() {
 		try {
 			boolean newFile = false;
-			File f = new File(PROPERTIES_FILE);
+			File f = new File(ServerWizard2.PROPERTIES_FILE);
 			if (!f.exists()) {
 				ServerWizard2.LOGGER.info("Preferences file doesn't exist, creating...");
 				f.createNewFile();
 				newFile = true;
 			}
-			FileInputStream propFile = new FileInputStream(PROPERTIES_FILE);
+			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
 			Properties p = new Properties();
 			p.load(propFile);
 			propFile.close();
 
 			if (newFile) {
-				p.setProperty("repositories", DEFAULT_REPO);
+				p.setProperty("repositories", ServerWizard2.DEFAULT_REMOTE_URL);
 				p.setProperty("needs_password", "false");
 			}
 			String repos = p.getProperty("repositories");
@@ -362,7 +361,8 @@ public class GitDialog extends Dialog {
 				if (needsPass[i].equals("true")) {
 					n = true;
 				}
-				git.addRepository(repo[i], n);
+				GithubRepository g = new GithubRepository(repo[i],ServerWizard2.GIT_LOCATION,n);
+				git.getRepositories().add(g);
 			}
 		} catch (Exception e) {
 			ServerWizard2.LOGGER.severe(e.getMessage());
@@ -372,7 +372,11 @@ public class GitDialog extends Dialog {
 	public boolean close() {
 		Properties p = new Properties();
 		try {
-			FileOutputStream out = new FileOutputStream(PROPERTIES_FILE);
+			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
+			p.load(propFile);
+			propFile.close();
+			
+			FileOutputStream out = new FileOutputStream(ServerWizard2.PROPERTIES_FILE);
 			String repo = git.getRepositoriesStr();
 			String pass = git.getPasswordStr();
 			p.setProperty("repositories", repo);
