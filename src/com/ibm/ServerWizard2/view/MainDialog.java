@@ -1,9 +1,6 @@
 package com.ibm.ServerWizard2.view;
 
-import java.io.File;
 import java.util.Vector;
-
-import javax.swing.ProgressMonitor;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -54,22 +51,7 @@ import com.ibm.ServerWizard2.model.Connection;
 import com.ibm.ServerWizard2.model.ConnectionEndpoint;
 import com.ibm.ServerWizard2.model.Field;
 import com.ibm.ServerWizard2.model.Target;
-import com.ibm.ServerWizard2.utility.GitProgressMonitor;
-import com.ibm.ServerWizard2.utility.Github;
 import com.ibm.ServerWizard2.utility.GithubFile;
-
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.RebaseResult;
-import org.eclipse.jgit.api.ResetCommand;
-import org.eclipse.jgit.api.ResetCommand.ResetType;
-import org.eclipse.jgit.api.StatusCommand;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.eclipse.jgit.transport.FetchResult;
-import org.eclipse.jgit.transport.RefSpec;
 
 
 
@@ -521,7 +503,7 @@ public class MainDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				Button b = (Button) e.getSource();
 				DirectoryDialog fdlg = new DirectoryDialog(b.getShell(), SWT.OPEN);
-				fdlg.setFilterPath(controller.getWorkingDir());
+				fdlg.setFilterPath(ServerWizard2.getWorkingDir());
 				String libPath = fdlg.open();
 				if (libPath == null) {
 					return;
