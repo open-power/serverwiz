@@ -1,17 +1,15 @@
 package com.ibm.ServerWizard2.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Properties;
 import java.util.Vector;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.status.StatusLogger;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -20,6 +18,7 @@ import com.ibm.ServerWizard2.model.Connection;
 import com.ibm.ServerWizard2.model.Field;
 import com.ibm.ServerWizard2.model.SystemModel;
 import com.ibm.ServerWizard2.model.Target;
+import com.ibm.ServerWizard2.utility.GithubRepository;
 import com.ibm.ServerWizard2.view.LogViewerDialog;
 import com.ibm.ServerWizard2.view.MainDialog;
 
@@ -28,8 +27,9 @@ public class TargetWizardController {
 	private MainDialog view;
 	private Boolean modelCreationMode = false;
 
-	private String PROCESSING_SCRIPT = "scripts/gen_html.pl";
-
+	private String PROCESSING_SCRIPT = "scripts"+File.separator+"gen_html.pl";
+	private final String LIBRARY_NAME = "common-mrw-xml";
+			
 	public TargetWizardController() {
 
 	}
@@ -43,7 +43,15 @@ public class TargetWizardController {
 
 	public void init() {
 		try {
-			model.loadLibrary("xml");
+			String libraryLocation = ServerWizard2.GIT_LOCATION + File.separator + this.LIBRARY_NAME;
+			File chk = new File(libraryLocation);
+			if (!chk.exists()) {
+				ServerWizard2.LOGGER.info("XML library does not exist so cloning: "+libraryLocation);
+				StatusLogger.getLogger().setLevel(Level.FATAL);
+				GithubRepository git = new GithubRepository(ServerWizard2.DEFAULT_REMOTE_URL, ServerWizard2.GIT_LOCATION, false);
+				git.cloneRepository();
+			}
+			model.loadLibrary(libraryLocation);
 			this.initModel();
 		} catch (Exception e) {
 			ServerWizard2.LOGGER.severe(e.toString());
@@ -212,11 +220,6 @@ public class TargetWizardController {
 	public Vector<Target> getBusTypes() {
 		return model.getBusTypes();
 	}
-	public String getWorkingDir() {
-		File f = new File("").getAbsoluteFile();
-		String workingDir = f.getAbsolutePath() + System.getProperty("file.separator");
-		return workingDir;
-	}
 	public void loadLibrary(String path) {
 		try {
 			model.loadLibrary(path);
@@ -226,7 +229,7 @@ public class TargetWizardController {
 	}
 	public void runChecks(String xmlFile, String htmlFile) {
 
-		String workingDir = this.getWorkingDir();
+		String workingDir = ServerWizard2.getWorkingDir();
 		String commandLine[] = { "perl", "-I", workingDir + "/scripts",
 				workingDir + PROCESSING_SCRIPT, "-x",
 				xmlFile, "-f", "-o", htmlFile };
