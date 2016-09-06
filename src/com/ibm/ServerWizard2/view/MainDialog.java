@@ -476,9 +476,9 @@ public class MainDialog extends Dialog {
 		gd_sep.widthHint = 30;
 		label.setLayoutData(gd_sep);
 
-		btnClone = createButton(row1, IDialogConstants.NO_ID, "Manage Git", false);
+		btnClone = createButton(row1, IDialogConstants.NO_ID, "Manage Library", false);
 		GridData gd_btnClone = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnClone.widthHint = 90;
+		gd_btnClone.widthHint = 100;
 
 		btnClone.setLayoutData(gd_btnClone);
 		btnClone.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
