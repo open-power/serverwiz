@@ -17,6 +17,7 @@ public class PasswordPrompt extends Dialog {
 	private Text text;
 	public char passwd[];
 	private String label;
+	Button btnOk;
 
 	/**
 	 * Create the dialog.
@@ -24,6 +25,7 @@ public class PasswordPrompt extends Dialog {
 	 */
 	public PasswordPrompt(Shell parentShell,String label) {
 		super(parentShell);
+		setShellStyle(SWT.APPLICATION_MODAL);
 		this.label = label;
 	}
 
@@ -58,7 +60,7 @@ public class PasswordPrompt extends Dialog {
 		text = new Text(composite_1, SWT.BORDER | SWT.PASSWORD);
 		text.setBounds(10, 10, 115, 21);
 		
-		Button btnOk = new Button(composite_1, SWT.NONE);
+		btnOk = new Button(composite_1, SWT.NONE);
 		btnOk.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -68,6 +70,7 @@ public class PasswordPrompt extends Dialog {
 		});
 		btnOk.setBounds(143, 6, 75, 25);
 		btnOk.setText("Ok");
+		this.getShell().setDefaultButton(btnOk);
 
 		return container;
 	}

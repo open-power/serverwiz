@@ -15,6 +15,7 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.swt.widgets.Shell;
 
 import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.view.PasswordPrompt;
@@ -25,6 +26,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 	private File gitDirectory;
 	private boolean needsPassword;
 	private boolean passwordValidated = false;
+	private Shell shell = null;
 	private UsernamePasswordCredentialsProvider credentials;
 	
 	private boolean cloned;
@@ -43,6 +45,9 @@ public class GithubRepository implements Comparable<GithubRepository> {
 		}
 	}
 
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 	public File getRootDirectory() {
 		return rootDirectory;
 	}
@@ -56,7 +61,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			credentials = new UsernamePasswordCredentialsProvider("", "");
 			return;
 		}
-		PasswordPrompt dlg = new PasswordPrompt(null, this.remoteUrl);
+		PasswordPrompt dlg = new PasswordPrompt(shell, this.remoteUrl);
 		dlg.open();
 		credentials = new UsernamePasswordCredentialsProvider("", dlg.passwd);
 		passwordValidated = false;
@@ -128,13 +133,13 @@ public class GithubRepository implements Comparable<GithubRepository> {
 		}
 	}
 
-	public void fetch(boolean reset) throws Exception {
+	public String fetch(boolean reset) throws Exception {
 		if (!passwordValidated) {
 			this.getPassword();
 		}
 
 		ServerWizard2.LOGGER.info("Fetching " + this.rootDirectory.getAbsolutePath());
-
+		String rstr = "";
 		try {
 			ProgressMonitor pim = new ProgressMonitor(null, "Fetching...", "", 0, 1);
 			GitProgressMonitor gpim = new GitProgressMonitor(pim);
@@ -146,16 +151,19 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			if (reset) {
 				ServerWizard2.LOGGER.info("Resetting to head: " + this.getRemoteUrl());
 				result.reset().setMode(ResetType.HARD).call();
+				rstr = "Reset Complete";
 			} else {
 				ServerWizard2.LOGGER.info("Rebase: " + this.getRemoteUrl());
 				RebaseResult r = result.rebase().setUpstream("refs/remotes/origin/master").call();
-				ServerWizard2.LOGGER.info(r.getStatus().toString());
+				rstr = r.getStatus().toString();
+				ServerWizard2.LOGGER.info(rstr);
 			}
 			result.close();
 		} catch (Exception e1) {
 			passwordValidated = false;
 			this.betterError(e1);
 		}
+		return rstr;
 	}
 
 	public org.eclipse.jgit.api.Status status() {

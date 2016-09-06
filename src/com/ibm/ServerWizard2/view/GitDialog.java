@@ -174,18 +174,19 @@ public class GitDialog extends Dialog {
 						g.cloneRepository();
 					}
 					org.eclipse.jgit.api.Status status = g.status();
+					
 					if (!status.isClean()) {
-						boolean reset = MessageDialog.openConfirm(null, "Repository is Modified",
+						boolean reset = MessageDialog.openQuestion(null, "Repository is Modified",
 								"The local repository for:\n" + g.getRemoteUrl() + "\n"
-										+ "has been modified. Would you like to ignore changes and reset");
+										+ "has been modified. Would you like to ignore changes and reset?");
 						if (reset) {
-							g.fetch(true);
-							MessageDialog.openInformation(null, "Refresh Complete", "Refresh Complete");
+							String r = g.fetch(true);
+							MessageDialog.openInformation(null, "Refresh Complete", "Reset Successful");
 
 						}
 					} else {
-						g.fetch(false);
-						MessageDialog.openInformation(null, "Refresh Complete", "Refresh Complete");
+						String r = g.fetch(false);
+						MessageDialog.openInformation(null, "Refresh Complete", "Message: "+r);
 					}
 				} catch (Exception e) {
 					MessageDialog.openError(null, "Git Refresh: "+g.getRemoteUrl(), e.getMessage());
@@ -270,6 +271,7 @@ public class GitDialog extends Dialog {
 					return;
 				}
 				GithubRepository g = new GithubRepository(repo, git.getLocation(), btnNeedsPassword.getSelection());
+				g.setShell(getShell());
 				if (git.isRepository(g)) {
 					MessageDialog.openError(null, "Error", "Repository already exists");
 					return;
@@ -371,6 +373,7 @@ public class GitDialog extends Dialog {
 					n = true;
 				}
 				GithubRepository g = new GithubRepository(repo[i],ServerWizard2.GIT_LOCATION,n);
+				g.setShell(getShell());
 				git.getRepositories().add(g);
 			}
 		} catch (Exception e) {
