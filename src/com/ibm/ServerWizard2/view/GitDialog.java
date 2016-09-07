@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Text;
 import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.utility.Github;
 import com.ibm.ServerWizard2.utility.GithubRepository;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class GitDialog extends Dialog {
 	private Text txtNewRepo;
@@ -52,6 +53,7 @@ public class GitDialog extends Dialog {
 	private Button btnMissing;
 	private Button btnNeedsPassword;
 	private Button btnRefresh;
+	private Text txtLocation;
 
 	/**
 	 * Create the dialog.
@@ -81,9 +83,14 @@ public class GitDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
+
+		Label lblGitRepositoryUrl = new Label(container, SWT.NONE);
+		lblGitRepositoryUrl.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		lblGitRepositoryUrl.setText("Git Repository URL:");
 		listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
 
 		List repositoryList = listViewer.getList();
+		repositoryList.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		repositoryList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -96,6 +103,7 @@ public class GitDialog extends Dialog {
 				btnNeedsPassword.setSelection(g.needsPassword());
 				if (g.isCloned()) {
 					btnCloned.setSelection(true);
+					txtLocation.setText(g.getRootDirectory().getAbsolutePath());
 					org.eclipse.jgit.api.Status status = g.status();
 					if (status != null) {
 						btnAdded.setSelection(isStatusSet(status.getAdded()));
@@ -104,6 +112,7 @@ public class GitDialog extends Dialog {
 						btnConflicting.setSelection(isStatusSet(status.getConflicting()));
 						btnUntracked.setSelection(isStatusSet(status.getUntracked()));
 						btnMissing.setSelection(isStatusSet(status.getMissing()));
+
 					} else {
 						MessageDialog.openError(null, "Git Error",
 								"The Git Repository has been modified.  Please restart Serverwiz." + g.getRemoteUrl());
@@ -115,42 +124,70 @@ public class GitDialog extends Dialog {
 		});
 		GridData gd_repositoryList = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_repositoryList.widthHint = 314;
-		gd_repositoryList.heightHint = 164;
+		gd_repositoryList.heightHint = 111;
 		repositoryList.setLayoutData(gd_repositoryList);
 
 		Composite composite = new Composite(container, SWT.NONE);
 		composite.setLayout(new GridLayout(5, false));
 		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_composite.widthHint = 355;
-		gd_composite.heightHint = 48;
+		gd_composite.widthHint = 367;
+		gd_composite.heightHint = 52;
 		composite.setLayoutData(gd_composite);
 		composite.setEnabled(false);
 
 		Label lblNewLabel = new Label(composite, SWT.NONE);
+		lblNewLabel.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		GridData gd_lblNewLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_lblNewLabel.widthHint = 48;
+		lblNewLabel.setLayoutData(gd_lblNewLabel);
 		lblNewLabel.setText("Status:");
 
 		btnCloned = new Button(composite, SWT.CHECK);
+		btnCloned.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnCloned.setText("Cloned");
 
 		btnAdded = new Button(composite, SWT.CHECK);
+		btnAdded.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnAdded.setText("Added");
 
 		btnRemoved = new Button(composite, SWT.CHECK);
+		btnRemoved.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnRemoved.setText("Removed");
 
 		btnChanged = new Button(composite, SWT.CHECK);
+		btnChanged.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnChanged.setText("Changed");
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 
 		btnConflicting = new Button(composite, SWT.CHECK);
+		btnConflicting.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnConflicting.setText("Conflicting");
 
 		btnUntracked = new Button(composite, SWT.CHECK);
+		btnUntracked.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnUntracked.setText("Untracked");
 
 		btnMissing = new Button(composite, SWT.CHECK);
+		btnMissing.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnMissing.setText("Missing");
+
+		Composite composite_4 = new Composite(container, SWT.NONE);
+		composite_4.setLayout(new RowLayout(SWT.HORIZONTAL));
+		GridData gd_composite_4 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_composite_4.widthHint = 351;
+		gd_composite_4.heightHint = 31;
+		composite_4.setLayoutData(gd_composite_4);
+
+		Label lblLocalLocation = new Label(composite_4, SWT.NONE);
+		lblLocalLocation.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		lblLocalLocation.setLayoutData(new RowData(93, 24));
+		lblLocalLocation.setText("Local Location: ");
+
+		txtLocation = new Text(composite_4, SWT.BORDER);
+		txtLocation.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		txtLocation.setEditable(false);
+		txtLocation.setLayoutData(new RowData(251, SWT.DEFAULT));
 
 		Composite composite_3 = new Composite(container, SWT.NONE);
 		composite_3.setLayout(new RowLayout(SWT.HORIZONTAL));
@@ -160,6 +197,7 @@ public class GitDialog extends Dialog {
 		composite_3.setLayoutData(gd_composite_3);
 
 		btnRefresh = new Button(composite_3, SWT.NONE);
+		btnRefresh.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnRefresh.setLayoutData(new RowData(80, SWT.DEFAULT));
 		btnRefresh.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -174,7 +212,7 @@ public class GitDialog extends Dialog {
 						g.cloneRepository();
 					}
 					org.eclipse.jgit.api.Status status = g.status();
-					
+
 					if (!status.isClean()) {
 						boolean reset = MessageDialog.openQuestion(null, "Repository is Modified",
 								"The local repository for:\n" + g.getRemoteUrl() + "\n"
@@ -186,10 +224,10 @@ public class GitDialog extends Dialog {
 						}
 					} else {
 						String r = g.fetch(false);
-						MessageDialog.openInformation(null, "Refresh Complete", "Message: "+r);
+						MessageDialog.openInformation(null, "Refresh Complete", "Message: " + r);
 					}
 				} catch (Exception e) {
-					MessageDialog.openError(null, "Git Refresh: "+g.getRemoteUrl(), e.getMessage());
+					MessageDialog.openError(null, "Git Refresh: " + g.getRemoteUrl(), e.getMessage());
 				}
 			}
 		});
@@ -202,6 +240,7 @@ public class GitDialog extends Dialog {
 		btnDummy.setText("New Button");
 
 		Button btnDelete = new Button(composite_3, SWT.NONE);
+		btnDelete.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnDelete.setLayoutData(new RowData(80, SWT.DEFAULT));
 		btnDelete.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -211,12 +250,11 @@ public class GitDialog extends Dialog {
 				}
 				GithubRepository g = (GithubRepository) listViewer
 						.getElementAt(listViewer.getList().getSelectionIndex());
-				
+
 				boolean delete = MessageDialog.openConfirm(null, "Delete Respository",
-						"Are you sure you want to delete the following repository?\n" + g.getRemoteUrl() +"\n" +
-						"Note: This will NOT delete repository from disk"
-						);
-				
+						"Are you sure you want to delete the following repository?\n" + g.getRemoteUrl() + "\n"
+								+ "Note: This will NOT delete repository from disk");
+
 				if (!delete) {
 					return;
 				}
@@ -230,22 +268,26 @@ public class GitDialog extends Dialog {
 		});
 		btnDelete.setText("Delete");
 
-		Label label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
-		GridData gd_label = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
-		gd_label.widthHint = 353;
-		label.setLayoutData(gd_label);
+		Label separator = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
+		GridData gd_separator = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_separator.heightHint = 7;
+		gd_separator.widthHint = 360;
+		separator.setLayoutData(gd_separator);
 
 		Composite composite_2 = new Composite(container, SWT.NONE);
 		composite_2.setLayout(new RowLayout(SWT.HORIZONTAL));
-		GridData gd_composite_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_composite_2 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_composite_2.widthHint = 354;
 		gd_composite_2.heightHint = 31;
 		composite_2.setLayoutData(gd_composite_2);
 
 		Label lblNewRepository = new Label(composite_2, SWT.NONE);
+		lblNewRepository.setLayoutData(new RowData(95, SWT.DEFAULT));
+		lblNewRepository.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblNewRepository.setText("New Repository:");
 
 		txtNewRepo = new Text(composite_2, SWT.BORDER);
+		txtNewRepo.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		txtNewRepo.setLayoutData(new RowData(249, SWT.DEFAULT));
 
 		Composite composite_1 = new Composite(container, SWT.NONE);
@@ -258,10 +300,13 @@ public class GitDialog extends Dialog {
 		composite_1.setLayoutData(gd_composite_1);
 
 		btnNeedsPassword = new Button(composite_1, SWT.CHECK);
+		btnNeedsPassword.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnNeedsPassword.setLayoutData(new RowData(148, SWT.DEFAULT));
 		btnNeedsPassword.setText("Needs Password?");
 
 		Button btnAddRemote = new Button(composite_1, SWT.NONE);
+		btnAddRemote.setLayoutData(new RowData(93, SWT.DEFAULT));
+		btnAddRemote.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnAddRemote.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -283,11 +328,14 @@ public class GitDialog extends Dialog {
 					txtNewRepo.setText("");
 					listViewer.refresh();
 				} catch (Exception e) {
-					MessageDialog.openError(null, "Add Remote: "+g.getRemoteUrl(), e.getMessage());
+					MessageDialog.openError(null, "Add Remote: " + g.getRemoteUrl(), e.getMessage());
 				}
 			}
 		});
 		btnAddRemote.setText("Add Remote");
+		
+		Label label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
 		listViewer.setLabelProvider(new LabelProvider() {
 			public Image getImage(Object element) {
@@ -332,6 +380,7 @@ public class GitDialog extends Dialog {
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		Button button = createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+		button.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		button.setText("Exit");
 	}
 
@@ -340,7 +389,7 @@ public class GitDialog extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(382, 457);
+		return new Point(393, 480);
 	}
 
 	public void getRepositories() {
@@ -372,7 +421,7 @@ public class GitDialog extends Dialog {
 				if (needsPass[i].equals("true")) {
 					n = true;
 				}
-				GithubRepository g = new GithubRepository(repo[i],ServerWizard2.GIT_LOCATION,n);
+				GithubRepository g = new GithubRepository(repo[i], ServerWizard2.GIT_LOCATION, n);
 				g.setShell(getShell());
 				git.getRepositories().add(g);
 			}
@@ -387,7 +436,7 @@ public class GitDialog extends Dialog {
 			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
 			p.load(propFile);
 			propFile.close();
-			
+
 			FileOutputStream out = new FileOutputStream(ServerWizard2.PROPERTIES_FILE);
 			String repo = git.getRepositoriesStr();
 			String pass = git.getPasswordStr();

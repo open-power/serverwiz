@@ -176,6 +176,22 @@ public class MainDialog extends Dialog {
 		buttonRow1.setLayout(rl_buttonRow1);
 
 		this.createButtonsForButtonBar2(buttonRow1);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
 		
 		sashForm = new SashForm(sashForm_1, SWT.NONE);
 
@@ -245,6 +261,7 @@ public class MainDialog extends Dialog {
 		btnDeleteTarget.setText("Delete Instance");
 		
 		btnShowHidden = new Button(compositeInstance, SWT.CHECK);
+		btnShowHidden.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_btnShowHidden = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnShowHidden.heightHint = 20;
 		btnShowHidden.setLayoutData(gd_btnShowHidden);
