@@ -188,7 +188,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 		HashMap<String,String> errorLookup = new HashMap<String,String>();
 		errorLookup.put("java.net.UnknownHostException", "Unable to connect to location:");
 		errorLookup.put("org.eclipse.jgit.errors.NoRemoteRepositoryException", "Remote Repository not found:");
-		errorLookup.put("org.eclipse.jgit.errors.TransportException", "Invalid Remote Repository or Bad Password: ");
+		errorLookup.put("org.eclipse.jgit.errors.TransportException", "Invalid Remote Repository or Incorrect Password: ");
 		ServerWizard2.LOGGER.severe(e.getCause().toString());
 		Throwable t = getCause(e);
 		ServerWizard2.LOGGER.severe(t.toString());
