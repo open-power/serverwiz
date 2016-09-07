@@ -12,11 +12,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class PasswordPrompt extends Dialog {
 	private Text text;
 	public char passwd[];
-	private String label;
+	private String label = "REPO";
 	Button btnOk;
 
 	/**
@@ -38,6 +39,7 @@ public class PasswordPrompt extends Dialog {
 		Composite container = (Composite) super.createDialogArea(parent);
 				
 		Label lblEnterPasswordFor = new Label(container, SWT.NONE);
+		lblEnterPasswordFor.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_lblEnterPasswordFor = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_lblEnterPasswordFor.widthHint = 352;
 		gd_lblEnterPasswordFor.heightHint = 21;
@@ -45,11 +47,12 @@ public class PasswordPrompt extends Dialog {
 		lblEnterPasswordFor.setText("Enter Password For:");
 		
 		Label lblRepository = new Label(container, SWT.NONE);
+		lblRepository.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_lblRepository = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_lblRepository.widthHint = 419;
 		gd_lblRepository.heightHint = 20;
 		lblRepository.setLayoutData(gd_lblRepository);
-		lblRepository.setText(this.label);
+		lblRepository.setText(label);
 		
 		Composite composite_1 = new Composite(container, SWT.NONE);
 		GridData gd_composite_1 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
@@ -58,9 +61,11 @@ public class PasswordPrompt extends Dialog {
 		composite_1.setLayoutData(gd_composite_1);
 		
 		text = new Text(composite_1, SWT.BORDER | SWT.PASSWORD);
+		text.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		text.setBounds(10, 10, 115, 21);
 		
 		btnOk = new Button(composite_1, SWT.NONE);
+		btnOk.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnOk.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
