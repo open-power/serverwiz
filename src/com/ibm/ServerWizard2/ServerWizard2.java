@@ -91,28 +91,25 @@ public class ServerWizard2 {
 		}
 	    view.open();
 	}
+	
+	// Load preferences file.
+	// Contains git repository location and repositories to manage.
 	private static void getPreferences() {
 		   Display display = new Display();
 		    Shell shell = new Shell(display);
 		try {
-			boolean newFile = false;
+			Properties p = new Properties();
 			File f = new File(ServerWizard2.PROPERTIES_FILE);
 			if (!f.exists()) {
+				//File doesn't exist, so create; prompt user for git location
 				ServerWizard2.LOGGER.info("Preferences file doesn't exist, creating...");
-				f.createNewFile();
-				newFile = true;
-			}
-			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
-			Properties p = new Properties();
-			p.load(propFile);
-			propFile.close();
-
-			if (newFile) {
 				DirectoryDialog fdlg = new DirectoryDialog(shell, SWT.OPEN);
+				fdlg.setMessage("Select location of GIT repositories:");
 				fdlg.setFilterPath(ServerWizard2.getWorkingDir());
 				String libPath = fdlg.open();
-				if (libPath.isEmpty()) {
-					libPath = "git";
+				if (libPath == null || libPath.isEmpty()) {
+					ServerWizard2.LOGGER.warning("No directory selected; exiting...");
+					System.exit(0);
 				}
 				p.setProperty("git_location", libPath);
 				p.setProperty("repositories", ServerWizard2.DEFAULT_REMOTE_URL);
@@ -122,7 +119,17 @@ public class ServerWizard2 {
 				p.store(out, "");
 				out.close();
 			}
-			ServerWizard2.GIT_LOCATION = p.getProperty("git_location");
+			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
+			p.load(propFile);
+			propFile.close();
+			String loc = p.getProperty("git_location");
+			if (loc !=null && !loc.isEmpty()) {
+				ServerWizard2.GIT_LOCATION = loc;
+			} else {
+				ServerWizard2.LOGGER.severe(ServerWizard2.PROPERTIES_FILE+" does not contain a repository location.\nPlease correct or delete.");
+				System.exit(0);				
+			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
