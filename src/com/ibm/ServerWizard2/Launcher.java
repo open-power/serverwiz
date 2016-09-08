@@ -77,7 +77,6 @@ public class Launcher {
 		
 		LOGGER.info("JarName = "+jarName);
 		GithubFile jar = new GithubFile(REPOSITORY,version,jarName,"jars",true,LOGGER);
-		GithubFile zip = new GithubFile(REPOSITORY,version,ZIP_NAME,"jars",true,LOGGER);
 
 		String versionCurrent="NONE";
 
@@ -116,9 +115,6 @@ public class Launcher {
 						}
 						if (doUpdate) {
 							jar.download();
-							zip.update();
-							zip.download();
-							unzip(zip.getLocalPath(),getWorkingDir());
 							updated=true;
 							GithubFile.updateSuccess(LOGGER, version);
 						}
