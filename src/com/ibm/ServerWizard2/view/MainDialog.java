@@ -290,6 +290,7 @@ public class MainDialog extends Dialog {
 		compositeBus.setLayout(new GridLayout(2, false));
 
 		lblChooseBus = new Label(compositeBus, SWT.NONE);
+		lblChooseBus.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblChooseBus.setAlignment(SWT.RIGHT);
 		GridData gd_lblChooseBus = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd_lblChooseBus.widthHint = 88;
@@ -297,6 +298,7 @@ public class MainDialog extends Dialog {
 		lblChooseBus.setText("Select Bus:");
 
 		cmbBusses = new Combo(compositeBus, SWT.READ_ONLY);
+		cmbBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		cmbBusses.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1));
 
 		cmbBusses.add("NONE");
@@ -304,6 +306,7 @@ public class MainDialog extends Dialog {
 		cmbBusses.select(0);
 
 		lblSelectedCard = new Label(compositeBus, SWT.NONE);
+		lblSelectedCard.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblSelectedCard.setAlignment(SWT.RIGHT);
 		GridData gd_lblSelectedCard = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd_lblSelectedCard.widthHint = 93;
@@ -311,6 +314,7 @@ public class MainDialog extends Dialog {
 		lblSelectedCard.setText("Select Card:");
 
 		cmbCards = new Combo(compositeBus, SWT.READ_ONLY);
+		cmbCards.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		cmbCards.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		btnDeleteConnection = new Button(compositeBus, SWT.NONE);
@@ -319,6 +323,7 @@ public class MainDialog extends Dialog {
 		btnDeleteConnection.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 
 		btnHideBusses = new Button(compositeBus, SWT.CHECK);
+		btnHideBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnHideBusses.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		btnHideBusses.setText("Show only busses of selected type");
 		btnHideBusses.setSelection(true);
@@ -348,6 +353,7 @@ public class MainDialog extends Dialog {
 						+ "5. Navigate to connection destination\r\n6. Right-click on destination and select \"Add Connection\"");
 
 		listBusses = new List(sashForm, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		listBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 
 		this.addEvents();
 		this.setDirtyState(false);
