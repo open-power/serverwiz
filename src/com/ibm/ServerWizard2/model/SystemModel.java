@@ -259,6 +259,7 @@ public class SystemModel {
 			String msg = "ServerWiz cannot read this version of XML: "+filename;
 			ServerWizard2.LOGGER.severe(msg);
 			MessageDialog.openError(null, "XML Load Error", msg);
+			return;
 		}
 		partsMode = false;
 		String targetTag = "targetInstance";
