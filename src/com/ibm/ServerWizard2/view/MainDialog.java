@@ -157,9 +157,9 @@ public class MainDialog extends Dialog {
 		rl_composite.wrap = false;
 		rl_composite.fill = true;
 		composite.setLayout(rl_composite);
-		GridData gd_composite = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
+		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
 		gd_composite.widthHint = 918;
-		gd_composite.heightHint = 135;
+		gd_composite.heightHint = 154;
 		composite.setLayoutData(gd_composite);
 
 		sashForm_1 = new SashForm(container, SWT.BORDER | SWT.VERTICAL);
@@ -217,6 +217,8 @@ public class MainDialog extends Dialog {
 		// //////////////////////////////////////////////////////////
 		// Tab folders
 		tabFolder = new TabFolder(composite, SWT.NONE);
+		tabFolder.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		tabFolder.setLayoutData(new RowData(SWT.DEFAULT, 119));
 
 		tbtmAddInstances = new TabItem(tabFolder, SWT.NONE);
 		tbtmAddInstances.setText("Instances");
