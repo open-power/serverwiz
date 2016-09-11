@@ -1,16 +1,16 @@
 package com.ibm.ServerWizard2.utility;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
-
-import javax.swing.ProgressMonitor;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.RebaseResult;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -118,11 +118,12 @@ public class GithubRepository implements Comparable<GithubRepository> {
 		ServerWizard2.LOGGER.info("Cloning " + this.remoteUrl + " into " + this.getRootDirectory().getAbsolutePath());
 		cloned = false;
 		try {
-			ProgressMonitor pim = new ProgressMonitor(null, "Cloning...", "", 0, 1);
-			GitProgressMonitor gpim = new GitProgressMonitor(pim);
+			//TODO: determine MacOS hang issue with the progress monitor
+			//ProgressMonitor pim = new ProgressMonitor(null, "Cloning...", "", 0, 1);
+			//GitProgressMonitor gpim = new GitProgressMonitor(pim);
 			Git result = Git.cloneRepository()
 					.setCredentialsProvider(credentials)
-					.setProgressMonitor(gpim)
+					.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)))
 					.setURI(this.getRemoteUrl()).setDirectory(this.getRootDirectory()).call();
 
 			cloned = true;
@@ -141,11 +142,13 @@ public class GithubRepository implements Comparable<GithubRepository> {
 		ServerWizard2.LOGGER.info("Fetching " + this.rootDirectory.getAbsolutePath());
 		String rstr = "";
 		try {
-			ProgressMonitor pim = new ProgressMonitor(null, "Fetching...", "", 0, 1);
-			GitProgressMonitor gpim = new GitProgressMonitor(pim);
 			Git result = Git.open(this.rootDirectory);
-			FetchResult fetch = result.fetch().setRemote(this.getRemoteUrl()).setCredentialsProvider(credentials)
-					.setProgressMonitor(gpim).setRefSpecs(refSpec).call();
+			FetchResult fetch = result.fetch()
+					.setRemote(this.getRemoteUrl())
+					.setCredentialsProvider(credentials)
+					.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)))
+					.setRefSpecs(refSpec)
+					.call();
 
 			ServerWizard2.LOGGER.info(fetch.getMessages());
 			if (reset) {
@@ -169,10 +172,10 @@ public class GithubRepository implements Comparable<GithubRepository> {
 	public org.eclipse.jgit.api.Status status() {
 		org.eclipse.jgit.api.Status status = null;
 		try {
-			ProgressMonitor pim = new ProgressMonitor(null, "Fetching...", "", 0, 1);
-			GitProgressMonitor gpim = new GitProgressMonitor(pim);
 			Git result = Git.open(this.getRootDirectory());
-			status = result.status().setProgressMonitor(gpim).call();
+			status = result.status()
+					.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)))
+					.call();
 
 			result.close();
 		} catch (Exception e1) {
