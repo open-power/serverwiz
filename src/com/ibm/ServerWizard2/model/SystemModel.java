@@ -1,7 +1,9 @@
 package com.ibm.ServerWizard2.model;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -257,13 +259,22 @@ public class SystemModel {
 		NodeList part = isXMLValid(document,"partInstance");
 		if (system == null && part == null) {
 			String msg = "ServerWiz cannot read this version of XML: "+filename;
-			ServerWizard2.LOGGER.severe(msg);
-			MessageDialog.openError(null, "XML Load Error", msg);
+			ServerWizard2.LOGGER.warning(msg);
+			//MessageDialog.openError(null, "XML Load Error", msg);
+			ServerWizard2.LOGGER.warning("Attempting to convert...");
+			String newName = this.xmlUpdate(filename);
+			if (newName.isEmpty()) {
+				ServerWizard2.LOGGER.info("Error converting file");
+				MessageDialog.openError(null, "XML Load Error", "Old XML format found.  Error converting file to new format");
+			} else {
+				ServerWizard2.LOGGER.info("Converted file: "+newName);
+				MessageDialog.openInformation(null, "XML Converted", "Old XML format found. Converted file to:\n"+newName+"\nPlease open new file.");
+			}
 			return;
 		}
 		partsMode = false;
 		String targetTag = "targetInstance";
-		if (part != null) { 
+		if (part != null) {
 			partsMode = true;
 			targetTag = "targetPart";
 			ServerWizard2.LOGGER.info("Setting Parts mode");
@@ -840,6 +851,61 @@ public class SystemModel {
 			Target childTarget = getTarget(child);
 			targetWalk(childTarget, path + "/" + child, targets);
 		}
+	}
+	
+	private String xmlUpdate(String filename) {
+		
+		BufferedReader br;
+		BufferedWriter wr;
+		boolean found_settings = false;
+		boolean found_targets = false;
+		boolean found_start = false;
+		String newFilename = filename+".new.xml";
+		
+		try {
+			br = new BufferedReader(new FileReader(filename));
+			wr = new BufferedWriter(new FileWriter(newFilename));
+			String line;
+			try {
+				wr.write("<systemInstance>\n");
+				wr.write("<version>2.1</version>\n");
+				wr.write("<enumerationTypes>\n");
+
+				while ((line = br.readLine()) != null) {
+				    if (line.equals("<enumerationType>") && !found_start) {
+				    	found_start = true;
+				    }
+				    if (line.equals("<globalSetting>") && !found_settings) {
+				    	wr.write("</enumerationTypes>");
+				    	wr.write("<globalSettings>\n");
+				    	found_settings = true;
+				    }
+					if (line.equals("<targetInstance>") && !found_targets) {
+						wr.write("</globalSettings>\n");
+						wr.write("<targetInstances>\n");
+						found_targets = true;
+					}
+					if (line.equals("</targetInstances>")) {
+						found_start = false;
+					}
+					if (found_start) {
+						wr.write(line+"\n");
+					}
+				}
+				wr.write("</targetInstances>\n");
+				wr.write("</systemInstance>\n");
+			} catch (IOException e) {
+				e.printStackTrace();
+				newFilename = "";
+			} finally {
+			    br.close();
+			    wr.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			newFilename = "";
+		}
+		return newFilename;
 	}
 	
 	private void xmlCleanup() {
