@@ -1,6 +1,5 @@
 package com.ibm.ServerWizard2.view;
 
-import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -48,12 +47,13 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.controller.TargetWizardController;
-import com.ibm.ServerWizard2.model.Attribute;
 import com.ibm.ServerWizard2.model.Connection;
 import com.ibm.ServerWizard2.model.ConnectionEndpoint;
 import com.ibm.ServerWizard2.model.Field;
 import com.ibm.ServerWizard2.model.Target;
 import com.ibm.ServerWizard2.utility.GithubFile;
+
+
 
 public class MainDialog extends Dialog {
 	private TableViewer viewer;
@@ -79,6 +79,7 @@ public class MainDialog extends Dialog {
 	private Button btnDeleteTarget;
 	private Button btnSave;
 	private Button btnOpen;
+	private Button btnClone;
 	private Button btnOpenLib;
 	private Button btnDeleteConnection;
 	private Button btnSaveAs;
@@ -156,9 +157,9 @@ public class MainDialog extends Dialog {
 		rl_composite.wrap = false;
 		rl_composite.fill = true;
 		composite.setLayout(rl_composite);
-		GridData gd_composite = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
+		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
 		gd_composite.widthHint = 918;
-		gd_composite.heightHint = 135;
+		gd_composite.heightHint = 154;
 		composite.setLayoutData(gd_composite);
 
 		sashForm_1 = new SashForm(container, SWT.BORDER | SWT.VERTICAL);
@@ -169,12 +170,28 @@ public class MainDialog extends Dialog {
 		
 		buttonRow1 = new Composite(container, SWT.NONE);
 		GridData gd_buttonRow1 = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
-		gd_buttonRow1.widthHint = 789;
+		gd_buttonRow1.widthHint = 850;
 		buttonRow1.setLayoutData(gd_buttonRow1);
 		GridLayout rl_buttonRow1 = new GridLayout(18, false);
 		buttonRow1.setLayout(rl_buttonRow1);
 
 		this.createButtonsForButtonBar2(buttonRow1);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.NONE);
 		
 		sashForm = new SashForm(sashForm_1, SWT.NONE);
 
@@ -200,6 +217,8 @@ public class MainDialog extends Dialog {
 		// //////////////////////////////////////////////////////////
 		// Tab folders
 		tabFolder = new TabFolder(composite, SWT.NONE);
+		tabFolder.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		tabFolder.setLayoutData(new RowData(SWT.DEFAULT, 119));
 
 		tbtmAddInstances = new TabItem(tabFolder, SWT.NONE);
 		tbtmAddInstances.setText("Instances");
@@ -243,11 +262,12 @@ public class MainDialog extends Dialog {
 		btnDeleteTarget.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnDeleteTarget.setText("Delete Instance");
 		
-				btnShowHidden = new Button(compositeInstance, SWT.CHECK);
-				GridData gd_btnShowHidden = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-				gd_btnShowHidden.heightHint = 20;
-				btnShowHidden.setLayoutData(gd_btnShowHidden);
-				btnShowHidden.setText(" Show Hidden");
+		btnShowHidden = new Button(compositeInstance, SWT.CHECK);
+		btnShowHidden.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		GridData gd_btnShowHidden = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_btnShowHidden.heightHint = 20;
+		btnShowHidden.setLayoutData(gd_btnShowHidden);
+		btnShowHidden.setText(" Show Hidden");
 		
 		btnCopyInstance = new Button(compositeInstance, SWT.NONE);
 		btnCopyInstance.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
@@ -272,6 +292,7 @@ public class MainDialog extends Dialog {
 		compositeBus.setLayout(new GridLayout(2, false));
 
 		lblChooseBus = new Label(compositeBus, SWT.NONE);
+		lblChooseBus.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblChooseBus.setAlignment(SWT.RIGHT);
 		GridData gd_lblChooseBus = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd_lblChooseBus.widthHint = 88;
@@ -279,6 +300,7 @@ public class MainDialog extends Dialog {
 		lblChooseBus.setText("Select Bus:");
 
 		cmbBusses = new Combo(compositeBus, SWT.READ_ONLY);
+		cmbBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		cmbBusses.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1));
 
 		cmbBusses.add("NONE");
@@ -286,6 +308,7 @@ public class MainDialog extends Dialog {
 		cmbBusses.select(0);
 
 		lblSelectedCard = new Label(compositeBus, SWT.NONE);
+		lblSelectedCard.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblSelectedCard.setAlignment(SWT.RIGHT);
 		GridData gd_lblSelectedCard = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd_lblSelectedCard.widthHint = 93;
@@ -293,6 +316,7 @@ public class MainDialog extends Dialog {
 		lblSelectedCard.setText("Select Card:");
 
 		cmbCards = new Combo(compositeBus, SWT.READ_ONLY);
+		cmbCards.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		cmbCards.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		btnDeleteConnection = new Button(compositeBus, SWT.NONE);
@@ -301,6 +325,7 @@ public class MainDialog extends Dialog {
 		btnDeleteConnection.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 
 		btnHideBusses = new Button(compositeBus, SWT.CHECK);
+		btnHideBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnHideBusses.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		btnHideBusses.setText("Show only busses of selected type");
 		btnHideBusses.setSelection(true);
@@ -330,12 +355,11 @@ public class MainDialog extends Dialog {
 						+ "5. Navigate to connection destination\r\n6. Right-click on destination and select \"Add Connection\"");
 
 		listBusses = new List(sashForm, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		listBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 
 		this.addEvents();
-
-		controller.init();
-
 		this.setDirtyState(false);
+
 		// load file if passed on command line
 		if (!mrwFilename.isEmpty()) {
 			controller.readXML(mrwFilename);
@@ -345,8 +369,8 @@ public class MainDialog extends Dialog {
 			cmbBusses.add(t.getType());
 			cmbBusses.setData(t.getType(), t);
 		}
+		attributes = new Vector<Field>();
 		this.initInstanceMode();
-		// columnName.setWidth(200);
 		sashForm.setWeights(new int[] { 1, 1 });
 		columnName.pack();
 		
@@ -380,12 +404,8 @@ public class MainDialog extends Dialog {
 				try {
 					controller.initModel();
 					setFilename("");
-					initAll();
+					initInstanceMode();
 					setDirtyState(false);
-					refreshInstanceTree();
-					refreshConnections();
-					updateView();
-					
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -417,7 +437,7 @@ public class MainDialog extends Dialog {
 				}
 				Boolean dirty = controller.readXML(filename);
 				setFilename(filename);
-				initAll();
+				initInstanceMode();
 				setDirtyState(dirty);
 			}
 		});
@@ -481,6 +501,22 @@ public class MainDialog extends Dialog {
 		gd_sep.widthHint = 30;
 		label.setLayoutData(gd_sep);
 
+		btnClone = createButton(row1, IDialogConstants.NO_ID, "Manage Library", false);
+		GridData gd_btnClone = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_btnClone.widthHint = 100;
+
+		btnClone.setLayoutData(gd_btnClone);
+		btnClone.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnClone.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				GitDialog dlg = new GitDialog(btnClone.getShell());
+				dlg.open();
+			}
+		});
+		btnClone.setToolTipText("Retrieves Library from github");
+		
+		
 		btnOpenLib = createButton(row1, IDialogConstants.NO_ID, "Open Lib", false);
 		GridData gd_btnOpenLib = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnOpenLib.widthHint = 90;
@@ -492,7 +528,7 @@ public class MainDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				Button b = (Button) e.getSource();
 				DirectoryDialog fdlg = new DirectoryDialog(b.getShell(), SWT.OPEN);
-				fdlg.setFilterPath(controller.getWorkingDir());
+				fdlg.setFilterPath(ServerWizard2.getWorkingDir());
 				String libPath = fdlg.open();
 				if (libPath == null) {
 					return;
@@ -569,11 +605,6 @@ public class MainDialog extends Dialog {
 		return null;
 	}
 
-	private void initAll() {
-		tabFolder.setSelection(0);
-		initInstanceMode();
-	}
-
 	private void initBusMode() {
 		busMode = true;
 		this.lblBusDirections.setEnabled(true);
@@ -590,24 +621,24 @@ public class MainDialog extends Dialog {
 		}
 		if (cmbCards.getItemCount() > 0) {
 			cmbCards.select(-1);
-			//this.targetForConnections = (Target)cmbCards.getData();
 		}
 		for (TreeItem item : tree.getItems()) {
 			Target target = (Target) item.getData();
-			// controller.getRootTarget().hideBusses();
 			controller.hideBusses(target);
 		}
-		
-
 		this.source = null;
 		this.dest = null;
 		this.selectedEndpoint = null;
 		refreshInstanceTree();
 		refreshConnections();
+		attributes.clear();
+		viewer.setInput(attributes);
+		viewer.refresh();
 		this.updateView();
 	}
 
 	private void initInstanceMode() {
+		tabFolder.setSelection(0);
 		busMode = false;
 		this.lblInstanceDirections.setEnabled(true);
 		this.lblInstanceDirections.setVisible(true);
@@ -618,6 +649,10 @@ public class MainDialog extends Dialog {
 		this.targetForConnections = null;
 		this.refreshInstanceTree();
 		this.listBusses.removeAll();
+		refreshConnections();
+		attributes.clear();
+		viewer.setInput(attributes);
+		viewer.refresh();
 		this.updateView();
 	}
 
@@ -637,6 +672,10 @@ public class MainDialog extends Dialog {
 		}
 	}
 
+	/*
+	 * Updates button enabled states based on if target is selected
+	 * Also updates attribute table based on selected target
+	 */
 	private void updateView() {
 		Target targetInstance = getSelectedTarget();
 		if (targetInstance == null) {
@@ -650,10 +689,13 @@ public class MainDialog extends Dialog {
 		updatePopupMenu(targetInstance);
 		updateChildCombo(targetInstance);
 
+		//A target is selected so show the associated attributes
 		TreeItem item = tree.getSelection()[0];
 		ConnectionEndpoint ep = this.getEndpoint(item, null);
-		refreshAttributes(targetInstance,ep);
-
+		attributes = controller.getAttributesAndGlobals(targetInstance, "/"+ep.getName());
+		viewer.setInput(attributes);
+		viewer.refresh();
+		
 		if (targetInstance.isSystem()) {
 			btnDeleteTarget.setEnabled(false);
 		} else {
@@ -667,7 +709,10 @@ public class MainDialog extends Dialog {
 		btnDefaults.setEnabled(true);
 	}
 
-
+	/*
+	 * Creates right-click popup menu for adding connections
+	 * 
+	 */
 	private void updatePopupMenu(Target selectedTarget) {
 		if (selectedTarget == null || tree.getSelectionCount()==0) {
 			return;
@@ -819,36 +864,6 @@ public class MainDialog extends Dialog {
 		this.setFontStyle(item, SWT.BOLD | SWT.ITALIC, true);
 		selectedEndpoint = item;
 	}
-
-	private void refreshAttributes(Target targetInstance,ConnectionEndpoint ep) {
-		attributes.clear();
-		for (Map.Entry<String, Attribute> entry : targetInstance.getAttributes().entrySet()) {
-
-			Attribute attribute = entry.getValue();
-			if (!attribute.isHidden()) {
-				if (attribute.isGlobal() && !controller.getModelCreationMode()) {
-					if (ep !=null) {
-						String path="/"+ep.getName();
-						Field field = controller.getGlobalSetting(path, attribute.name);
-						if (field==null) {
-							controller.setGlobalSetting(path, attribute.name, "");
-							field = controller.getGlobalSetting(path, attribute.name);
-						}
-						field.type = attribute.getValue().getType();
-						if (field.type.equals("enumeration")) {
-							field.enumerator = attribute.getValue().getFields().get(0).enumerator;
-						}
-						attributes.add(field);
-					}
-				} else {
-					for (Field field : attribute.getValue().getFields())
-						attributes.add(field);
-				}
-			}
-		}
-		viewer.refresh();
-	}
-
 	private void clearTreeAll() {
 		if (tree.getItemCount() > 0) {
 			clearTree(tree.getItem(0));
@@ -997,6 +1012,23 @@ public class MainDialog extends Dialog {
 		}
 	}
 
+	private void addConnection(Boolean cabled) {
+		Target busTarget = (Target) cmbBusses.getData(cmbBusses.getText());
+		Connection conn = targetForConnections.addConnection(busTarget, source, dest, cabled);
+		this.addConnection(conn);
+		setDirtyState(true);
+	}
+
+	private void deleteConnection() {
+		if (targetForConnections == null || listBusses.getSelectionCount() == 0) {
+			return;
+		}
+		Connection conn = (Connection) listBusses.getData(listBusses.getSelection()[0]);
+		controller.deleteConnection(targetForConnections, conn.busTarget, conn);
+		this.refreshConnections();
+		setDirtyState(true);
+	}
+
 	private void setFontStyle(TreeItem item, int style, boolean selected) {
 		if (item.isDisposed()) {
 			return;
@@ -1021,23 +1053,6 @@ public class MainDialog extends Dialog {
 			c.dispose();
 		}
 		return super.close();
-	}
-
-	private void addConnection(Boolean cabled) {
-		Target busTarget = (Target) cmbBusses.getData(cmbBusses.getText());
-		Connection conn = targetForConnections.addConnection(busTarget, source, dest, cabled);
-		this.addConnection(conn);
-		setDirtyState(true);
-	}
-
-	private void deleteConnection() {
-		if (targetForConnections == null || listBusses.getSelectionCount() == 0) {
-			return;
-		}
-		Connection conn = (Connection) listBusses.getData(listBusses.getSelection()[0]);
-		controller.deleteConnection(targetForConnections, conn.busTarget, conn);
-		this.refreshConnections();
-		setDirtyState(true);
 	}
 
 	public void setDirtyState(Boolean dirty) {
@@ -1196,7 +1211,9 @@ public class MainDialog extends Dialog {
 			public void widgetSelected(SelectionEvent arg0) {
 				if (listBusses.getSelectionCount() > 0) {
 					Connection conn = (Connection) listBusses.getData(listBusses.getSelection()[0]);
-					refreshAttributes(conn.busTarget,null);
+					attributes = controller.getAttributesAndGlobals(conn.busTarget, "");
+					viewer.setInput(attributes);
+					viewer.refresh();
 				}
 			}
 		});
@@ -1288,7 +1305,5 @@ public class MainDialog extends Dialog {
 		});
 		
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
-		attributes = new Vector<Field>();
-		viewer.setInput(attributes);
 	}
 }

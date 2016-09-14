@@ -206,9 +206,6 @@ public class GithubFile {
 				} catch (Exception e) {
 				}
 			}
-			//logger.info("Current Time: " + String.valueOf(currentTime));
-			//logger.info("Update Time: " + String.valueOf(updateTime));
-
 			if ((currentTime - updateTime) < MILLISECONDS_PER_DAY*3) {
 				logger.info("Not checking for updates");
 				version="";
