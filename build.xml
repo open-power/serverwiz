@@ -1,83 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project>
+<project default="jar">
 	<!-- Setup one-jar -->
-    <property name="one-jar.dist.dir" value="./lib"/>
-    <property name="one-jar.version" value="0.97"/>
-    <property name="one-jar.ant.jar" value="${one-jar.dist.dir}/one-jar-ant-task-${one-jar.version}.jar"/>
-    <taskdef name="one-jar" classname="com.simontuffs.onejar.ant.OneJarTask" 
-        classpath="${one-jar.ant.jar}" onerror="report"/>
+	<property name="one-jar.dist.dir" value="./lib" />
+	<property name="one-jar.version" value="0.97" />
+	<property name="one-jar.ant.jar" value="${one-jar.dist.dir}/one-jar-ant-task-${one-jar.version}.jar" />
+	<taskdef name="one-jar" classname="com.simontuffs.onejar.ant.OneJarTask" classpath="${one-jar.ant.jar}" onerror="report" />
 
 	<!-- All required jars are in ./lib -->
-    <path id="classpath">
-        <fileset dir="lib" includes="**/*.jar"/>
-    </path>
-	  <target name="clean">
-	        <delete dir="build"/>
-	    </target>
-
-	    <target name="compile">
-	        <mkdir dir="build/classes"/>
-	    	<javac srcdir="src" destdir="build/classes" classpathref="classpath"/>
-	    </target>
-		<!-- 
+	<path id="classpath">
+		<fileset dir="lib" includes="**/*.jar" />
+	</path>
+	<target name="clean">
+		<delete dir="build" />
+	</target>
+	<target name="compile" depends="clean">
+		<mkdir dir="build/classes" />
+		<javac srcdir="src" destdir="build/classes" classpathref="classpath" />
+	</target>
+	<!-- 
 		Build OS specific jars
 		Serverwiz uses SWT which has OS specific SWT jars
 		-->
-	    <target name="jar">
-	        <mkdir dir="build"/>
-	        <one-jar destfile="build/serverwiz2.jar" onejarmainclass="com.ibm.ServerWizard2.Launcher">
-	        	<main>
-	        		<fileset dir="build/classes"/>
-	        	</main>
-	        	<lib>
-	        		<fileset file="lib/json-simple-1.1.1.jar"/>
-	        		<fileset file="lib/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
-	        		<fileset file="lib/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
-	        	</lib>
-	        </one-jar>
-	    	<one-jar destfile="build/serverwiz2_win64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
-	        	<main>
-	        		<fileset dir="build/classes"/>
-	        	</main>
-	        	<lib>
-	        		<fileset file="lib/swt_win64.jar"/>
-	        		<fileset file="lib/json-simple-1.1.1.jar"/>
-	        		<fileset file="lib/org.eclipse*.jar"/>
-	        		<fileset file="lib/jgit/*.jar"/>
-	        	</lib>
-	        </one-jar>
-		    <one-jar destfile="build/serverwiz2_linux64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
-		        	<main>
-		        		<fileset dir="build/classes"/>
-		        	</main>
-		        	<lib>
-		        		<fileset file="lib/swt_linux64.jar"/>
-		        		<fileset file="lib/json-simple-1.1.1.jar"/>
-		        		<fileset file="lib/org.eclipse*.jar"/>
-		        		<fileset file="lib/jgit/*.jar"/>
-		        	</lib>
-		    </one-jar>
-	        <one-jar destfile="build/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
-	        	<main>
-	        		<fileset dir="build/classes"/>
-	        	</main>
-	        	<lib>
-	        		<fileset file="lib/swt_win32.jar"/>
-	        		<fileset file="lib/json-simple-1.1.1.jar"/>
-	        		<fileset file="lib/org.eclipse*.jar"/>
-	        		<fileset file="lib/jgit/*.jar"/>
-	        	</lib>
-	        </one-jar>
-	        <one-jar destfile="build/serverwiz2_macosx64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
-	        	<main>
-	        		<fileset dir="build/classes"/>
-	        	</main>
-	        	<lib>
-	        		<fileset file="lib/swt_macosx.jar"/>
-	        		<fileset file="lib/json-simple-1.1.1.jar"/>
-	        		<fileset file="lib/org.eclipse*.jar"/>
-	        		<fileset file="lib/jgit/*.jar"/>
-	        	</lib>
-	        </one-jar>
-	    </target>
+	<target name="jar" depends="compile">
+		<mkdir dir="build" />
+		<one-jar destfile="build/serverwiz2.jar" onejarmainclass="com.ibm.ServerWizard2.Launcher">
+			<main>
+				<fileset dir="build/classes" />
+			</main>
+			<lib>
+				<fileset file="lib/json-simple-1.1.1.jar" />
+				<fileset file="lib/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar" />
+				<fileset file="lib/org.eclipse.core.commands_3.6.100.v20140528-1422.jar" />
+			</lib>
+		</one-jar>
+		<one-jar destfile="build/serverwiz2_win64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+			<main>
+				<fileset dir="build/classes" />
+			</main>
+			<lib>
+				<fileset file="lib/swt_win64.jar" />
+				<fileset file="lib/json-simple-1.1.1.jar" />
+				<fileset file="lib/org.eclipse*.jar" />
+				<fileset file="lib/jgit/*.jar" />
+			</lib>
+		</one-jar>
+		<one-jar destfile="build/serverwiz2_linux64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+			<main>
+				<fileset dir="build/classes" />
+			</main>
+			<lib>
+				<fileset file="lib/swt_linux64.jar" />
+				<fileset file="lib/json-simple-1.1.1.jar" />
+				<fileset file="lib/org.eclipse*.jar" />
+				<fileset file="lib/jgit/*.jar" />
+			</lib>
+		</one-jar>
+		<one-jar destfile="build/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+			<main>
+				<fileset dir="build/classes" />
+			</main>
+			<lib>
+				<fileset file="lib/swt_win32.jar" />
+				<fileset file="lib/json-simple-1.1.1.jar" />
+				<fileset file="lib/org.eclipse*.jar" />
+				<fileset file="lib/jgit/*.jar" />
+			</lib>
+		</one-jar>
+		<one-jar destfile="build/serverwiz2_macosx64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
+			<main>
+				<fileset dir="build/classes" />
+			</main>
+			<lib>
+				<fileset file="lib/swt_macosx.jar" />
+				<fileset file="lib/json-simple-1.1.1.jar" />
+				<fileset file="lib/org.eclipse*.jar" />
+				<fileset file="lib/jgit/*.jar" />
+			</lib>
+		</one-jar>
+	</target>
 </project>
