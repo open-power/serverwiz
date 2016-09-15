@@ -170,7 +170,7 @@ public class MainDialog extends Dialog {
 		
 		buttonRow1 = new Composite(container, SWT.NONE);
 		GridData gd_buttonRow1 = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
-		gd_buttonRow1.widthHint = 850;
+		gd_buttonRow1.widthHint = 866;
 		buttonRow1.setLayoutData(gd_buttonRow1);
 		GridLayout rl_buttonRow1 = new GridLayout(18, false);
 		buttonRow1.setLayout(rl_buttonRow1);
@@ -504,7 +504,7 @@ public class MainDialog extends Dialog {
 
 		btnClone = createButton(row1, IDialogConstants.NO_ID, "Manage Library", false);
 		GridData gd_btnClone = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnClone.widthHint = 100;
+		gd_btnClone.widthHint = 110;
 
 		btnClone.setLayoutData(gd_btnClone);
 		btnClone.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
