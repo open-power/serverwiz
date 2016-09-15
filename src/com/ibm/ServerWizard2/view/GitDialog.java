@@ -83,8 +83,10 @@ public class GitDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
+		GridLayout gridLayout = (GridLayout) container.getLayout();
 
 		Label lblGitRepositoryUrl = new Label(container, SWT.NONE);
+		lblGitRepositoryUrl.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		lblGitRepositoryUrl.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblGitRepositoryUrl.setText("Git Repository URL:");
 		listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
@@ -122,14 +124,14 @@ public class GitDialog extends Dialog {
 				}
 			}
 		});
-		GridData gd_repositoryList = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		GridData gd_repositoryList = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_repositoryList.widthHint = 314;
 		gd_repositoryList.heightHint = 111;
 		repositoryList.setLayoutData(gd_repositoryList);
 
 		Composite composite = new Composite(container, SWT.NONE);
 		composite.setLayout(new GridLayout(5, false));
-		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_composite = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
 		gd_composite.widthHint = 367;
 		gd_composite.heightHint = 52;
 		composite.setLayoutData(gd_composite);
@@ -174,7 +176,7 @@ public class GitDialog extends Dialog {
 
 		Composite composite_4 = new Composite(container, SWT.NONE);
 		composite_4.setLayout(new RowLayout(SWT.HORIZONTAL));
-		GridData gd_composite_4 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		GridData gd_composite_4 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_composite_4.widthHint = 351;
 		gd_composite_4.heightHint = 31;
 		composite_4.setLayoutData(gd_composite_4);
@@ -187,11 +189,11 @@ public class GitDialog extends Dialog {
 		txtLocation = new Text(composite_4, SWT.BORDER);
 		txtLocation.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		txtLocation.setEditable(false);
-		txtLocation.setLayoutData(new RowData(251, SWT.DEFAULT));
+		txtLocation.setLayoutData(new RowData(237, SWT.DEFAULT));
 
 		Composite composite_3 = new Composite(container, SWT.NONE);
 		composite_3.setLayout(new RowLayout(SWT.HORIZONTAL));
-		GridData gd_composite_3 = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_composite_3 = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
 		gd_composite_3.widthHint = 194;
 		gd_composite_3.heightHint = 36;
 		composite_3.setLayoutData(gd_composite_3);
@@ -269,16 +271,16 @@ public class GitDialog extends Dialog {
 		btnDelete.setText("Delete");
 
 		Label separator = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
-		GridData gd_separator = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		GridData gd_separator = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_separator.heightHint = 7;
 		gd_separator.widthHint = 360;
 		separator.setLayoutData(gd_separator);
 
 		Composite composite_2 = new Composite(container, SWT.NONE);
 		composite_2.setLayout(new RowLayout(SWT.HORIZONTAL));
-		GridData gd_composite_2 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		GridData gd_composite_2 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_composite_2.widthHint = 354;
-		gd_composite_2.heightHint = 31;
+		gd_composite_2.heightHint = 46;
 		composite_2.setLayoutData(gd_composite_2);
 
 		Label lblNewRepository = new Label(composite_2, SWT.NONE);
@@ -288,20 +290,20 @@ public class GitDialog extends Dialog {
 
 		txtNewRepo = new Text(composite_2, SWT.BORDER);
 		txtNewRepo.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		txtNewRepo.setLayoutData(new RowData(249, SWT.DEFAULT));
+		txtNewRepo.setLayoutData(new RowData(234, SWT.DEFAULT));
 
 		Composite composite_1 = new Composite(container, SWT.NONE);
 		RowLayout rl_composite_1 = new RowLayout(SWT.HORIZONTAL);
 		rl_composite_1.center = true;
 		composite_1.setLayout(rl_composite_1);
-		GridData gd_composite_1 = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_composite_1 = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
 		gd_composite_1.widthHint = 252;
-		gd_composite_1.heightHint = 30;
+		gd_composite_1.heightHint = 49;
 		composite_1.setLayoutData(gd_composite_1);
 
 		btnNeedsPassword = new Button(composite_1, SWT.CHECK);
 		btnNeedsPassword.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		btnNeedsPassword.setLayoutData(new RowData(148, SWT.DEFAULT));
+		btnNeedsPassword.setLayoutData(new RowData(148, 40));
 		btnNeedsPassword.setText("Needs Password?");
 
 		Button btnAddRemote = new Button(composite_1, SWT.NONE);
@@ -327,6 +329,7 @@ public class GitDialog extends Dialog {
 					git.getRepositories().add(g);
 					txtNewRepo.setText("");
 					listViewer.refresh();
+					MessageDialog.openInformation(null, "New Repository","Repositiory added:\n"+g.getRootDirectory());
 				} catch (Exception e) {
 					MessageDialog.openError(null, "Add Remote: " + g.getRemoteUrl(), e.getMessage());
 				}
@@ -335,7 +338,7 @@ public class GitDialog extends Dialog {
 		btnAddRemote.setText("Add Remote");
 		
 		Label label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		listViewer.setLabelProvider(new LabelProvider() {
 			public Image getImage(Object element) {
@@ -389,7 +392,7 @@ public class GitDialog extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(393, 480);
+		return new Point(409, 523);
 	}
 
 	public void getRepositories() {
