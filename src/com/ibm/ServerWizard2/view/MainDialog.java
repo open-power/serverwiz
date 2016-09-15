@@ -345,6 +345,7 @@ public class MainDialog extends Dialog {
 		stackLayout.topControl = this.lblInstanceDirections;
 
 		lblBusDirections = new Label(compositeDir, SWT.NONE);
+		lblBusDirections.setFont(SWTResourceManager.getFont("Arial", 8, SWT.NORMAL));
 		lblBusDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 		lblBusDirections
 				.setText("Steps for adding a new connection:\r\n"
