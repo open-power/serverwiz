@@ -89,7 +89,7 @@ sub loadXML
     print "Loading MRW XML: $filename\n";
     $self->{xml} =
       XMLin($filename,forcearray => [ 'child_id', 'hidden_child_id', 'bus',
-                                      'property', 'field', 'attribute' ]);
+                                      'property', 'field', 'attribute', 'enumerator' ]);
 
     if (defined($self->{xml}->{'enumerationTypes'}))
     {
