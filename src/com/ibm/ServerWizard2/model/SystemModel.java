@@ -260,7 +260,6 @@ public class SystemModel {
 		if (system == null && part == null) {
 			String msg = "ServerWiz cannot read this version of XML: "+filename;
 			ServerWizard2.LOGGER.warning(msg);
-			//MessageDialog.openError(null, "XML Load Error", msg);
 			ServerWizard2.LOGGER.warning("Attempting to convert...");
 			String newName = this.xmlUpdate(filename);
 			if (newName.isEmpty()) {
@@ -579,8 +578,11 @@ public class SystemModel {
 			newTarget.clearRoot();
 			if (pathMode) {
 				String name = newTarget.getRawName();
+				newTarget.setName(newTarget.getIdPrefix());
+				newTarget.setPosition(-1);
+
 				if (name.isEmpty()) { name = newTarget.getIdPrefix(); }
-				newTarget.setName(parentTarget.getName()+"."+name);
+				newTarget.setName(this.getRootTarget().getName()+"."+name);
 			}
 			parentTarget.addChild(newTarget.getName(), false);
 		}
@@ -601,7 +603,13 @@ public class SystemModel {
 			Element t = (Element) targetList.item(i);
 			Target target = new Target();
 			target.readModelXML(t, attributes);
-			targetModels.put(target.getType(), target);
+			Target tmp = targetModels.get(target.getType());
+			if (tmp != null) {
+				ServerWizard2.LOGGER.info("Target Exists so merging: " + target.getType());
+				tmp.readModelXML(t, attributes);
+			} else {
+				targetModels.put(target.getType(), target);
+			}
 		}
 		for (Map.Entry<String, Target> entry : targetModels.entrySet()) {
 			Target target = entry.getValue();
