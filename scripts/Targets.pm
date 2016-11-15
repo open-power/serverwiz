@@ -936,7 +936,7 @@ sub findConnections
         return "";
     }
 
-    foreach my $child (@{ $self->getTargetChildren($target) })
+    foreach my $child ($self->getAllTargetChildren($target))
     {
         my $child_bus_type = $self->getBusType($child);
         if ($child_bus_type eq $bus_type)
@@ -1242,6 +1242,27 @@ sub getTargetChildren
     my $target_ptr = $self->getTarget($target);
     ## this is an array
     return $target_ptr->{CHILDREN};
+}
+
+## returns an array of all child (including grandchildren) target names
+sub getAllTargetChildren
+{
+    my $self   = shift;
+    my $target = shift;
+    my @children;
+
+    my $targets = $self->getTargetChildren($target);
+    if ($targets ne "")
+    {
+        for my $child (@$targets)
+        {
+            push @children, $child;
+            my @more = $self->getAllTargetChildren($child);
+            push @children, @more;
+        }
+    }
+    
+    return @children;
 }
 
 sub getEnumValue
@@ -1555,6 +1576,11 @@ C<INDEX>.
 
 Returns an array of target strings representing all the children of target
 C<TARGET_STRING>.
+
+=item getAllTargetChildren(C<TARGET_STRING>)
+
+Returns an array of target strings representing all the children of target
+C<TARGET_STRING>, including grandchildren and below as well.
 
 =item getEnumValue(C<ENUM_TYPE>,C<ENUM_NAME>)
 
