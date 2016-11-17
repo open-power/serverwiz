@@ -955,6 +955,29 @@ sub findConnections
                 if ($type eq "NA") {
                     $type = $dest_class;
                 }
+
+                if ($end_type ne "") {
+                    #Look for an end_type match on any ancestor, as
+                    #connections may have a destination unit with a hierarchy
+                    #like unit->pingroup->muxgroup->chip where the chip has
+                    #the interesting type.
+                    while ($type ne $end_type) {
+
+                        $dest_parent = $self->getTargetParent($dest_parent);
+                        if ($dest_parent eq "") {
+                            last;
+                        }
+
+                        $type = $self->getMrwType($dest_parent);
+                        if ($type eq "NA") {
+                            $type = $self->getType($dest_parent);
+                        }
+                        if ($type eq "NA") {
+                            $type = $self->getAttribute($dest_parent, "CLASS");
+                        }
+                    }
+                }
+
                 if ($type eq $end_type || $end_type eq "")
                 {
                     $connections{CONN}[$num]{SOURCE}=$child;
