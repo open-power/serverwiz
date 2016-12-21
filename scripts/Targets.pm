@@ -544,8 +544,8 @@ sub buildAffinity
             $self->setAttribute($target, "PHYS_PATH",      $parent_physical);
             $self->setAttribute($target, "POSITION",       $proc);
             $self->setAttribute($target, "ENTITY_INSTANCE",$proc);
-            $self->setAttribute($target, "FABRIC_NODE_ID",
-                  $self->getAttribute($socket,"FABRIC_NODE_ID"));
+            $self->setAttribute($target, "FABRIC_GROUP_ID",
+                  $self->getAttribute($socket,"FABRIC_GROUP_ID"));
              $self->setAttribute($target, "FABRIC_CHIP_ID",
                   $self->getAttribute($socket,"FABRIC_CHIP_ID"));
 
