@@ -153,14 +153,13 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			ServerWizard2.LOGGER.info(fetch.getMessages());
 			if (reset) {
 				ServerWizard2.LOGGER.info("Resetting to head: " + this.getRemoteUrl());
-				result.reset().setMode(ResetType.HARD).call();
+				result.reset().setMode(ResetType.HARD).setRef("refs/remotes/origin/master").call();
 				rstr = "Reset Complete";
-			} else {
-				ServerWizard2.LOGGER.info("Rebase: " + this.getRemoteUrl());
-				RebaseResult r = result.rebase().setUpstream("refs/remotes/origin/master").call();
-				rstr = r.getStatus().toString();
-				ServerWizard2.LOGGER.info(rstr);
 			}
+			ServerWizard2.LOGGER.info("Rebase: " + this.getRemoteUrl());
+			RebaseResult r = result.rebase().setUpstream("refs/remotes/origin/master").call();
+			rstr = r.getStatus().toString();
+			ServerWizard2.LOGGER.info(rstr);
 			result.close();
 		} catch (Exception e1) {
 			passwordValidated = false;
