@@ -598,17 +598,20 @@ public class SystemModel {
 		builder.setErrorHandler(new XmlHandler());
 
 		Document document = builder.parse(fileName);
-		NodeList targetList = document.getElementsByTagName("targetType");
-		for (int i = 0; i < targetList.getLength(); ++i) {
-			Element t = (Element) targetList.item(i);
-			Target target = new Target();
-			target.readModelXML(t, attributes);
-			Target tmp = targetModels.get(target.getType());
-			if (tmp != null) {
-				ServerWizard2.LOGGER.info("Target Exists so merging: " + target.getType());
-				tmp.readModelXML(t, attributes);
-			} else {
-				targetModels.put(target.getType(), target);
+		String[] tags = {"targetType","targetTypeExtension"};
+		for (String tag : tags) {
+			NodeList targetList = document.getElementsByTagName(tag);
+			for (int i = 0; i < targetList.getLength(); ++i) {
+				Element t = (Element) targetList.item(i);
+				Target target = new Target();
+				target.readModelXML(t, attributes);
+				Target tmp = targetModels.get(target.getType());
+				if (tmp != null) {
+					ServerWizard2.LOGGER.info("Target Exists so merging: " + target.getType());
+					tmp.readModelXML(t, attributes);
+				} else {
+					targetModels.put(target.getType(), target);
+				}
 			}
 		}
 		for (Map.Entry<String, Target> entry : targetModels.entrySet()) {
