@@ -544,8 +544,8 @@ sub buildAffinity
             $self->setAttribute($target, "PHYS_PATH",      $parent_physical);
             $self->setAttribute($target, "POSITION",       $proc);
             $self->setAttribute($target, "ENTITY_INSTANCE",$proc);
-            $self->setAttribute($target, "FABRIC_NODE_ID",
-                  $self->getAttribute($socket,"FABRIC_NODE_ID"));
+            $self->setAttribute($target, "FABRIC_GROUP_ID",
+                  $self->getAttribute($socket,"FABRIC_GROUP_ID"));
              $self->setAttribute($target, "FABRIC_CHIP_ID",
                   $self->getAttribute($socket,"FABRIC_CHIP_ID"));
 
@@ -955,6 +955,29 @@ sub findConnections
                 if ($type eq "NA") {
                     $type = $dest_class;
                 }
+
+                if ($end_type ne "") {
+                    #Look for an end_type match on any ancestor, as
+                    #connections may have a destination unit with a hierarchy
+                    #like unit->pingroup->muxgroup->chip where the chip has
+                    #the interesting type.
+                    while ($type ne $end_type) {
+
+                        $dest_parent = $self->getTargetParent($dest_parent);
+                        if ($dest_parent eq "") {
+                            last;
+                        }
+
+                        $type = $self->getMrwType($dest_parent);
+                        if ($type eq "NA") {
+                            $type = $self->getType($dest_parent);
+                        }
+                        if ($type eq "NA") {
+                            $type = $self->getAttribute($dest_parent, "CLASS");
+                        }
+                    }
+                }
+
                 if ($type eq $end_type || $end_type eq "")
                 {
                     $connections{CONN}[$num]{SOURCE}=$child;
