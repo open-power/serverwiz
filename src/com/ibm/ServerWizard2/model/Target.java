@@ -336,8 +336,14 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	////////////////////////////////////////////////////
 	// XML file handling
 	public void readModelXML(Element target, HashMap<String, Attribute> attrMap) {
-		type = SystemModel.getElement(target, "id");
-		parent = SystemModel.getElement(target, "parent");
+		String tmptype = SystemModel.getElement(target, "id");
+		String tmpparent = SystemModel.getElement(target, "parent");
+		if (!tmptype.isEmpty()) {
+			type = tmptype;
+		}
+		if (!tmpparent.isEmpty()) {
+			parent = tmpparent;
+		}
 		NodeList parentList = target.getElementsByTagName("parent_type");
 		for (int i = 0; i < parentList.getLength(); i++) {
 			Element e = (Element) parentList.item(i);

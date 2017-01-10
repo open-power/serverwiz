@@ -11,7 +11,6 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.core.commands_3.6.100.v20140528-1422.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.core.runtime-3.10.0-v20140318-2214.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common-3.6.200.v20130402-1505.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.10.2.v20141021-1035.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.jgit-4.4.1.201607150455-r.jar"/>
 	<classpathentry kind="lib" path="lib/jgit/jsch-0.1.54.jar"/>
 	<classpathentry kind="lib" path="lib/jgit/log4j-1.2-api-2.6.2.jar"/>
@@ -19,5 +18,6 @@
 	<classpathentry kind="lib" path="lib/jgit/log4j-core-2.6.2.jar"/>
 	<classpathentry kind="lib" path="lib/jgit/slf4j-api-1.7.21.jar"/>
 	<classpathentry kind="lib" path="lib/jgit/slf4j-log4j12-1.7.21.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.12.0.v20160518-1929.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

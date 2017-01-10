@@ -225,8 +225,27 @@ public class SystemModel {
 			    		this.loadTargetTypes(file.getPath());
 			    	}
 			    }
-			}	
+			}
+			//Add inherited attributes
+			//must load twice so inherited attributes pick up their 
+			//inherited attributes
+			for (int i=0;i<2;i++) {
+				for (Map.Entry<String, Target> entry : targetModels.entrySet()) {
+					Target target = entry.getValue();
+					
+					// add inherited attributes
+					addParentAttributes(target, target);
+					if (target.getAttribute("CLASS").equals("BUS")) {
+						busTypesTree.put(entry.getKey(),target);
+					}
+				}
+			}
+			busTypes.removeAllElements();
+			for (Target t : busTypesTree.values()) {
+				busTypes.add(t);
+			}		
 		}
+
 		File partsDir = new File(path+File.separator+"parts"+File.separator);
 		File filesList[] = partsDir.listFiles();
 		if (filesList == null) {
@@ -613,19 +632,6 @@ public class SystemModel {
 					targetModels.put(target.getType(), target);
 				}
 			}
-		}
-		for (Map.Entry<String, Target> entry : targetModels.entrySet()) {
-			Target target = entry.getValue();
-
-			// add inherited attributes
-			addParentAttributes(target, target);
-			if (target.getAttribute("CLASS").equals("BUS")) {
-				busTypesTree.put(entry.getKey(),target);
-			}
-		}
-		busTypes.removeAllElements();
-		for (Target t : busTypesTree.values()) {
-			busTypes.add(t);
 		}
 	}
 
