@@ -98,7 +98,7 @@ public class TargetWizardController {
 			targetInstance = new Target(targetModel);
 		}
 		targetInstance.setName(nameOverride);
-		model.updateTargetPosition(targetInstance, parentTarget, -1);
+		model.updateTargetPosition(targetInstance, parentTarget, -1, modelCreationMode);
 		try {
 			model.addTarget(parentTarget, targetInstance, modelCreationMode);
 			view.updateInstanceTree(targetInstance, parentItem);

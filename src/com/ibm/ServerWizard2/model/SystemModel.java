@@ -778,14 +778,18 @@ public class SystemModel {
 		}
 	}
 
-	public void updateTargetPosition(Target target, Target parentTarget, int position) {
+	public void updateTargetPosition(Target target, Target parentTarget, int position, Boolean modelCreationMode) {
 		if (position > 0) {
 			target.setPosition(position);
 			return;
 		}
 		if (parentTarget == null) {
 			target.setName(target.getIdPrefix());
-			target.setPosition(-1);
+			if (modelCreationMode) {
+				target.setPosition(-1);
+			} else {
+				target.setPosition(0);
+			}
 			return;
 		}
 		int p = -1;
