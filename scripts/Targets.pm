@@ -938,7 +938,12 @@ sub findConnections
 
     foreach my $child ($self->getAllTargetChildren($target))
     {
-        my $child_bus_type = $self->getBusType($child);
+        my $child_bus_type = "";
+        if (!$self->isBadAttribute($child, "BUS_TYPE"))
+        {
+            $child_bus_type = $self->getBusType($child);
+        }
+
         if ($child_bus_type eq $bus_type)
         {
             for (my $i = 0; $i < $self->getNumConnections($child); $i++)
