@@ -275,27 +275,29 @@ sub storeGroups
 ## for accessing targets and busses
 ## Structure:
 ##
-##{TARGETS}                                         # location of all targets
-##{NSTANCE_PATH}                                    # keeps track of hierarchy
-##                                                   path while iterating
-##{TARGETS} -> target_name                          # specific target
-##{TARGETS} -> target_name -> {TARGET}              # pointer to target data
-##                                                   from XML data struture
-##{TARGETS} -> target_name -> {TYPE}# special attribute
-##{TARGETS} -> target_name -> {PARENT}              # parent target name
-##{TARGETS} -> target_name -> {CHILDREN}            # array of children targets
-##{TARGETS} -> target_name -> {CONNECTION} -> {DEST} # array of connection
-##                                                     destination targets
-##{TARGETS} -> target_name -> {CONNECTION} -> {BUS} # array of busses
-##{TARGETS} -> target_name -> {CHILDREN}            # array of children targets
-##{TARGETS} -> target_name -> {ATTRIBUTES}          # attributes
-## {ENUMERATION} -> enumeration_type -> enum        # value of enumeration
-## {BUSSES} -> bus_type[]                           # array of busses by
-##                                                   bus_type (I2C, FSI, etc)
-## {BUSSES} -> bus_type[] -> {BUS}                  # pointer to bus target
-##                                                   from xml structure
-## {BUSSES} -> bus_type[] -> {SOURCE_TARGET}        # source target name
-## {BUSSES} -> bus_type[] -> {DEST_TARGET}          # dest target name
+##{TARGETS}                                            # location of all targets
+##{NSTANCE_PATH}                                       # keeps track of hierarchy
+##                                                       path while iterating
+##{TARGETS} -> target_name                             # specific target
+##{TARGETS} -> target_name -> {TARGET}                 # pointer to target data
+##                                                       from XML data struture
+##{TARGETS} -> target_name -> {TYPE}                   # special attribute
+##{TARGETS} -> target_name -> {PARENT}                 # parent target name
+##{TARGETS} -> target_name -> {CHILDREN}               # array of children targets
+##{TARGETS} -> target_name -> {CONNECTION} -> {DEST}   # array of connection
+##                                                       destination targets
+##{TARGETS} -> target_name -> {CONNECTION} -> {SOURCE} # array of connection
+##                                                       source targets
+##{TARGETS} -> target_name -> {CONNECTION} -> {BUS}    # array of busses
+##{TARGETS} -> target_name -> {CHILDREN}               # array of children targets
+##{TARGETS} -> target_name -> {ATTRIBUTES}             # attributes
+## {ENUMERATION} -> enumeration_type -> enum           # value of enumeration
+## {BUSSES} -> bus_type[]                              # array of busses by
+##                                                       bus_type (I2C, FSI, etc)
+## {BUSSES} -> bus_type[] -> {BUS}                     # pointer to bus target
+##                                                       from xml structure
+## {BUSSES} -> bus_type[] -> {SOURCE_TARGET}           # source target name
+## {BUSSES} -> bus_type[] -> {DEST_TARGET}             # dest target name
 
 sub buildHierarchy
 {
@@ -413,6 +415,13 @@ sub buildHierarchy
                       ->{DEST}
                   },
                 $dest_target
+            );
+            push(
+                @{
+                    $self->{data}->{TARGETS}->{$dest_target}->{CONNECTION}
+                      ->{SOURCE}
+                  },
+                $source_target
             );
             push(
                 @{
@@ -840,7 +849,8 @@ sub getTargetParent
     return $target_ptr->{PARENT};
 }
 
-## returns the number of connections associated with target
+## returns the number of connections associated with target where the target is
+## the source
 sub getNumConnections
 {
     my $self       = shift;
@@ -851,6 +861,20 @@ sub getNumConnections
         return 0;
     }
     return scalar(@{ $target_ptr->{CONNECTION}->{DEST} });
+}
+
+## returns the number of connections associated with target where the target is
+## the destination
+sub getNumDestConnections
+{
+    my $self       = shift;
+    my $target     = shift;
+    my $target_ptr = $self->getTarget($target);
+    if (!defined($target_ptr->{CONNECTION}->{SOURCE}))
+    {
+        return 0;
+    }
+    return scalar(@{ $target_ptr->{CONNECTION}->{SOURCE} });
 }
 
 ## returns destination target name of first connection
@@ -879,6 +903,15 @@ sub getConnectionDestination
     my $i          = shift;
     my $target_ptr = $self->getTarget($target);
     return $target_ptr->{CONNECTION}->{DEST}->[$i];
+}
+## returns target name of $i source connection
+sub getConnectionSource
+{
+    my $self       = shift;
+    my $target     = shift;
+    my $i          = shift;
+    my $target_ptr = $self->getTarget($target);
+    return $target_ptr->{CONNECTION}->{SOURCE}->[$i];
 }
 
 sub getConnectionBus
@@ -921,12 +954,41 @@ sub findFirstEndpoint
     }
     return "";
 }
+
+# Find connections _from_ $target (and it's children)
 sub findConnections
 {
     my $self     = shift;
     my $target   = shift;
     my $bus_type = shift;
     my $end_type = shift;
+
+    return $self->findConnectionsByDirection($target, $bus_type,
+                                             $end_type, 0);
+}
+
+# Find connections _to_ $target (and it's children)
+sub findDestConnections
+{
+    my $self     = shift;
+    my $target   = shift;
+    my $bus_type = shift;
+    my $source_type = shift;
+
+    return $self->findConnectionsByDirection($target, $bus_type,
+                                             $source_type, 1);
+
+}
+
+# Find connections from/to $target (and it's children)
+# $to_this_target indicates the direction to find.
+sub findConnectionsByDirection
+{
+    my $self     = shift;
+    my $target   = shift;
+    my $bus_type = shift;
+    my $other_end_type = shift;
+    my $to_this_target = shift;
 
     my %connections;
     my $num=0;
@@ -946,13 +1008,31 @@ sub findConnections
 
         if ($child_bus_type eq $bus_type)
         {
-            for (my $i = 0; $i < $self->getNumConnections($child); $i++)
+            my $numOfConnections = 0;
+            if($to_this_target)
             {
-                my $dest_target = $self->getConnectionDestination($child, $i);
-                my $dest_parent = $self->getTargetParent($dest_target);
-                my $type        = $self->getMrwType($dest_parent);
-                my $dest_type   = $self->getType($dest_parent);
-                my $dest_class  = $self->getAttribute($dest_parent,"CLASS");
+                $numOfConnections = $self->getNumDestConnections($child);
+            }
+            else
+            {
+                $numOfConnections = $self->getNumConnections($child);
+            }
+            for (my $i = 0; $i < $numOfConnections; $i++)
+            {
+                my $other_end_target = undef;
+                if($to_this_target)
+                {
+                    $other_end_target = $self->getConnectionSource($child, $i);
+                }
+                else
+                {
+                    $other_end_target = $self->getConnectionDestination($child,
+                                                                        $i);
+                }
+                my $other_end_parent = $self->getTargetParent($other_end_target);
+                my $type        = $self->getMrwType($other_end_parent);
+                my $dest_type   = $self->getType($other_end_parent);
+                my $dest_class  = $self->getAttribute($other_end_parent,"CLASS");
                 if ($type eq "NA")
                 {
                     $type = $dest_type;
@@ -961,34 +1041,45 @@ sub findConnections
                     $type = $dest_class;
                 }
 
-                if ($end_type ne "") {
-                    #Look for an end_type match on any ancestor, as
+                if ($other_end_type ne "") {
+                    #Look for an other_end_type match on any ancestor, as
                     #connections may have a destination unit with a hierarchy
                     #like unit->pingroup->muxgroup->chip where the chip has
                     #the interesting type.
-                    while ($type ne $end_type) {
+                    while ($type ne $other_end_type) {
 
-                        $dest_parent = $self->getTargetParent($dest_parent);
-                        if ($dest_parent eq "") {
+                        $other_end_parent = $self->getTargetParent($other_end_parent);
+                        if ($other_end_parent eq "") {
                             last;
                         }
 
-                        $type = $self->getMrwType($dest_parent);
+                        $type = $self->getMrwType($other_end_parent);
                         if ($type eq "NA") {
-                            $type = $self->getType($dest_parent);
+                            $type = $self->getType($other_end_parent);
                         }
                         if ($type eq "NA") {
-                            $type = $self->getAttribute($dest_parent, "CLASS");
+                            $type = $self->getAttribute($other_end_parent, "CLASS");
                         }
                     }
                 }
 
-                if ($type eq $end_type || $end_type eq "")
+                if ($type eq $other_end_type || $other_end_type eq "")
                 {
-                    $connections{CONN}[$num]{SOURCE}=$child;
-                    $connections{CONN}[$num]{SOURCE_PARENT}=$target;
-                    $connections{CONN}[$num]{DEST}=$dest_target;
-                    $connections{CONN}[$num]{DEST_PARENT}=$dest_parent;
+                    if($to_this_target)
+                    {
+                        $connections{CONN}[$num]{SOURCE}=$other_end_target;
+                        $connections{CONN}[$num]{SOURCE_PARENT}=
+                                                $other_end_parent;
+                        $connections{CONN}[$num]{DEST}=$child;
+                        $connections{CONN}[$num]{DEST_PARENT}=$target;
+                    }
+                    else
+                    {
+                        $connections{CONN}[$num]{SOURCE}=$child;
+                        $connections{CONN}[$num]{SOURCE_PARENT}=$target;
+                        $connections{CONN}[$num]{DEST}=$other_end_target;
+                        $connections{CONN}[$num]{DEST_PARENT}=$other_end_parent;
+                    }
                     $connections{CONN}[$num]{BUS_NUM}=$i;
                     $num++;
                 }
@@ -998,7 +1089,6 @@ sub findConnections
     if ($num==0) { return ""; }
     return \%connections;
 }
-
 
 ## returns BUS_TYPE attribute of target
 sub getBusType
@@ -1289,7 +1379,7 @@ sub getAllTargetChildren
             push @children, @more;
         }
     }
-    
+
     return @children;
 }
 
