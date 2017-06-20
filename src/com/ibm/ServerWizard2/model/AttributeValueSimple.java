@@ -62,7 +62,10 @@ public class AttributeValueSimple extends AttributeValue {
 	}
 
 	public void readInstanceXML(Element e) {
-		field.value = SystemModel.getElement(e, "default");
+		String v = SystemModel.getElement(e, "default");
+		if (!v.isEmpty() || field.value.isEmpty()) {
+			field.value = v;
+		}
 	}
 
 	@Override
