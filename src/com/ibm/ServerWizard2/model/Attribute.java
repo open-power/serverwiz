@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 
 public class Attribute implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
+	public String show = "";
 	public String name = "";
 	public String group = "";
 	public AttributeValue value;
@@ -31,6 +32,7 @@ public class Attribute implements java.io.Serializable {
 
 	public Attribute(Attribute a) {
 		this.name = a.name;
+		this.show = a.show;
 		this.desc = a.desc;
 		this.group = a.group;
 		this.persistency = a.persistency;
@@ -123,12 +125,11 @@ public class Attribute implements java.io.Serializable {
 		if (SystemModel.isElementDefined(attribute,"writeable")) {
 			writeable=true;
 		}
-		if (SystemModel.isElementDefined(attribute,"serverwizHide") || 
-				name.equals("MODEL") || name.equals("TYPE") || name.equals("CLASS")) {
+		if (name.equals("MODEL") || name.equals("TYPE") || name.equals("CLASS")) {
 			hide=true;
 		}
-		if (SystemModel.isElementDefined(attribute,"serverwizReadonly")) {
-			readonly=true;
+		if (SystemModel.isElementDefined(attribute,"serverwizShow")) {
+			show = SystemModel.getElement(attribute, "serverwizShow");
 		}
 		Node simpleType = attribute.getElementsByTagName("simpleType").item(0);
 		if (simpleType!=null) { 

@@ -48,6 +48,7 @@ public class SystemModel {
 	private HashMap<String, Attribute> attributes = new HashMap<String, Attribute>();
 	private TreeMap<String, Vector<String>> attributeGroups = new TreeMap<String, Vector<String>>();
 	private TreeMap<String, Errata> errata = new TreeMap<String, Errata>();
+	private TreeMap<String, Boolean> attributeFilters = new TreeMap<String, Boolean>();
 
 	// List of targets in current system
 	private Vector<Target> targetList = new Vector<Target>();
@@ -68,7 +69,11 @@ public class SystemModel {
 	public Vector<Target> getBusTypes() {
 		return busTypes;
 	}
+	public TreeMap<String,Boolean> getAttributeFilters() {
+		return this.attributeFilters;
+	}
 
+	
 	public Target getTarget(String t) {
 		return targetLookup.get(t);
 	}
@@ -525,11 +530,11 @@ public class SystemModel {
 	 * Returns a vector of attributes located in the target and global settings
 	 * associated with a particular target instance
 	 */
-	public Vector<Field> getAttributesAndGlobals(Target targetInstance, String path, Boolean showGlobalSettings) {
+	public Vector<Field> getAttributesAndGlobals(Target targetInstance, String path, Boolean showGlobalSettings, String filter) {
 		Vector<Field> attributes = new Vector<Field>();
 		for (Map.Entry<String, Attribute> entry : targetInstance.getAttributes().entrySet()) {
 			Attribute attribute = entry.getValue();
-			if (!attribute.isHidden()) {
+			if (attribute.show.equals(filter) || filter.isEmpty()) {
 				if (attribute.isGlobal() && showGlobalSettings) {
 					if (!path.isEmpty()) {
 						Field field = getGlobalSetting(path, attribute.name);
@@ -666,9 +671,11 @@ public class SystemModel {
 				}
 				grp.add(a.name);
 			}
-
 			if (a.getValue().getType().equals("enumeration")) {
 				a.getValue().setEnumerator(enumerations.get(a.value.getFields().get(0).name));
+			}
+			if (!a.show.isEmpty()) {
+				this.attributeFilters.put(a.show,true);
 			}
 		}
 	}
@@ -841,13 +848,16 @@ public class SystemModel {
 	/////////////////////////////////////////////////////////////////
 	// Utility static methods
 	public static String getElement(Element a, String e) {
-		Node n = a.getElementsByTagName(e).item(0);
-		if (n != null) {
-			Node cn = n.getChildNodes().item(0);
-			if (cn == null) {
-				return "";
+		NodeList nl = a.getChildNodes();
+		for (int i=0;i<nl.getLength();i++){
+			Node n = nl.item(i);
+			if (n.getNodeName().equals(e)) {
+				Node cn = n.getChildNodes().item(0);
+				if (cn == null) {
+					return "";
+				}
+				return cn.getNodeValue();
 			}
-			return cn.getNodeValue();
 		}
 		return "";
 	}

@@ -23,7 +23,7 @@ public class ServerWizard2 {
 	 */
 	public final static Logger LOGGER = Logger.getLogger(ServerWizard2.class.getName());
 	public final static int VERSION_MAJOR = 2;
-	public final static int VERSION_MINOR = 2;
+	public final static int VERSION_MINOR = 10;
 	
 	public final static String PROPERTIES_FILE = "serverwiz.preferences";
 	public static String GIT_LOCATION = "";

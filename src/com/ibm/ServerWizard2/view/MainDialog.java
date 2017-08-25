@@ -114,10 +114,12 @@ public class MainDialog extends Dialog {
 	private Composite compositeDir;
 	private Button btnHideBusses;
 	private Button btnShowHidden;
+	private Combo showFilter;
 	
 	private AttributeEditingSupport attributeEditor;
 	private Label label;
 	private Label label_1;
+	private Composite composite_1;
 	/**
 	 * Create the dialog.
 	 *
@@ -206,13 +208,23 @@ public class MainDialog extends Dialog {
 						+ "Select and Instance type.  You can optionally enter a custom name.  Then click 'Add Instance' button.");
 
 		columnName.setResizable(true);
+		
+		composite_1 = new Composite(sashForm_1, SWT.NONE);
+		
+		showFilter = new Combo(composite_1, SWT.READ_ONLY);
+		showFilter.setFont(SWTResourceManager.getFont("Arial", 9, SWT.READ_ONLY));
+		showFilter.setBounds(118, 0, 336, 23);
+		
+		Label lblAttributeFilter = new Label(composite_1, SWT.NONE);
+		lblAttributeFilter.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		lblAttributeFilter.setBounds(15, 3, 97, 15);
+		lblAttributeFilter.setText("Attribute Filter:");
 
 		// Create attribute table
 		viewer = new TableViewer(sashForm_1, SWT.VIRTUAL | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION | SWT.BORDER);
 
 		this.createAttributeTable();
-		sashForm_1.setWeights(new int[] { 1, 1 });
 
 		// //////////////////////////////////////////////////////////
 		// Tab folders
@@ -374,6 +386,14 @@ public class MainDialog extends Dialog {
 		this.initInstanceMode();
 		sashForm.setWeights(new int[] { 1, 1 });
 		columnName.pack();
+		sashForm_1.setWeights(new int[] {302, 37, 171});
+
+		showFilter.removeAll();
+		showFilter.add("");
+		for (String a : controller.getAttributeFilters().keySet()) {
+			showFilter.add(a);
+		}
+
 		
 		return container;
 	}
@@ -693,7 +713,12 @@ public class MainDialog extends Dialog {
 		//A target is selected so show the associated attributes
 		TreeItem item = tree.getSelection()[0];
 		ConnectionEndpoint ep = this.getEndpoint(item, null);
-		attributes = controller.getAttributesAndGlobals(targetInstance, "/"+ep.getName());
+		int s = showFilter.getSelectionIndex();
+		String show = "";
+		if (s>-1) {
+			show = showFilter.getItem(s);
+		}
+		attributes = controller.getAttributesAndGlobals(targetInstance, "/"+ep.getName(),show);
 		viewer.setInput(attributes);
 		viewer.refresh();
 		
@@ -1077,6 +1102,12 @@ public class MainDialog extends Dialog {
 	}
 
 	private void addEvents() {
+		showFilter.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				updateView();
+			}
+		});
 		btnShowHidden.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -1212,7 +1243,7 @@ public class MainDialog extends Dialog {
 			public void widgetSelected(SelectionEvent arg0) {
 				if (listBusses.getSelectionCount() > 0) {
 					Connection conn = (Connection) listBusses.getData(listBusses.getSelection()[0]);
-					attributes = controller.getAttributesAndGlobals(conn.busTarget, "");
+					attributes = controller.getAttributesAndGlobals(conn.busTarget, "","");
 					viewer.setInput(attributes);
 					viewer.refresh();
 				}

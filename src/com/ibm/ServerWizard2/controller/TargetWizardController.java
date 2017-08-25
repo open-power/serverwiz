@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import org.apache.logging.log4j.Level;
@@ -41,6 +42,10 @@ public class TargetWizardController {
 		return this.modelCreationMode;
 	}
 
+	public TreeMap<String,Boolean> getAttributeFilters() {
+		return model.getAttributeFilters();
+	}
+	
 	public void init() {
 		try {
 			String libraryLocation = ServerWizard2.GIT_LOCATION + File.separator + this.LIBRARY_NAME;
@@ -81,8 +86,8 @@ public class TargetWizardController {
 	public void deleteTarget(Target target) {
 		model.deleteTarget(target);
 	}
-	public Vector<Field> getAttributesAndGlobals(Target targetInstance, String path) {
-		return model.getAttributesAndGlobals(targetInstance, path, !this.modelCreationMode);
+	public Vector<Field> getAttributesAndGlobals(Target targetInstance, String path, String filter) {
+		return model.getAttributesAndGlobals(targetInstance, path, !this.modelCreationMode, filter);
 	}
 	
 	public void addTargetInstance(Target targetModel, Target parentTarget,

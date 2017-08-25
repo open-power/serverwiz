@@ -350,18 +350,26 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			parentType.add(e.getChildNodes().item(0).getNodeValue());
 		}
 		NodeList attributeList = target.getElementsByTagName("attribute");
+		boolean aerror = false;
 		for (int i = 0; i < attributeList.getLength(); ++i) {
 			String attrId = SystemModel.getElement((Element) attributeList.item(i), "id");
 			Attribute attributeLookup = attrMap.get(attrId);
 			if (attributeLookup == null) {
-				throw new NullPointerException("Invalid attribute id: " + attrId + "(" + type + ")");
+				aerror = true;
+				System.out.println("Invalid attribute id: " + attrId + "(" + type + ")");
+			} else {
+				Attribute a = new Attribute(attributeLookup);
+				if (a.value==null) {
+					aerror = true;
+					System.out.println("Unknown attribute value type: " + attrId + "(" + type + ")");
+				} else {
+					attributes.put(a.name, a);
+					a.value.readInstanceXML((Element) attributeList.item(i));
+				}
 			}
-			Attribute a = new Attribute(attributeLookup);
-			if (a.value==null) {
-				throw new NullPointerException("Unknown attribute value type: " + attrId + "(" + type + ")");
-			}
-			attributes.put(a.name, a);
-			a.value.readInstanceXML((Element) attributeList.item(i));
+		}
+		if (aerror == true) {
+			throw new NullPointerException("Attribute import error");
 		}
 	}
 
