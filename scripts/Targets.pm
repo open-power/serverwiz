@@ -99,6 +99,7 @@ sub loadXML
     $self->storeEnumerations();
     $self->storeGroups();
     $self->buildHierarchy();
+    $self->prune();
     $self->buildAffinity();
     $self->{report_filename}=$filename.".rpt";
     $self->{report_filename}=~s/\.xml//g;
@@ -454,6 +455,27 @@ sub buildHierarchy
     }
     $self->{data}->{INSTANCE_PATH} = $old_path;
 
+}
+
+##########################################################
+## prunes targets that do not have a valid XML data attached to them.
+## Extraneous targets may get added during building heirarchy if the
+## source/destination targets in the bus are not valid target instances.
+
+sub prune
+{
+    my $self = shift;
+
+    foreach my $target (sort keys %{ $self->{data}->{TARGETS} })
+    {
+        if(not defined $self->{data}->{TARGETS}->{$target}->{TARGET})
+        {
+            printf("WARNING: Target instance for %s not found, deleting. ",
+                    $target);
+            printf("This probably indicates a bug in the source XML\n");
+            delete $self->{data}->{TARGETS}->{$target};
+        }
+    }
 }
 
 ##########################################################
