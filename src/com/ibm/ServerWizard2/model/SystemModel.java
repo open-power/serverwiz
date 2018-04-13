@@ -20,7 +20,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,6 +27,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.ibm.ServerWizard2.ServerWizard2;
+import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
 import com.ibm.ServerWizard2.view.ErrataViewer;
 
 public class SystemModel {
@@ -61,11 +61,11 @@ public class SystemModel {
 	private TreeMap<String, TreeMap<String, Field>> globalSettings = new TreeMap<String, TreeMap<String, Field>>();
 
 	private HashMap<String,Boolean> loadedLibraries = new HashMap<String,Boolean>();
-	
+
 	public Boolean partsMode = false;
 	public Boolean cleanupMode = false;
 	public Boolean errataUpdated = false;
-	
+
 	public Vector<Target> getBusTypes() {
 		return busTypes;
 	}
@@ -73,7 +73,7 @@ public class SystemModel {
 		return this.attributeFilters;
 	}
 
-	
+
 	public Target getTarget(String t) {
 		return targetLookup.get(t);
 	}
@@ -93,7 +93,7 @@ public class SystemModel {
 	public Target getRootTarget() {
 		return rootTargets.get(0);
 	}
-	
+
 	public Vector<Target> getTopLevelTargets() {
 		//TODO: need a better way to determine top level targets
 		Vector<Target> topLevel = new Vector<Target>();
@@ -105,7 +105,7 @@ public class SystemModel {
 		}
 		return topLevel;
 	}
-	
+
 	public Vector<Target> getUnitTargets(Boolean override) {
 		//TODO: need a better way to determine top level targets
 		Vector<Target> topLevel = new Vector<Target>();
@@ -120,7 +120,7 @@ public class SystemModel {
 		}
 		return topLevel;
 	}
-	
+
 	public Vector<Target> getConnectionCapableTargets() {
 		Vector<Target> cards = new Vector<Target>();
 		for (Target target : targetList) {
@@ -148,8 +148,8 @@ public class SystemModel {
 		}
 		return childTargetTypes.get(targetType);
 	}
-	
-	
+
+
 	private void writeErrata(Writer out) throws Exception {
 		out.write("<appliedErratas>\n");
 		for (String e : errataList.keySet()) {
@@ -160,7 +160,7 @@ public class SystemModel {
 		}
 		out.write("</appliedErratas>\n");
 	}
-	
+
 
 	private void writeGroups(Writer out) throws Exception {
 		out.write("<attributeGroups>\n");
@@ -193,7 +193,7 @@ public class SystemModel {
 
 	private NodeList isXMLValid(Document document, String tag) {
 		NodeList n = document.getElementsByTagName(tag);
-		if (n != null) { 
+		if (n != null) {
 			if (n.item(0) != null) {
 				String version = SystemModel.getElement((Element)n.item(0), "version");
 				if (!version.isEmpty()) {
@@ -219,7 +219,7 @@ public class SystemModel {
 			ServerWizard2.LOGGER.warning("No library loaded");
 		} else {
 			Arrays.sort(filesStr);
-			
+
 			for (String fstr : filesStr) {
 				File file = new File(path+File.separator+fstr);
 			    if (file.isFile() && file.getAbsolutePath().endsWith(".xml")) {
@@ -232,12 +232,12 @@ public class SystemModel {
 			    }
 			}
 			//Add inherited attributes
-			//must load twice so inherited attributes pick up their 
+			//must load twice so inherited attributes pick up their
 			//inherited attributes
 			for (int i=0;i<2;i++) {
 				for (Map.Entry<String, Target> entry : targetModels.entrySet()) {
 					Target target = entry.getValue();
-					
+
 					// add inherited attributes
 					addParentAttributes(target, target);
 					if (target.getAttribute("CLASS").equals("BUS")) {
@@ -248,14 +248,14 @@ public class SystemModel {
 			busTypes.removeAllElements();
 			for (Target t : busTypesTree.values()) {
 				busTypes.add(t);
-			}		
+			}
 		}
 
 		File partsDir = new File(path+File.separator+"parts"+File.separator);
 		File filesList[] = partsDir.listFiles();
 		if (filesList == null) {
 			ServerWizard2.LOGGER.warning("No parts loaded");
-		} else {		
+		} else {
 			for (File file : filesList) {
 			    if (file.isFile() && file.getAbsolutePath().endsWith(".xml")) {
 			    	this.loadTargets(file.getPath());
@@ -263,7 +263,7 @@ public class SystemModel {
 			}
 		}
 	}
-		
+
 	// Reads a previously saved MRW
 	public void readXML(String filename) throws Exception {
 		ServerWizard2.LOGGER.info("Reading XML: "+filename);
@@ -274,11 +274,11 @@ public class SystemModel {
 		// delete all existing instances
 		this.deleteAllInstances();
 		this.addUnitInstances();
-		
+
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		builder.setErrorHandler(new XmlHandler());
 		Document document = builder.parse(filename);
-		
+
 		NodeList system = isXMLValid(document,"systemInstance");
 		NodeList part = isXMLValid(document,"partInstance");
 		if (system == null && part == null) {
@@ -288,10 +288,10 @@ public class SystemModel {
 			String newName = this.xmlUpdate(filename);
 			if (newName.isEmpty()) {
 				ServerWizard2.LOGGER.info("Error converting file");
-				MessageDialog.openError(null, "XML Load Error", "Old XML format found.  Error converting file to new format");
+				ServerwizMessageDialog.openError(null, "XML Load Error", "Old XML format found.  Error converting file to new format");
 			} else {
 				ServerWizard2.LOGGER.info("Converted file: "+newName);
-				MessageDialog.openInformation(null, "XML Converted", "Old XML format found. Converted file to:\n"+newName+"\nPlease open new file.");
+				ServerwizMessageDialog.openInformation(null, "XML Converted", "Old XML format found. Converted file to:\n"+newName+"\nPlease open new file.");
 			}
 			return;
 		}
@@ -380,16 +380,16 @@ public class SystemModel {
 		if (cleanupMode) { this.xmlCleanup(); }
 		long endTime = System.currentTimeMillis();
 		ServerWizard2.LOGGER.info("Loaded XML in " + (endTime - startTime) + " milliseconds");
-		
+
 		checkErrata();
 	}
-	
+
 	/*
 	 * Compare attributes in errata*.xml against currently loaded XML
 	 */
 	public void checkErrata() {
 		Vector<Errata> errataNew = new Vector<Errata>();
-		
+
 		//Determine errata that has not been acknowledged
 		for (String errata_id : errata.keySet()) {
 			if (!errataList.containsKey(errata_id)) {
@@ -397,7 +397,7 @@ public class SystemModel {
 				errataNew.add(e);
 			}
 		}
-		
+
 		HashMap<String,Errata> errataCheck = new HashMap<String,Errata>();
 		for (Target tchk : this.targetLookup.values()) {
 			for (Errata e : errataNew) {
@@ -438,11 +438,11 @@ public class SystemModel {
 			}
 		}
 	}
-	
+
 	/*
 	 * Global settings get/sets
 	 */
-	
+
 	public Field setGlobalSetting(String path, String attribute, String value) {
 		TreeMap<String, Field> s = globalSettings.get(path);
 		if (s == null) {
@@ -477,7 +477,7 @@ public class SystemModel {
 			if (s == null) {
 				s = new TreeMap<String, Field>();
 				globalSettings.put(path, s);
-			}			
+			}
 			return null;
 		}
 		Field f=s.get(attribute);
@@ -525,7 +525,7 @@ public class SystemModel {
 			errataList.put(errata_id, e);
 		}
 	}
-	
+
 	/*
 	 * Returns a vector of attributes located in the target and global settings
 	 * associated with a particular target instance
@@ -564,7 +564,7 @@ public class SystemModel {
 		Writer out = new BufferedWriter(new FileWriter(filename));
 		String topTag = "systemInstance";
 		if (partsMode) { topTag = "partInstance"; }
-		
+
 		out.write("<"+topTag+">\n");
 		out.write("<version>"+ServerWizard2.getVersionString()+"</version>\n");
 		if (!partsMode) {
@@ -662,7 +662,7 @@ public class SystemModel {
 			Attribute a = new Attribute();
 			a.readModelXML(t);
 			attributes.put(a.name, a);
-			
+
 			if (!a.group.isEmpty()) {
 				Vector<String> grp = attributeGroups.get(a.group);
 				if (grp == null) {
@@ -706,14 +706,14 @@ public class SystemModel {
 				Vector<String> parentTypes = target.getParentType();
 				for (int j = 0; j < parentTypes.size(); j++) {
 					String parentType = parentTypes.get(j);
-					
+
 					Vector<Target> childTypes = childTargetTypes.get(parentType);
 					if (childTypes == null) {
 						childTypes = new Vector<Target>();
 						childTargetTypes.put(parentType, childTypes);
 					}
 					childTypes.add(target);
-				}				
+				}
 			} else {
 				if (!targetUnitModels.containsKey(target.getName())) {
 					this.targetUnitList.add(target);
@@ -737,15 +737,15 @@ public class SystemModel {
 			Errata e = new Errata();
 			e.read(t, attributes);
 			errata.put(e.getId(), e);
-		}	
+		}
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////
 	// Target manipulation
 	public Target getTargetInstance(String type) {
 		return targetInstances.get(type);
 	}
-	
+
 	public HashMap<String,Target> getUnitTargetModel() {
 		return this.targetUnitModels;
 	}
@@ -773,12 +773,12 @@ public class SystemModel {
 		}
 		Target parent = targetModels.get(t.parent);
 		if (parent == null) {
-			MessageDialog.openError(null, "Error", "Invalid parent target: "+t.parent );
+			ServerwizMessageDialog.openError(null, "Error", "Invalid parent target: "+t.parent );
 		}
 		childTarget.copyAttributesFromParent(parent);
 		addParentAttributes(childTarget, parent);
 	}
-	
+
 	public void addUnitInstances() {
 		for (Target target : this.targetUnitList) {
 			this.targetLookup.put(target.getName(), target);
@@ -838,13 +838,13 @@ public class SystemModel {
 		//	Target d = targetLookup.get(s);
 		//	deleteTarget(d);
 		//}
-		
+
 		for (Target t : targetList) {
 			t.removeChildren(deleteTarget.getName());
 		}
 		this.targetLookup.remove(deleteTarget.getName());
 	}
-	
+
 	/////////////////////////////////////////////////////////////////
 	// Utility static methods
 	public static String getElement(Element a, String e) {
@@ -883,16 +883,16 @@ public class SystemModel {
 			targetWalk(childTarget, path + "/" + child, targets);
 		}
 	}
-	
+
 	private String xmlUpdate(String filename) {
-		
+
 		BufferedReader br;
 		BufferedWriter wr;
 		boolean found_settings = false;
 		boolean found_targets = false;
 		boolean found_start = false;
 		String newFilename = filename+".new.xml";
-		
+
 		try {
 			br = new BufferedReader(new FileReader(filename));
 			wr = new BufferedWriter(new FileWriter(newFilename));
@@ -938,17 +938,17 @@ public class SystemModel {
 		}
 		return newFilename;
 	}
-	
+
 	private void xmlCleanup() {
 		String path = "/"+this.getRootTarget().getName();
 		HashMap<String,Target> targets = new HashMap<String,Target>();
 		targetWalk(this.getRootTarget(),path,targets);
-		
+
 		ServerWizard2.LOGGER.info("Running XML cleanup...");
-		
+
 		// IO_CONFIG_SELECT bug
 		TreeMap<String, TreeMap<String,Field>> tmpSettings = new TreeMap<String, TreeMap<String,Field>>(globalSettings);
-		
+
 		for (Map.Entry<String, TreeMap<String,Field>> settings : tmpSettings.entrySet()) {
 			TreeMap<String,Field> tmpFields = new TreeMap<String,Field>(settings.getValue());
 			Target t = targets.get(settings.getKey());
@@ -970,7 +970,7 @@ public class SystemModel {
 				}
 			}
 			TreeMap<String,Field> tmpSettings2 = globalSettings.get(settings.getKey());
-			
+
 			if (tmpSettings2 != null) {
 				if (tmpSettings2.isEmpty()) {
 					ServerWizard2.LOGGER.info("Removing global target: "+settings.getKey());
@@ -980,5 +980,5 @@ public class SystemModel {
 		}
 		// End IO_CONFIG_SELECT bug
 	}
-	
+
 }

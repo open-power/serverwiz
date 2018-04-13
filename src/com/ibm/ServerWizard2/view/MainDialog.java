@@ -375,7 +375,12 @@ public class MainDialog extends Dialog {
 
 		// load file if passed on command line
 		if (!mrwFilename.isEmpty()) {
-			controller.readXML(mrwFilename);
+			try {
+				controller.readXML(mrwFilename);
+			} catch (Exception e) {
+				ServerWizard2.LOGGER.severe(e.getMessage());
+				e.printStackTrace();
+			}
 			setFilename(mrwFilename);
 		}
 		for (Target t : controller.getBusTypes()) {
@@ -456,7 +461,13 @@ public class MainDialog extends Dialog {
 				if (filename == null) {
 					return;
 				}
-				Boolean dirty = controller.readXML(filename);
+				Boolean dirty = false;
+				try {
+					dirty = controller.readXML(filename);
+				} catch (Exception exc) {
+					ServerWizard2.LOGGER.severe(exc.getMessage());
+					exc.printStackTrace();
+				}
 				setFilename(filename);
 				initInstanceMode();
 				setDirtyState(dirty);
