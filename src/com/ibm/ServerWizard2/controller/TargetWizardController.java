@@ -11,7 +11,6 @@ import java.util.Vector;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.status.StatusLogger;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.ibm.ServerWizard2.ServerWizard2;
@@ -23,6 +22,8 @@ import com.ibm.ServerWizard2.utility.GithubRepository;
 import com.ibm.ServerWizard2.view.LogViewerDialog;
 import com.ibm.ServerWizard2.view.MainDialog;
 
+import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
+
 public class TargetWizardController {
 	private SystemModel model;
 	private MainDialog view;
@@ -30,7 +31,7 @@ public class TargetWizardController {
 
 	private String PROCESSING_SCRIPT = "scripts"+File.separator+"gen_html.pl";
 	private final String LIBRARY_NAME = "common-mrw-xml";
-			
+
 	public TargetWizardController() {
 
 	}
@@ -45,7 +46,7 @@ public class TargetWizardController {
 	public TreeMap<String,Boolean> getAttributeFilters() {
 		return model.getAttributeFilters();
 	}
-	
+
 	public void init() {
 		try {
 			String libraryLocation = ServerWizard2.GIT_LOCATION + File.separator + this.LIBRARY_NAME;
@@ -60,7 +61,7 @@ public class TargetWizardController {
 			this.initModel();
 		} catch (Exception e) {
 			ServerWizard2.LOGGER.severe(e.toString());
-			MessageDialog.openError(null, "Error", e.toString());
+			ServerwizMessageDialog.openError(null, "Error", e.toString());
 			e.printStackTrace();
 			System.exit(4);
 		}
@@ -89,7 +90,7 @@ public class TargetWizardController {
 	public Vector<Field> getAttributesAndGlobals(Target targetInstance, String path, String filter) {
 		return model.getAttributesAndGlobals(targetInstance, path, !this.modelCreationMode, filter);
 	}
-	
+
 	public void addTargetInstance(Target targetModel, Target parentTarget,
 			TreeItem parentItem, String nameOverride) {
 
@@ -108,7 +109,7 @@ public class TargetWizardController {
 			model.addTarget(parentTarget, targetInstance, modelCreationMode);
 			view.updateInstanceTree(targetInstance, parentItem);
 		} catch (Exception e) {
-			MessageDialog.openError(null, "Add Target Error", e.getMessage());
+			ServerwizMessageDialog.openError(null, "Add Target Error", e.getMessage());
 		}
 	}
 
@@ -123,7 +124,7 @@ public class TargetWizardController {
 			model.addTarget(parentTarget, newTarget, false);
 			newTarget.copyChildren(target);
 		} catch (Exception e) {
-			MessageDialog.openError(null, "Add Target Error", e.getMessage());
+			ServerwizMessageDialog.openError(null, "Add Target Error", e.getMessage());
 			newTarget = null;
 		}
 		return newTarget;
@@ -149,20 +150,24 @@ public class TargetWizardController {
 			Files.delete(from.toPath());
 			ServerWizard2.LOGGER.info(filename + " Saved");
 		} catch (Exception exc) {
-			MessageDialog.openError(null, "Error", exc.getMessage());
+			ServerwizMessageDialog.openError(null, "Error", exc.getMessage());
 			exc.printStackTrace();
 		}
 	}
 
-	public Boolean readXML(String filename) {
+	public Boolean readXML(String filename) throws Exception {
 		Boolean rtn = false;
 		try {
 			model.readXML(filename);
 			this.modelCreationMode = model.partsMode;
 			rtn = model.errataUpdated;
 		} catch (Exception e) {
-			MessageDialog.openError(null, "Error", e.getMessage());
-			e.printStackTrace();
+			ServerwizMessageDialog.openError(null, "Error", e.getMessage());
+			if(ServerWizard2.updateOnlyMode) {
+				throw e;
+			} else {
+				e.printStackTrace();
+			}
 		}
 		return rtn;
 	}

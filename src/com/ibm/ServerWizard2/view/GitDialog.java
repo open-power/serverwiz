@@ -37,6 +37,8 @@ import org.eclipse.swt.widgets.Text;
 import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.utility.Github;
 import com.ibm.ServerWizard2.utility.GithubRepository;
+import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
+
 import org.eclipse.wb.swt.SWTResourceManager;
 
 public class GitDialog extends Dialog {
@@ -116,7 +118,7 @@ public class GitDialog extends Dialog {
 						btnMissing.setSelection(isStatusSet(status.getMissing()));
 
 					} else {
-						MessageDialog.openError(null, "Git Error",
+						ServerwizMessageDialog.openError(null, "Git Error",
 								"The Git Repository has been modified.  Please restart Serverwiz." + g.getRemoteUrl());
 					}
 				} else {
@@ -221,15 +223,15 @@ public class GitDialog extends Dialog {
 										+ "has been modified. Would you like to ignore changes and reset?");
 						if (reset) {
 							String r = g.fetch(true);
-							MessageDialog.openInformation(null, "Refresh Complete", "Reset Successful");
+							ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Reset Successful");
 
 						}
 					} else {
 						String r = g.fetch(false);
-						MessageDialog.openInformation(null, "Refresh Complete", "Message: " + r);
+						ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Message: " + r);
 					}
 				} catch (Exception e) {
-					MessageDialog.openError(null, "Git Refresh: " + g.getRemoteUrl(), e.getMessage());
+					ServerwizMessageDialog.openError(null, "Git Refresh: " + g.getRemoteUrl(), e.getMessage());
 				}
 			}
 		});
@@ -261,7 +263,7 @@ public class GitDialog extends Dialog {
 					return;
 				}
 				if (g.getRemoteUrl().equals(ServerWizard2.DEFAULT_REMOTE_URL)) {
-					MessageDialog.openError(null, "Error", "Deleting of default repository is not allowed");
+					ServerwizMessageDialog.openError(null, "Error", "Deleting of default repository is not allowed");
 				} else {
 					git.getRepositories().remove(g);
 					listViewer.refresh();
@@ -314,13 +316,13 @@ public class GitDialog extends Dialog {
 			public void widgetSelected(SelectionEvent arg0) {
 				String repo = txtNewRepo.getText();
 				if (repo.isEmpty()) {
-					MessageDialog.openError(null, "Error", "Repository URL is blank");
+					ServerwizMessageDialog.openError(null, "Error", "Repository URL is blank");
 					return;
 				}
 				GithubRepository g = new GithubRepository(repo, git.getLocation(), btnNeedsPassword.getSelection());
 				g.setShell(getShell());
 				if (git.isRepository(g)) {
-					MessageDialog.openError(null, "Error", "Repository already exists");
+					ServerwizMessageDialog.openError(null, "Error", "Repository already exists");
 					return;
 				}
 				try {
@@ -329,9 +331,9 @@ public class GitDialog extends Dialog {
 					git.getRepositories().add(g);
 					txtNewRepo.setText("");
 					listViewer.refresh();
-					MessageDialog.openInformation(null, "New Repository","Repositiory added:\n"+g.getRootDirectory());
+					ServerwizMessageDialog.openInformation(null, "New Repository","Repositiory added:\n"+g.getRootDirectory());
 				} catch (Exception e) {
-					MessageDialog.openError(null, "Add Remote: " + g.getRemoteUrl(), e.getMessage());
+					ServerwizMessageDialog.openError(null, "Add Remote: " + g.getRemoteUrl(), e.getMessage());
 				}
 			}
 		});

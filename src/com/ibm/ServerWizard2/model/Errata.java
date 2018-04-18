@@ -3,9 +3,10 @@ package com.ibm.ServerWizard2.model;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
 
 public class Errata {
 	private String id = "";
@@ -63,7 +64,7 @@ public class Errata {
 			String attrId = SystemModel.getElement((Element) attributeList.item(j), "id");
 			Attribute aModel = attributeModel.get(attrId);
 			if (aModel == null) {
-				MessageDialog.openError(null, "Error", "Invalid attribute " + attrId + " in Errata: " + id);
+				ServerwizMessageDialog.openError(null, "Error", "Invalid attribute " + attrId + " in Errata: " + id);
 				return;
 			} else {
 				Attribute a = new Attribute(aModel);

@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 
 import javax.swing.ProgressMonitorInputStream;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.json.simple.parser.JSONParser;
 
 import com.ibm.ServerWizard2.ServerWizard2;
@@ -241,12 +240,12 @@ public class GithubFile {
 		if (updateFile.exists()) {
 			if (updateFile.delete()) {
 				if (showDialog) {
-					MessageDialog.openInformation(null, "Force Update",
+					ServerwizMessageDialog.openInformation(null, "Force Update",
 							"Update will occur upon restart...");
 					ServerWizard2.LOGGER.info("Removing update file to force update upon restart.");
 				}
 			} else {
-				MessageDialog.openError(null, "Error",
+				ServerwizMessageDialog.openError(null, "Error",
 						"Unable to delete serverwiz2.update.  Try deleting manually.");
 				ServerWizard2.LOGGER.severe("Unable to delete serverwiz2.update.");
 			}

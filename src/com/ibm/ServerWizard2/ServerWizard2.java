@@ -24,11 +24,12 @@ public class ServerWizard2 {
 	public final static Logger LOGGER = Logger.getLogger(ServerWizard2.class.getName());
 	public final static int VERSION_MAJOR = 2;
 	public final static int VERSION_MINOR = 10;
-	
+
 	public final static String PROPERTIES_FILE = "serverwiz.preferences";
 	public static String GIT_LOCATION = "";
 	public final static String DEFAULT_REMOTE_URL = "https://github.com/open-power/common-mrw-xml.git";
-	
+
+	public static Boolean updateOnlyMode = false;
 
 	public static String getVersionString() {
 		return VERSION_MAJOR+"."+VERSION_MINOR;
@@ -36,12 +37,19 @@ public class ServerWizard2 {
 	private static void printUsage() {
 		System.out.println("Usage:");
 		System.out.println("   -i [xml filename]");
+		System.out.println("   -o [xml filename]");
 		System.out.println("   -v [update to version]");
 		System.out.println("   -f = run xml clean up");
+		System.out.println("   -u = update the XML with attributes and targets."
+				+ " When using this option it is mandatory to pass input XML "
+				+ "file name and ouput XML filename. Serverwiz looks for "
+				+ "common-mrw-xml directory in the current directory. If it is "
+				+ "not found, then clones it from github.");
 		System.out.println("   -h = print this usage");
 	}
 	public static void main(String[] args) {
 		String inputFilename="";
+		String outputFilename="";
 		Boolean cleanupMode = false;
 		for (int i=0;i<args.length;i++) {
 			if (args[i].equals("-i")) {
@@ -64,7 +72,30 @@ public class ServerWizard2 {
 			if (args[i].equals("-f")) {
 				cleanupMode = true;
 			}
+			if (args[i].equals("-o")) {
+				if (i==args.length-1) {
+					printUsage();
+					System.exit(3);
+				}
+				outputFilename=args[i+1];
+			}
+			if (args[i].equals("-u")) {
+				updateOnlyMode = true;
+			}
 		}
+
+		if(updateOnlyMode)
+		{
+			//In "update only" mode, we only open the input File, update the
+			//attributes and save the output file. So make sure we have input
+			//and output files names.
+			if((inputFilename.length() == 0) || (outputFilename.length() == 0))
+			{
+				printUsage();
+				System.exit(3);
+			}
+		}
+
 		LOGGER.setLevel(Level.CONFIG);
 		LOGGER.setUseParentHandlers(false);
 		ConsoleHandler logConsole = new ConsoleHandler();
@@ -75,28 +106,56 @@ public class ServerWizard2 {
 
 		LOGGER.config("======================================================================");
 		LOGGER.config("ServerWiz2 Version "+getVersionString()+" Starting...");
+
+		if(updateOnlyMode) {
+			LOGGER.config("Running in update only mode. GUI would not be loaded.");
+			getPreferencesForUpdateMode();
+		} else {
+			getPreferences();
+		}
 	
-		getPreferences();
-		
 		TargetWizardController tc = new TargetWizardController();
 		SystemModel systemModel = new SystemModel();
-	    MainDialog view = new MainDialog(null);
-	    tc.setView(view);
-	    tc.setModel(systemModel);
-	    view.setController(tc);
-	    tc.init();
-	    systemModel.cleanupMode = cleanupMode;
+		MainDialog view = new MainDialog(null);
+		tc.setView(view);
+		tc.setModel(systemModel);
+		view.setController(tc);
+		tc.init();
+		systemModel.cleanupMode = cleanupMode;
 		if (!inputFilename.isEmpty()) {
 			view.mrwFilename=inputFilename;
 		}
-	    view.open();
+		if(updateOnlyMode) {
+			try {
+				tc.readXML(inputFilename);
+			} catch(Exception e) {
+				LOGGER.severe(e.getMessage());
+				e.printStackTrace();
+				System.exit(1);
+			}
+			tc.writeXML(outputFilename);
+		} else {
+			view.open();
+		}
 	}
-	
+
+	// Set the GIT location to current working directory
+	private static void getPreferencesForUpdateMode() {
+		try {
+		ServerWizard2.GIT_LOCATION = new java.io.File( "." ).getCanonicalPath();
+		} catch (Exception e) {
+			LOGGER.severe("Unable to obtain current working directory");
+			LOGGER.severe(e.getMessage());
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
 	// Load preferences file.
 	// Contains git repository location and repositories to manage.
 	private static void getPreferences() {
-		   Display display = new Display();
-		    Shell shell = new Shell(display);
+		Display display = new Display();
+		Shell shell = new Shell(display);
 		try {
 			Properties p = new Properties();
 			File f = new File(ServerWizard2.PROPERTIES_FILE);
@@ -114,7 +173,7 @@ public class ServerWizard2 {
 				p.setProperty("git_location", libPath);
 				p.setProperty("repositories", ServerWizard2.DEFAULT_REMOTE_URL);
 				p.setProperty("needs_password", "false");
-				
+
 				FileOutputStream out = new FileOutputStream(ServerWizard2.PROPERTIES_FILE);
 				p.store(out, "");
 				out.close();
@@ -127,19 +186,19 @@ public class ServerWizard2 {
 				ServerWizard2.GIT_LOCATION = loc;
 			} else {
 				ServerWizard2.LOGGER.severe(ServerWizard2.PROPERTIES_FILE+" does not contain a repository location.\nPlease correct or delete.");
-				System.exit(0);				
+				System.exit(0);
 			}
-			
-			
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			ServerWizard2.LOGGER.severe(e.getMessage());
 			System.exit(0);
 		}
-	}	
+	}
 	public static String getWorkingDir() {
 		File f = new File("").getAbsoluteFile();
 		String workingDir = f.getAbsolutePath() + System.getProperty("file.separator");
 		return workingDir;
-	}	
+	}
 }

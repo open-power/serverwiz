@@ -31,6 +31,23 @@ This is the XML based library that contains attribute and target
 definitions.   The library can be updated to latest by using
 "Manage Library" button.
 
+## Update mode in serverwiz ##
+There is an update mode in the Serverwiz tool. It is used to update an MRW XML
+with new attributes and target XMLs. This mode does not load the GUI. It only
+takes the attributes, targets and parts XMLs. Opens the input MRW file, updates
+it and saves it to output file.
+In order to do this, there must be a ./xml directory from where java is executed
+that contains the library files.  So if you are in the repository directory, you
+can run:
+
+	java -jar build/serverwiz2_[OS].jar -u -i <input MRW file name>
+		-o <output MRW file name>
+	
+In update mode, it always looks for common-mrw-xml repository in the current
+directory. If it does not exist, it will clone the repository from:
+
+	https://github.com/open-power/common-mrw-xml.git
+
 ## Precompiled jars ##
 
 There are precompiled binaries at:

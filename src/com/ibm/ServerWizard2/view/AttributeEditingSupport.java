@@ -2,7 +2,6 @@ package com.ibm.ServerWizard2.view;
 
 import java.util.Vector;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
@@ -13,6 +12,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 
 import com.ibm.ServerWizard2.model.Field;
+import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
 
 public class AttributeEditingSupport extends EditingSupport {
 	private CellEditor editor;
@@ -68,7 +68,7 @@ public class AttributeEditingSupport extends EditingSupport {
 
 				public void editorValueChanged(boolean arg0, boolean arg1) {
 					if (!arg1) {
-						MessageDialog.openError(null, "Invalid format", editor.getErrorMessage());
+						ServerwizMessageDialog.openError(null, "Invalid format", editor.getErrorMessage());
 					}
 				}
 
