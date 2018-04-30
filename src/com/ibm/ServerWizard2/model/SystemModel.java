@@ -3,6 +3,7 @@ package com.ibm.ServerWizard2.model;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 import java.util.Vector;
 
@@ -27,6 +29,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.ibm.ServerWizard2.ServerWizard2;
+import com.ibm.ServerWizard2.utility.Github;
+import com.ibm.ServerWizard2.utility.GithubRepository;
 import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
 import com.ibm.ServerWizard2.view.ErrataViewer;
 
@@ -264,11 +268,45 @@ public class SystemModel {
 		}
 	}
 
+	private void loadLibrariesFromOtherRepos() {
+		try {
+			File f = new File(ServerWizard2.PROPERTIES_FILE);
+			if (f.exists()) {
+				FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
+				Properties p = new Properties();
+				p.load(propFile);
+				propFile.close();
+				String repos = p.getProperty("repositories");
+				String repo[] = repos.split(",");
+
+				for (int i = 0; i < repo.length; i++) {
+					if(repo[i].equals(ServerWizard2.DEFAULT_REMOTE_URL)) {
+						//We do not need to load default library here. This
+						//would already be loaded when serverWiz was started.
+						continue;
+					}
+
+					String curRepo = repo[i].substring(repo[i].lastIndexOf('/') + 1);
+					curRepo = ServerWizard2.GIT_LOCATION +  File.separator + curRepo;
+					this.loadLibrary(curRepo);
+				}
+			}
+		} catch (Exception e) {
+			ServerWizard2.LOGGER.severe(e.getMessage());
+		}
+
+
+	}
+
 	// Reads a previously saved MRW
 	public void readXML(String filename) throws Exception {
 		ServerWizard2.LOGGER.info("Reading XML: "+filename);
 		File f = new File(filename);
 		this.loadLibrary(f.getParent());
+
+		//Check if there are additional libraries to be loaded
+		loadLibrariesFromOtherRepos();
+
 		long startTime = System.currentTimeMillis();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		// delete all existing instances
