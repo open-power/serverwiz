@@ -48,6 +48,9 @@ directory. If it does not exist, it will clone the repository from:
 
 	https://github.com/open-power/common-mrw-xml.git
 
+If additional libraries need to be added, then add repository details to the
+serverwiz.preference file.
+
 ## Precompiled jars ##
 
 There are precompiled binaries at:

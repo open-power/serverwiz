@@ -2,6 +2,7 @@ package com.ibm.ServerWizard2;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -14,7 +15,10 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.ibm.ServerWizard2.controller.TargetWizardController;
 import com.ibm.ServerWizard2.model.SystemModel;
+import com.ibm.ServerWizard2.utility.Github;
+import com.ibm.ServerWizard2.utility.GithubRepository;
 import com.ibm.ServerWizard2.utility.MyLogFormatter;
+import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
 import com.ibm.ServerWizard2.view.MainDialog;
 public class ServerWizard2 {
 
@@ -44,7 +48,9 @@ public class ServerWizard2 {
 				+ " When using this option it is mandatory to pass input XML "
 				+ "file name and ouput XML filename. Serverwiz looks for "
 				+ "common-mrw-xml directory in the current directory. If it is "
-				+ "not found, then clones it from github.");
+				+ "not found, then clones it from github."
+				+ "If additional libraries need to be loaded, then add "
+				+ "repository details to the preference file.");
 		System.out.println("   -h = print this usage");
 	}
 	public static void main(String[] args) {
@@ -138,15 +144,36 @@ public class ServerWizard2 {
 			view.open();
 		}
 	}
-
-	// Set the GIT location to current working directory
+	
 	private static void getPreferencesForUpdateMode() {
 		try {
-		ServerWizard2.GIT_LOCATION = new java.io.File( "." ).getCanonicalPath();
+			Properties p = new Properties();
+			File f = new File(ServerWizard2.PROPERTIES_FILE);
+			if (!f.exists()) {
+				//File doesn't exist, so create;
+				ServerWizard2.LOGGER.info("Preferences file doesn't exist, creating...");
+				p.setProperty("git_location", getWorkingDir());
+				p.setProperty("repositories", ServerWizard2.DEFAULT_REMOTE_URL);
+				p.setProperty("needs_password", "false");
+
+				FileOutputStream out = new FileOutputStream(ServerWizard2.PROPERTIES_FILE);
+				p.store(out, "");
+				out.close();
+			}
+			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
+			p.load(propFile);
+			propFile.close();
+			String loc = p.getProperty("git_location");
+			if (loc !=null && !loc.isEmpty()) {
+				ServerWizard2.GIT_LOCATION = loc;
+			} else {
+				ServerWizard2.LOGGER.severe(ServerWizard2.PROPERTIES_FILE+" does not contain a repository location.\nPlease correct or delete.");
+				System.exit(0);
+			}
+
 		} catch (Exception e) {
-			LOGGER.severe("Unable to obtain current working directory");
-			LOGGER.severe(e.getMessage());
 			e.printStackTrace();
+			ServerWizard2.LOGGER.severe(e.getMessage());
 			System.exit(1);
 		}
 	}
