@@ -1,11 +1,13 @@
 package com.ibm.ServerWizard2.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Properties;
 import java.util.TreeMap;
 import java.util.Vector;
 
@@ -18,6 +20,7 @@ import com.ibm.ServerWizard2.model.Connection;
 import com.ibm.ServerWizard2.model.Field;
 import com.ibm.ServerWizard2.model.SystemModel;
 import com.ibm.ServerWizard2.model.Target;
+import com.ibm.ServerWizard2.utility.Github;
 import com.ibm.ServerWizard2.utility.GithubRepository;
 import com.ibm.ServerWizard2.view.LogViewerDialog;
 import com.ibm.ServerWizard2.view.MainDialog;
@@ -59,6 +62,31 @@ public class TargetWizardController {
 			}
 			model.loadLibrary(libraryLocation);
 			this.initModel();
+
+			//Check if there are additional libraries to be cloned
+			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
+			Properties p = new Properties();
+			p.load(propFile);
+			propFile.close();
+			String repos = p.getProperty("repositories");
+			String repo[] = repos.split(",");
+			for (int i = 0; i < repo.length; i++) {
+				if(repo[i].equals(ServerWizard2.DEFAULT_REMOTE_URL)) {
+					//We do not need to clone default library here. This
+					//would already be cloned above.
+					continue;
+				}
+
+				String curRepo = repo[i].substring(repo[i].lastIndexOf('/') + 1);
+				curRepo = ServerWizard2.GIT_LOCATION +  File.separator + curRepo;
+				chk = new File(curRepo);
+				if(!chk.exists()) {
+					ServerWizard2.LOGGER.info("XML library does not exist so cloning: " + curRepo);
+					GithubRepository git = new GithubRepository(
+							repo[i], ServerWizard2.GIT_LOCATION, false);
+					git.cloneRepository();
+				}
+			}
 		} catch (Exception e) {
 			ServerWizard2.LOGGER.severe(e.toString());
 			ServerwizMessageDialog.openError(null, "Error", e.toString());
