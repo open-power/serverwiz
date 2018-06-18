@@ -276,29 +276,31 @@ sub storeGroups
 ## for accessing targets and busses
 ## Structure:
 ##
-##{TARGETS}                                            # location of all targets
-##{NSTANCE_PATH}                                       # keeps track of hierarchy
-##                                                       path while iterating
-##{TARGETS} -> target_name                             # specific target
-##{TARGETS} -> target_name -> {TARGET}                 # pointer to target data
-##                                                       from XML data struture
-##{TARGETS} -> target_name -> {TYPE}                   # special attribute
-##{TARGETS} -> target_name -> {PARENT}                 # parent target name
-##{TARGETS} -> target_name -> {CHILDREN}               # array of children targets
-##{TARGETS} -> target_name -> {CONNECTION} -> {DEST}   # array of connection
-##                                                       destination targets
-##{TARGETS} -> target_name -> {CONNECTION} -> {SOURCE} # array of connection
-##                                                       source targets
-##{TARGETS} -> target_name -> {CONNECTION} -> {BUS}    # array of busses
-##{TARGETS} -> target_name -> {CHILDREN}               # array of children targets
-##{TARGETS} -> target_name -> {ATTRIBUTES}             # attributes
-## {ENUMERATION} -> enumeration_type -> enum           # value of enumeration
-## {BUSSES} -> bus_type[]                              # array of busses by
-##                                                       bus_type (I2C, FSI, etc)
-## {BUSSES} -> bus_type[] -> {BUS}                     # pointer to bus target
-##                                                       from xml structure
-## {BUSSES} -> bus_type[] -> {SOURCE_TARGET}           # source target name
-## {BUSSES} -> bus_type[] -> {DEST_TARGET}             # dest target name
+##{TARGETS}                                                 # location of all targets
+##{NSTANCE_PATH}                                            # keeps track of hierarchy
+##                                                            path while iterating
+##{TARGETS} -> target_name                                  # specific target
+##{TARGETS} -> target_name -> {TARGET}                      # pointer to target data
+##                                                            from XML data struture
+##{TARGETS} -> target_name -> {TYPE}                        # special attribute
+##{TARGETS} -> target_name -> {PARENT}                      # parent target name
+##{TARGETS} -> target_name -> {CHILDREN}                    # array of children targets
+##{TARGETS} -> target_name -> {CONNECTION} -> {DEST}        # array of connection
+##                                                            destination targets
+##{TARGETS} -> target_name -> {CONNECTION} -> {SOURCE}      # array of connection
+##                                                            source targets
+##{TARGETS} -> target_name -> {CONNECTION} -> {BUS}         # array of busses
+##{TARGETS} -> target_name -> {CONNECTION} -> {BUS_PARENT}  # array of bus parent
+                                                            # targets
+##{TARGETS} -> target_name -> {CHILDREN}                    # array of children targets
+##{TARGETS} -> target_name -> {ATTRIBUTES}                  # attributes
+## {ENUMERATION} -> enumeration_type -> enum                # value of enumeration
+## {BUSSES} -> bus_type[]                                   # array of busses by
+##                                                            bus_type (I2C, FSI, etc)
+## {BUSSES} -> bus_type[] -> {BUS}                          # pointer to bus target
+##                                                            from xml structure
+## {BUSSES} -> bus_type[] -> {SOURCE_TARGET}                # source target name
+## {BUSSES} -> bus_type[] -> {DEST_TARGET}                  # dest target name
 
 sub buildHierarchy
 {
@@ -430,6 +432,13 @@ sub buildHierarchy
                       ->{BUS}
                   },
                 $b
+            );
+            push(
+                @{
+                    $self->{data}->{TARGETS}->{$source_target}->{CONNECTION}
+                      ->{BUS_PARENT}
+                  },
+                $key
             );
             my %bus_entry;
             $bus_entry{SOURCE_TARGET} = $source_target;
@@ -943,6 +952,15 @@ sub getConnectionBus
     my $i          = shift;
     my $target_ptr = $self->getTarget($target);
     return $target_ptr->{CONNECTION}->{BUS}->[$i];
+}
+
+sub getConnectionBusParent
+{
+    my $self       = shift;
+    my $target     = shift;
+    my $i          = shift;
+    my $target_ptr = $self->getTarget($target);
+    return $target_ptr->{CONNECTION}->{BUS_PARENT}->[$i];
 }
 
 sub findFirstEndpoint
@@ -1650,10 +1668,15 @@ C<TARGET_STRING>.  The bus data structure is also a target with attributes.
 Returns the target string of the C<INDEX> target found connected to
 C<TARGET_STRING>.
 
-=item getConnectionBus(C<TARGET_STRING>)
+=item getConnectionBus(C<TARGET_STRING>,C<INDEX>)
 
 Returns the data structure of the C<INDEX> bus target found connected to
 C<TARGET_STRING>.
+
+=item getConnectionBusParent(C<TARGET_STRING>,C<INDEX>)
+
+Returns C<PARENT_TARGET_STRING> of the parent target for the bus target found
+connected to C<TARGET_STRING>
 
 =item findEndpoint(C<TARGET_STRING>,C<BUS_TYPE>,C<ENDPOINT_MRW_TYPE>)
 
