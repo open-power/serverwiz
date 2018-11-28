@@ -128,6 +128,7 @@ public class TargetWizardController {
 			// target instance found of this model type
 			targetInstance = new Target(instanceCheck);
 			targetInstance.copyChildren(instanceCheck);
+			targetInstance.copyBusses(instanceCheck);
 		} else {
 			targetInstance = new Target(targetModel);
 		}
@@ -156,6 +157,21 @@ public class TargetWizardController {
 			newTarget = null;
 		}
 		return newTarget;
+	}
+	
+	public void exportAsPart(Target target, String fileName, Boolean defaultAttributes) {
+		try {
+			String tmpFilename = fileName + ".tmp";
+			model.writeXML(tmpFilename, target, defaultAttributes);
+			File from = new File(tmpFilename);
+			File to = new File(fileName);
+			Files.copy(from.toPath(), to.toPath(),
+					StandardCopyOption.REPLACE_EXISTING);
+			Files.delete(from.toPath());
+			ServerWizard2.LOGGER.info(fileName + " Saved");
+		} catch (Exception e) {
+			ServerwizMessageDialog.openError(null, "Export Part Error", e.getMessage());
+		}
 	}
 
 	public void deleteConnection(Target target, Target busTarget,

@@ -102,6 +102,17 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			this.childrenHidden.add(c);
 		}
 	}
+	public void copyBusses(Target t) {
+		for (Map.Entry<Target, Vector<Connection>> entry : t.busses.entrySet()) {
+			Target newTarget = new Target(entry.getKey());
+			Vector<Connection> newConns = new Vector<Connection>();
+			for (Connection conn : entry.getValue()) {
+				newConns.add(new Connection(conn));
+			}
+			busses.put(newTarget, newConns);
+		}
+		busInited = true;
+	}
 	public void removeChildren(String child) {
 		children.remove(child);
 		childrenHidden.remove(child);
@@ -234,7 +245,8 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public Boolean isSystem() {
 		return (this.getAttribute("CLASS").equals("SYS"));
 	}
-	Boolean isCard() {
+	
+	public Boolean isCard() {
 		return (this.getAttribute("CLASS").equals("CARD") || this.getAttribute("CLASS").equals(
 				"MOTHERBOARD"));
 	}
@@ -527,19 +539,31 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			}
 			conn.busTarget = new Target(busTarget);
 			conn.readInstanceXML(bus);
-			busses.get(busTarget).add(conn);
+
+			if(busses.containsKey(busTarget)) {
+				busses.get(busTarget).add(conn);
+			} else {
+				Vector<Connection> conns = new Vector<Connection>();
+				conns.add(conn);
+				busses.put(busTarget, conns);
+			}
 		}
 	}	
-	public void writeTargetXML(Writer out,HashMap<String,Target> targetLookup, HashMap<String,Boolean>targetWritten) throws Exception {
+	public void writeTargetXML(Writer out,HashMap<String,Target> targetLookup, HashMap<String,Boolean>targetWritten,
+			Boolean targetExport, Boolean forceRoot, HashMap<String, Attribute> attrMap) throws Exception {
 		if (targetWritten.containsKey(this.getName())) {
 			return;
 		}
 		targetWritten.put(this.getName(), true);
 		out.write("<targetPart>\n");
 		out.write("\t<id>" + this.getName() + "</id>\n");
-		out.write("\t<type>" + this.getType() + "</type>\n");
+		if(forceRoot) {
+			out.write("\t<type>" + this.getAttribute("CLASS").toLowerCase() + "-" + this.name + "</type>\n");
+		} else {
+			out.write("\t<type>" + this.getType() + "</type>\n");
+		}
 		String rootStr = "false";
-		if (this.isRoot()) { rootStr = "true"; }
+		if (this.isRoot() || forceRoot) { rootStr = "true"; }
 		out.write("\t<is_root>" + rootStr + "</is_root>\n");
 		if (!this.name.isEmpty()) {
 			out.write("\t<instance_name>" + this.name + "</instance_name>\n");
@@ -547,7 +571,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			out.write("\t<instance_name>" + this.getIdPrefix() + "</instance_name>\n");
 		}
 
-		out.write("\t<position>" + getPosition() + "</position>\n");
+		out.write("\t<position>" + (forceRoot ? "-1" : getPosition()) + "</position>\n");
 		out.write("\t<parent>" + this.parent + "</parent>\n");
 		for (String p_type : this.parentType) {
 			out.write("\t<parent_type>" + p_type + "</parent_type>\n");
@@ -562,9 +586,12 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		}
 		//write attributes
 		for (Map.Entry<String, Attribute> entry : getAttributes().entrySet()) {
-			Attribute attr = new Attribute(entry.getValue());
-			attr.writeInstanceXML(out);
-
+			if(attrMap != null) {
+				attrMap.get(entry.getKey()).writeInstanceXML(out);
+			} else {
+				Attribute attr = new Attribute(entry.getValue());
+				attr.writeInstanceXML(out);
+			}
 		}
 		//write busses
 		for (Map.Entry<Target, Vector<Connection>> entry : busses.entrySet()) {
@@ -577,7 +604,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		//recursively write children
 		for (String childStr : this.getAllChildren()) {
 			Target child = targetLookup.get(childStr);
-			child.writeTargetXML(out, targetLookup, targetWritten);
+			child.writeTargetXML(out, targetLookup, targetWritten, targetExport, false, attrMap);
 		}
 	}
 }
