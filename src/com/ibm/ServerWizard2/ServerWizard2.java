@@ -35,7 +35,6 @@ public class ServerWizard2 {
 	public static String DEFAULT_REMOTE_URL = "";
 
 	public static Boolean updateOnlyMode = false;
-    public static String branchName= "master";
 	public static String getVersionString() {
 		return VERSION_MAJOR+"."+VERSION_MINOR;
 	}

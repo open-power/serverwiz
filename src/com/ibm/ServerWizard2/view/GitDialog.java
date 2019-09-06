@@ -222,10 +222,6 @@ public class GitDialog extends Dialog {
 					{
 					   Alert = MessageDialog.openConfirm(null, "ALERT", "A Common mrw Repo already exists in disk.\n It will overlay on the existing repo in disk.\n Please delete it in disk and reload with this if need this as base, Confirm to Overlay");
 					}
-					boolean branch = MessageDialog.openConfirm(null, "Branch name", "Confirm to enter branch name other than master");
-					if(branch) {
-				      ServerWizard2.branchName = MessageDialogWithToggle.shortenText(null, dialogArea);
-					}
 					org.eclipse.jgit.api.Status status = g.status();
 					if(Alert) {
 					if (!status.isClean()) {
