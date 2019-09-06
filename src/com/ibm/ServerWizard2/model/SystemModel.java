@@ -221,6 +221,7 @@ public class SystemModel {
 		String[] filesStr = xmlDir.list();
 		if (filesStr == null) {
 			ServerWizard2.LOGGER.warning("No library loaded");
+			ServerWizard2.DEFAULT_REMOTE_URL = "";
 		} else {
 			Arrays.sort(filesStr);
 
