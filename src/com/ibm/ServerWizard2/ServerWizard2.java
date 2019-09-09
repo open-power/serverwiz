@@ -19,6 +19,7 @@ import com.ibm.ServerWizard2.utility.Github;
 import com.ibm.ServerWizard2.utility.GithubRepository;
 import com.ibm.ServerWizard2.utility.MyLogFormatter;
 import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
+import com.jcraft.jsch.JSch;
 import com.ibm.ServerWizard2.view.MainDialog;
 public class ServerWizard2 {
 
@@ -31,10 +32,9 @@ public class ServerWizard2 {
 
 	public final static String PROPERTIES_FILE = "serverwiz.preferences";
 	public static String GIT_LOCATION = "";
-	public final static String DEFAULT_REMOTE_URL = "https://github.com/open-power/common-mrw-xml.git";
+	public static String DEFAULT_REMOTE_URL = "";
 
 	public static Boolean updateOnlyMode = false;
-
 	public static String getVersionString() {
 		return VERSION_MAJOR+"."+VERSION_MINOR;
 	}
@@ -54,6 +54,7 @@ public class ServerWizard2 {
 		System.out.println("   -h = print this usage");
 	}
 	public static void main(String[] args) {
+		JSch.setConfig("StrictHostKeyChecking", "no");
 		String inputFilename="";
 		String outputFilename="";
 		Boolean cleanupMode = false;
@@ -149,6 +150,9 @@ public class ServerWizard2 {
 		try {
 			Properties p = new Properties();
 			File f = new File(ServerWizard2.PROPERTIES_FILE);
+			Display display = new Display();
+			Shell shell = new Shell(display);
+			DirectoryDialog fdlg = new DirectoryDialog(shell, SWT.OPEN);
 			if (!f.exists()) {
 				//File doesn't exist, so create;
 				ServerWizard2.LOGGER.info("Preferences file doesn't exist, creating...");
@@ -186,6 +190,7 @@ public class ServerWizard2 {
 		try {
 			Properties p = new Properties();
 			File f = new File(ServerWizard2.PROPERTIES_FILE);
+			DirectoryDialog fdlg = new DirectoryDialog(shell, SWT.OPEN);
 			if (!f.exists()) {
 				//File doesn't exist, so create; prompt user for git location
 				ServerWizard2.LOGGER.info("Preferences file doesn't exist, creating...");
@@ -197,6 +202,7 @@ public class ServerWizard2 {
 					ServerWizard2.LOGGER.warning("No directory selected; exiting...");
 					System.exit(0);
 				}
+
 				p.setProperty("git_location", libPath);
 				p.setProperty("repositories", ServerWizard2.DEFAULT_REMOTE_URL);
 				p.setProperty("needs_password", "false");
@@ -205,6 +211,7 @@ public class ServerWizard2 {
 				p.store(out, "");
 				out.close();
 			}
+			
 			FileInputStream propFile = new FileInputStream(ServerWizard2.PROPERTIES_FILE);
 			p.load(propFile);
 			propFile.close();
