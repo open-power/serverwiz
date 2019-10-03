@@ -54,7 +54,7 @@ public class TargetWizardController {
 		try {
 			String libraryLocation = ServerWizard2.GIT_LOCATION + File.separator + this.LIBRARY_NAME;
 			File chk = new File(libraryLocation);
-			if (!chk.exists()) {
+			if (!chk.exists() && !ServerWizard2.DEFAULT_REMOTE_URL.isBlank()) {
 				ServerWizard2.LOGGER.info("XML library does not exist so cloning: "+libraryLocation);
 				StatusLogger.getLogger().setLevel(Level.FATAL);
 				GithubRepository git = new GithubRepository(ServerWizard2.DEFAULT_REMOTE_URL, ServerWizard2.GIT_LOCATION, false);
@@ -80,7 +80,7 @@ public class TargetWizardController {
 				String curRepo = repo[i].substring(repo[i].lastIndexOf('/') + 1);
 				curRepo = ServerWizard2.GIT_LOCATION +  File.separator + curRepo;
 				chk = new File(curRepo);
-				if(!chk.exists()) {
+				if(!chk.exists() && !ServerWizard2.DEFAULT_REMOTE_URL.isBlank()) {
 					ServerWizard2.LOGGER.info("XML library does not exist so cloning: " + curRepo);
 					GithubRepository git = new GithubRepository(
 							repo[i], ServerWizard2.GIT_LOCATION, false);

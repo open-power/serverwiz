@@ -13,6 +13,7 @@ import org.apache.logging.log4j.status.StatusLogger;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
@@ -212,23 +213,37 @@ public class GitDialog extends Dialog {
 				GithubRepository g = (GithubRepository) listViewer
 						.getElementAt(listViewer.getList().getSelectionIndex());
 				try {
+					boolean Alert = false;
+                    boolean cmnMrwUrl = g.getRemoteUrl().contains("common-mrw");
 					if (!g.isCloned()) {
+						if(cmnMrwUrl){
+							ServerWizard2.DEFAULT_REMOTE_URL = g.getRemoteUrl();
+						}
 						g.cloneRepository();
 					}
+					else if(cmnMrwUrl)
+					{
+					   Alert = MessageDialog.openConfirm(null, "ALERT", "A Common mrw Repo already exists in disk.\n"
+							   +"It will overlay on the existing repo in disk.\n"
+							   +"Please delete it in disk and reload with this "
+							   +"if need this as base, Confirm to Overlay");
+					}
 					org.eclipse.jgit.api.Status status = g.status();
-
-					if (!status.isClean()) {
-						boolean reset = MessageDialog.openQuestion(null, "Repository is Modified",
-								"The local repository for:\n" + g.getRemoteUrl() + "\n"
+					if(Alert || !cmnMrwUrl) {
+						if (!status.isClean()) {
+							boolean reset = MessageDialog.openQuestion(null, "Repository is Modified",
+								 "The local repository for:\n" + g.getRemoteUrl() + "\n"
 										+ "has been modified. Would you like to ignore changes and reset?");
-						if (reset) {
-							String r = g.fetch(true);
-							ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Reset Successful");
+							if (reset) {
+							    String r = g.fetch(true);
+							    ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Reset Successful");
 
+							}
+						} else {
+						      String r = g.fetch(false);
+						      ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Message: " + r);
 						}
-					} else {
-						String r = g.fetch(false);
-						ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Message: " + r);
+					        MessageDialog.openInformation(null, "Alert!!", "Please rerun the project for model to load");
 					}
 				} catch (Exception e) {
 					ServerwizMessageDialog.openError(null, "Git Refresh: " + g.getRemoteUrl(), e.getMessage());
@@ -262,12 +277,8 @@ public class GitDialog extends Dialog {
 				if (!delete) {
 					return;
 				}
-				if (g.getRemoteUrl().equals(ServerWizard2.DEFAULT_REMOTE_URL)) {
-					ServerwizMessageDialog.openError(null, "Error", "Deleting of default repository is not allowed");
-				} else {
 					git.getRepositories().remove(g);
 					listViewer.refresh();
-				}
 			}
 		});
 		btnDelete.setText("Delete");
@@ -327,7 +338,17 @@ public class GitDialog extends Dialog {
 				}
 				try {
 					g.checkRemote();
-					g.cloneRepository();
+					boolean Alert = true;
+					if((!ServerWizard2.DEFAULT_REMOTE_URL.isEmpty()) && (g.getRemoteUrl().contains("common-mrw")))
+					{
+						 Alert = MessageDialog.openConfirm(null, "ALERT", "A Common mrw Repo already exists in disk.\n "
+								 +"It will be overlaid on the repo existing in disk.\n "
+								 +"Please delete it in disk and refresh with this if need this as base, Confirm to Overlay!!!!");
+					}
+					if(Alert)
+					{
+					     g.cloneRepository();
+					}
 					git.getRepositories().add(g);
 					txtNewRepo.setText("");
 					listViewer.refresh();

@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.view.PasswordPrompt;
+import com.jcraft.jsch.JSch;
 
 public class GithubRepository implements Comparable<GithubRepository> {
 	private String remoteUrl;
@@ -35,6 +36,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 	public GithubRepository(String remoteUrl, String localDir, boolean needsPassword) {
 		this.remoteUrl = remoteUrl;
 		this.needsPassword = needsPassword;
+		JSch.setConfig("StrictHostKeyChecking", "no");
 		File f = new File(remoteUrl);
 		String localPath = localDir + File.separator + f.getName().replace(".git", "");
 		rootDirectory = new File(localPath);
@@ -125,7 +127,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 					.setCredentialsProvider(credentials)
 					.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)))
 					.setURI(this.getRemoteUrl()).setDirectory(this.getRootDirectory()).call();
-
+            
 			cloned = true;
 			result.close();
 		} catch (Exception e1) {
