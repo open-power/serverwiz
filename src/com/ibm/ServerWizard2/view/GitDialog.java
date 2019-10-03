@@ -8,12 +8,13 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.JTextField;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.status.StatusLogger;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
@@ -42,7 +43,7 @@ import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
 
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class GitDialog extends Dialog {
+public class GitDialog extends Dialog  {
 	private Text txtNewRepo;
 	Github git = new Github(ServerWizard2.GIT_LOCATION);
 
@@ -57,6 +58,8 @@ public class GitDialog extends Dialog {
 	private Button btnNeedsPassword;
 	private Button btnRefresh;
 	private Text txtLocation;
+    JTextField Jtext;
+	private Text txtBranch;
 
 	/**
 	 * Create the dialog.
@@ -93,7 +96,6 @@ public class GitDialog extends Dialog {
 		lblGitRepositoryUrl.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblGitRepositoryUrl.setText("Git Repository URL:");
 		listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
-
 		List repositoryList = listViewer.getList();
 		repositoryList.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		repositoryList.addSelectionListener(new SelectionAdapter() {
@@ -214,36 +216,36 @@ public class GitDialog extends Dialog {
 						.getElementAt(listViewer.getList().getSelectionIndex());
 				try {
 					boolean Alert = false;
-                    boolean cmnMrwUrl = g.getRemoteUrl().contains("common-mrw");
+					boolean cmnMrwUrl = g.getRemoteUrl().contains("common-mrw");
 					if (!g.isCloned()) {
-						if(cmnMrwUrl){
+						g.cloneRepository();
+						if(cmnMrwUrl) {
 							ServerWizard2.DEFAULT_REMOTE_URL = g.getRemoteUrl();
 						}
-						g.cloneRepository();
 					}
 					else if(cmnMrwUrl)
 					{
 					   Alert = MessageDialog.openConfirm(null, "ALERT", "A Common mrw Repo already exists in disk.\n"
 							   +"It will overlay on the existing repo in disk.\n"
-							   +"Please delete it in disk and reload with this "
-							   +"if need this as base, Confirm to Overlay");
+							   		+ "Please delete it in disk and reload with this "+
+							        " if need this as base, Confirm to Overlay");
 					}
 					org.eclipse.jgit.api.Status status = g.status();
 					if(Alert || !cmnMrwUrl) {
-						if (!status.isClean()) {
-							boolean reset = MessageDialog.openQuestion(null, "Repository is Modified",
-								 "The local repository for:\n" + g.getRemoteUrl() + "\n"
+					    if (!status.isClean()) {
+						    boolean reset = MessageDialog.openQuestion(null, "Repository is Modified",
+							    	"The local repository for:\n" + g.getRemoteUrl() + "\n"
 										+ "has been modified. Would you like to ignore changes and reset?");
-							if (reset) {
-							    String r = g.fetch(true);
+					    	if (reset) {
+						    	String r = g.fetch(true);
 							    ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Reset Successful");
 
-							}
-						} else {
-						      String r = g.fetch(false);
-						      ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Message: " + r);
-						}
-					        MessageDialog.openInformation(null, "Alert!!", "Please rerun the project for model to load");
+						    }
+					   } else {
+						   String r = g.fetch(false);
+						   ServerwizMessageDialog.openInformation(null, "Refresh Complete", "Message: " + r);
+					   }
+					   MessageDialog.openInformation(null, "Alert!!", "Please rerun the project for model to load");
 					}
 				} catch (Exception e) {
 					ServerwizMessageDialog.openError(null, "Git Refresh: " + g.getRemoteUrl(), e.getMessage());
@@ -279,6 +281,12 @@ public class GitDialog extends Dialog {
 				}
 					git.getRepositories().remove(g);
 					listViewer.refresh();
+					g = null;
+					if(listViewer.getList().getItemCount() == 0)
+					{
+					   MessageDialog.openInformation(null, "NEW", " No items");
+				       git.getRepositories().removeAllElements();					
+					}
 			}
 		});
 		btnDelete.setText("Delete");
@@ -292,8 +300,8 @@ public class GitDialog extends Dialog {
 		Composite composite_2 = new Composite(container, SWT.NONE);
 		composite_2.setLayout(new RowLayout(SWT.HORIZONTAL));
 		GridData gd_composite_2 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_composite_2.widthHint = 354;
-		gd_composite_2.heightHint = 46;
+		gd_composite_2.widthHint = 370;
+		gd_composite_2.heightHint = 50;
 		composite_2.setLayoutData(gd_composite_2);
 
 		Label lblNewRepository = new Label(composite_2, SWT.NONE);
@@ -304,6 +312,18 @@ public class GitDialog extends Dialog {
 		txtNewRepo = new Text(composite_2, SWT.BORDER);
 		txtNewRepo.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		txtNewRepo.setLayoutData(new RowData(234, SWT.DEFAULT));
+		
+		Label lblBranch = new Label(composite_2, SWT.NONE);
+		lblBranch.setLayoutData(new RowData(95, SWT.DEFAULT));
+		lblBranch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		lblBranch.setText("Branch name:");
+		
+		txtBranch = new Text(composite_2, SWT.BORDER);
+		txtBranch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.ITALIC));
+		txtBranch.setLayoutData(new RowData(200, SWT.DEFAULT));
+		txtBranch.setText("branch name");
+		
+
 
 		Composite composite_1 = new Composite(container, SWT.NONE);
 		RowLayout rl_composite_1 = new RowLayout(SWT.HORIZONTAL);
@@ -316,7 +336,7 @@ public class GitDialog extends Dialog {
 
 		btnNeedsPassword = new Button(composite_1, SWT.CHECK);
 		btnNeedsPassword.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		btnNeedsPassword.setLayoutData(new RowData(148, 40));
+		btnNeedsPassword.setLayoutData(new RowData(148, 20));
 		btnNeedsPassword.setText("Needs Password?");
 
 		Button btnAddRemote = new Button(composite_1, SWT.NONE);
@@ -330,6 +350,11 @@ public class GitDialog extends Dialog {
 					ServerwizMessageDialog.openError(null, "Error", "Repository URL is blank");
 					return;
 				}
+				String branch = txtBranch.getText();
+				if(!ServerWizard2.branchName.equals(branch))
+				{
+					ServerWizard2.branchName = branch;
+				}
 				GithubRepository g = new GithubRepository(repo, git.getLocation(), btnNeedsPassword.getSelection());
 				g.setShell(getShell());
 				if (git.isRepository(g)) {
@@ -341,14 +366,13 @@ public class GitDialog extends Dialog {
 					boolean Alert = true;
 					if((!ServerWizard2.DEFAULT_REMOTE_URL.isEmpty()) && (g.getRemoteUrl().contains("common-mrw")))
 					{
-						 Alert = MessageDialog.openConfirm(null, "ALERT", "A Common mrw Repo already exists in disk.\n "
-								 +"It will be overlaid on the repo existing in disk.\n "
-								 +"Please delete it in disk and refresh with this if need this as base, Confirm to Overlay!!!!");
+						 Alert = MessageDialog.openConfirm(null, "ALERT", "A Common mrw Repo already exists in disk.\n It will be overlaid on the repo existing in disk.\n Please delete it in disk and refresh with this if need this as base, Confirm to Overlay!!!!");
 					}
 					if(Alert)
 					{
 					     g.cloneRepository();
 					}
+
 					git.getRepositories().add(g);
 					txtNewRepo.setText("");
 					listViewer.refresh();
@@ -434,6 +458,7 @@ public class GitDialog extends Dialog {
 
 			if (newFile) {
 				p.setProperty("repositories", ServerWizard2.DEFAULT_REMOTE_URL);
+				p.setProperty("branch_name", ServerWizard2.branchName);
 				p.setProperty("needs_password", "false");
 			}
 			String repos = p.getProperty("repositories");

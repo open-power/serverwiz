@@ -126,7 +126,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 			Git result = Git.cloneRepository()
 					.setCredentialsProvider(credentials)
 					.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)))
-					.setURI(this.getRemoteUrl()).setDirectory(this.getRootDirectory()).call();
+					.setURI(this.getRemoteUrl()).setDirectory(this.getRootDirectory()).setBranch(ServerWizard2.branchName).call();
             
 			cloned = true;
 			result.close();
