@@ -29,8 +29,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.ibm.ServerWizard2.ServerWizard2;
-import com.ibm.ServerWizard2.utility.Github;
-import com.ibm.ServerWizard2.utility.GithubRepository;
+//import com.ibm.ServerWizard2.utility.Github;
+//import com.ibm.ServerWizard2.utility.GithubRepository;
 import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
 import com.ibm.ServerWizard2.view.ErrataViewer;
 
@@ -210,7 +210,12 @@ public class SystemModel {
 		}
 		return null;
 	}
+
 	public void loadLibrary(String path) throws Exception {
+		this.loadLibrary(path, "");
+	}
+
+	public void loadLibrary(String path, String commitHash) throws Exception {
 		if (this.loadedLibraries.containsKey(path)) {
 			ServerWizard2.LOGGER.info("Library already loaded: "+path);
 			return;
@@ -262,7 +267,7 @@ public class SystemModel {
 		} else {
 			for (File file : filesList) {
 			    if (file.isFile() && file.getAbsolutePath().endsWith(".xml")) {
-			    	this.loadTargets(file.getPath());
+			    	this.loadTargets(file.getPath(), commitHash);
 			    }
 			}
 		}
@@ -718,7 +723,7 @@ public class SystemModel {
 		}
 	}
 
-	public void loadTargets(String filename) throws Exception {
+	public void loadTargets(String filename, String commitHash) throws Exception {
 		ServerWizard2.LOGGER.info("Loading Part: " + filename);
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -734,6 +739,10 @@ public class SystemModel {
 				target = new Target();
 			} else {
 				target = new Target(tmodel);
+			}
+			if(!commitHash.isEmpty())
+			{
+				target.setLibraryCommitHash(commitHash);
 			}
 			target.readTargetXML(t, targetModels, attributes);
 			addParentAttributes(target, target);

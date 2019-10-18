@@ -20,7 +20,7 @@ import com.ibm.ServerWizard2.model.Connection;
 import com.ibm.ServerWizard2.model.Field;
 import com.ibm.ServerWizard2.model.SystemModel;
 import com.ibm.ServerWizard2.model.Target;
-import com.ibm.ServerWizard2.utility.Github;
+//import com.ibm.ServerWizard2.utility.Github;
 import com.ibm.ServerWizard2.utility.GithubRepository;
 import com.ibm.ServerWizard2.view.LogViewerDialog;
 import com.ibm.ServerWizard2.view.MainDialog;
@@ -54,13 +54,15 @@ public class TargetWizardController {
 		try {
 			String libraryLocation = ServerWizard2.GIT_LOCATION + File.separator + this.LIBRARY_NAME;
 			File chk = new File(libraryLocation);
+			String libraryCommitHash = "";
 			if (!chk.exists()) {
 				ServerWizard2.LOGGER.info("XML library does not exist so cloning: "+libraryLocation);
 				StatusLogger.getLogger().setLevel(Level.FATAL);
 				GithubRepository git = new GithubRepository(ServerWizard2.DEFAULT_REMOTE_URL, ServerWizard2.GIT_LOCATION, false);
 				git.cloneRepository();
+				libraryCommitHash = git.getHash();
 			}
-			model.loadLibrary(libraryLocation);
+			model.loadLibrary(libraryLocation, libraryCommitHash);
 			this.initModel();
 
 			//Check if there are additional libraries to be cloned
