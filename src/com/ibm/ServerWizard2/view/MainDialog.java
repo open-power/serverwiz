@@ -14,6 +14,8 @@ import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -120,6 +122,11 @@ public class MainDialog extends Dialog {
 	private Label label;
 	private Label label_1;
 	private Composite composite_1;
+	
+	//Search functionality
+	private FieldFilter fieldFilter;
+	private Text attrSearchText;
+	
 	/**
 	 * Create the dialog.
 	 *
@@ -219,10 +226,38 @@ public class MainDialog extends Dialog {
 		lblAttributeFilter.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblAttributeFilter.setBounds(15, 3, 97, 15);
 		lblAttributeFilter.setText("Attribute Filter:");
-
+		
+		attrSearchText = new Text(composite_1, SWT.BORDER|SWT.SEARCH);
+		attrSearchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+				| GridData.HORIZONTAL_ALIGN_FILL));
+		attrSearchText.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		attrSearchText.setBounds(565, 0, 236, 23);
+		
+		Label lblAttrSearch = new Label(composite_1, SWT.NONE);
+		lblAttrSearch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		lblAttrSearch.setBounds(470, 3, 80, 15);
+		lblAttrSearch.setText("Search: ");
+		
+		fieldFilter = new FieldFilter();
+		attrSearchText.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				fieldFilter.setSearchText(attrSearchText.getText());
+				viewer.refresh();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		// Create attribute table
 		viewer = new TableViewer(sashForm_1, SWT.VIRTUAL | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION | SWT.BORDER);
+		viewer.addFilter(fieldFilter);
 
 		this.createAttributeTable();
 
