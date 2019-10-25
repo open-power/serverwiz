@@ -444,7 +444,10 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		} else {
 			out.write("\t<instance_name>" + this.getIdPrefix() + "</instance_name>\n");
 		}
-
+		
+		if( this.libraryCommitHash != "") {
+			out.write("\t<hash_ver>" + this.libraryCommitHash + "</hash_ver>\n");
+		}
 		out.write("\t<position>" + getPosition() + "</position>\n");
 		//write children
 		for (String childStr : this.children) {
