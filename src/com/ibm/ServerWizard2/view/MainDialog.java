@@ -10,6 +10,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -56,12 +57,13 @@ import com.ibm.ServerWizard2.model.Target;
 import com.ibm.ServerWizard2.utility.GithubFile;
 
 
-
 public class MainDialog extends Dialog {
 	private TableViewer viewer;
 	private Tree tree;
+	private TreeViewer treeViewer;
 	private TreeColumn columnName;
 	private Text txtInstanceName;
+	private Text txtSearchTree;
 	private Combo combo;
 	private Menu popupMenu;
 	private Composite container;
@@ -96,7 +98,9 @@ public class MainDialog extends Dialog {
 
 	private Composite compositeBus;
 	private Label lblInstanceType;
+	private Label lblSearch;
 	private Composite compositeInstance;
+	private Composite compositeSearch;
 	private Composite composite;
 	private Composite buttonRow1;
 
@@ -108,11 +112,13 @@ public class MainDialog extends Dialog {
 	private TabFolder tabFolder;
 	private TabItem tbtmAddInstances;
 	private TabItem tbtmAddBusses;
+	private TabItem tbtmSearch;
 	private Combo cmbCards;
 	private Boolean targetFound = false;
 	private List listBusses;
 	private Label lblBusDirections;
 	private Label lblInstanceDirections;
+	private Label lblSearchDirections;
 	private Composite compositeDir;
 	private Button btnHideBusses;
 	private Button btnShowHidden;
@@ -122,6 +128,7 @@ public class MainDialog extends Dialog {
 	private Label label;
 	private Label label_1;
 	private Composite composite_1;
+	private Composite composite_2;
 	
 	//Search functionality
 	private FieldFilter fieldFilter;
@@ -235,7 +242,7 @@ public class MainDialog extends Dialog {
 		
 		Label lblAttrSearch = new Label(composite_1, SWT.NONE);
 		lblAttrSearch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		lblAttrSearch.setBounds(470, 3, 80, 15);
+		lblAttrSearch.setBounds(480, 3, 80, 15);
 		lblAttrSearch.setText("Search: ");
 		
 		fieldFilter = new FieldFilter();
@@ -254,11 +261,12 @@ public class MainDialog extends Dialog {
 			}
 		});
 		
-		// Create attribute table
+		
 		viewer = new TableViewer(sashForm_1, SWT.VIRTUAL | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION | SWT.BORDER);
 		viewer.addFilter(fieldFilter);
 
+		// Create attribute table
 		this.createAttributeTable();
 
 		// //////////////////////////////////////////////////////////
@@ -377,6 +385,28 @@ public class MainDialog extends Dialog {
 		btnHideBusses.setText("Show only busses of selected type");
 		btnHideBusses.setSelection(true);
 
+		// ////////////////////
+		// Add search tab
+		tbtmSearch = new TabItem(tabFolder, SWT.NONE);
+		tbtmSearch.setText("Search");
+		
+		compositeSearch = new Composite(tabFolder, SWT.BORDER);
+		tbtmSearch.setControl(compositeSearch);
+		compositeSearch.setLayout(new GridLayout(2, false));		
+		
+		Label lblSearch = new Label(compositeSearch, SWT.NONE);
+		lblSearch.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblSearch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		lblSearch.setText("Search Tree: ");
+
+		txtSearchTree = new Text(compositeSearch, SWT.BORDER);
+		GridData gd_txtSearchTree = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_txtSearchTree.widthHint = 175;
+		txtSearchTree.setLayoutData(gd_txtSearchTree);
+		txtSearchTree.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+
+		
+		//Add instructional text on adding instances and busses
 		StackLayout stackLayout = new StackLayout();
 		compositeDir = new Composite(composite, SWT.NONE);
 		compositeDir.setLayout(stackLayout);
@@ -401,10 +431,15 @@ public class MainDialog extends Dialog {
 						+ "3. Navigate to connection source in Instances Tree view on left\r\n"
 						+ "4. Right-click on source and select \"Set Source\"\r\n"
 						+ "5. Navigate to connection destination\r\n6. Right-click on destination and select \"Add Connection\"");
+		
+		lblSearchDirections = new Label(compositeDir, SWT.NONE);
+		lblSearchDirections.setFont(SWTResourceManager.getFont("Arial", 8, SWT.NORMAL));
+		lblSearchDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+		lblSearchDirections.setText("Type in text on the search bar and press enter.\r\n");
 
 		listBusses = new List(sashForm, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		listBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-
+		
 		this.addEvents();
 		this.setDirtyState(false);
 
@@ -671,6 +706,16 @@ public class MainDialog extends Dialog {
 		}
 		return null;
 	}
+	
+	private void initSearchMode() {
+		busMode = false;
+		this.lblSearchDirections.setVisible(true);
+		this.lblSearchDirections.setEnabled(true);
+		this.lblBusDirections.setEnabled(false);
+		this.lblBusDirections.setVisible(false);
+		this.lblInstanceDirections.setVisible(false);
+		this.lblInstanceDirections.setEnabled(false);
+	}
 
 	private void initBusMode() {
 		busMode = true;
@@ -678,6 +723,8 @@ public class MainDialog extends Dialog {
 		this.lblBusDirections.setVisible(true);
 		this.lblInstanceDirections.setVisible(false);
 		this.lblInstanceDirections.setEnabled(false);
+		this.lblSearchDirections.setVisible(false);
+		this.lblSearchDirections.setEnabled(false);
 
 		// update card combo
 		cmbCards.removeAll();
@@ -712,6 +759,9 @@ public class MainDialog extends Dialog {
 
 		this.lblBusDirections.setEnabled(false);
 		this.lblBusDirections.setVisible(false);
+		
+		this.lblSearchDirections.setVisible(false);
+		this.lblSearchDirections.setEnabled(false);
 
 		this.targetForConnections = null;
 		this.refreshInstanceTree();
@@ -1165,8 +1215,10 @@ public class MainDialog extends Dialog {
 			public void widgetSelected(SelectionEvent arg0) {
 				if (tabFolder.getSelection()[0]==tbtmAddBusses) {
 					initBusMode();
-				} else {
+				} else if(tabFolder.getSelection()[0]==tbtmAddInstances){
 					initInstanceMode();
+				}else {
+					initSearchMode();
 				}
 			}
 		});
