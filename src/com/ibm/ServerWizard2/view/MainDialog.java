@@ -1,5 +1,6 @@
 package com.ibm.ServerWizard2.view;
 
+import java.util.LinkedList;
 import java.util.Vector;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -133,6 +134,8 @@ public class MainDialog extends Dialog {
 	//Search functionality
 	private FieldFilter fieldFilter;
 	private Text attrSearchText;
+	private String prevSearchText;
+	private LinkedList<TreeItem> allSearchItems;
 	
 	/**
 	 * Create the dialog.
@@ -141,6 +144,7 @@ public class MainDialog extends Dialog {
 	 */
 	public MainDialog(Shell parentShell) {
 		super(parentShell);
+		prevSearchText = "";
 		setShellStyle(SWT.BORDER | SWT.MIN | SWT.MAX | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
@@ -167,6 +171,7 @@ public class MainDialog extends Dialog {
 		container.setLayout(gl_container);
 
 		composite = new Composite(container, SWT.NONE);
+		allSearchItems = new LinkedList<TreeItem>();
 		
 		RowLayout rl_composite = new RowLayout(SWT.HORIZONTAL);
 		rl_composite.spacing = 20;
@@ -706,21 +711,16 @@ public class MainDialog extends Dialog {
 
 	// ////////////////////////////////////////////////////
 	// Utility helpers
-	private TreeItem searchTree(String s, TreeItem item) {
+	private void searchTree(String s, TreeItem item) {
 		//TODO: add functionality to search through the tree
 		Target target = (Target)item.getData();
 		if(target.getName().contains(s)) {
-			return item;
+			allSearchItems.add(item);
 		}
 		
 		for(TreeItem child: item.getItems()) {
-			TreeItem cItem = searchTree(s, child);
-			if(cItem != null) {
-				return cItem;
-			}
+			searchTree(s, child);
 		}
-		
-		return null;
 	}
 	
 	private Target getSelectedTarget() {
@@ -1313,20 +1313,31 @@ public class MainDialog extends Dialog {
 				if(searchText == null || searchText.isEmpty()) {
 					return;
 				}
-				TreeItem[] roots = tree.getItems();
-				TreeItem item = null;
-				for(TreeItem root: roots) {
-					item = searchTree(searchText, root);
-					if(item != null) {
-						break;
-					}
-				}
 				
-				if(item == null) {
+				if(prevSearchText.equals(searchText)) {
+					if(!allSearchItems.isEmpty()) {
+						TreeItem nextItem = allSearchItems.poll();
+						tree.setSelection(nextItem);
+						allSearchItems.add(nextItem);
+					}
 					return;
 				}
 				
+				allSearchItems.clear();
+				prevSearchText = searchText;
+				
+				TreeItem[] roots = tree.getItems();
+				for(TreeItem root: roots) {
+					searchTree(searchText, root);
+				}
+				
+				if(allSearchItems.isEmpty()) {
+					return;
+				}
+				
+				TreeItem item = allSearchItems.poll();
 				tree.setSelection(item);
+				allSearchItems.add(item);
 			}
 		});
 		
