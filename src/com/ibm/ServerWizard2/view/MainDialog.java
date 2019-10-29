@@ -60,7 +60,6 @@ import com.ibm.ServerWizard2.utility.GithubFile;
 public class MainDialog extends Dialog {
 	private TableViewer viewer;
 	private Tree tree;
-	private TreeViewer treeViewer;
 	private TreeColumn columnName;
 	private Text txtInstanceName;
 	private Text txtSearchTree;
@@ -87,6 +86,7 @@ public class MainDialog extends Dialog {
 	private Button btnOpenLib;
 	private Button btnDeleteConnection;
 	private Button btnSaveAs;
+	private Button btnSearch;
 
 	// document state
 	private Boolean dirty = false;
@@ -392,7 +392,7 @@ public class MainDialog extends Dialog {
 		
 		compositeSearch = new Composite(tabFolder, SWT.BORDER);
 		tbtmSearch.setControl(compositeSearch);
-		compositeSearch.setLayout(new GridLayout(2, false));		
+		compositeSearch.setLayout(new GridLayout(3, false));		
 		
 		Label lblSearch = new Label(compositeSearch, SWT.NONE);
 		lblSearch.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -404,6 +404,12 @@ public class MainDialog extends Dialog {
 		gd_txtSearchTree.widthHint = 175;
 		txtSearchTree.setLayoutData(gd_txtSearchTree);
 		txtSearchTree.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		
+		btnSearch = new Button(compositeSearch, SWT.NONE);
+		btnSearch.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		btnSearch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnSearch.setText("Search");
+		btnSearch.setEnabled(true);
 
 		
 		//Add instructional text on adding instances and busses
@@ -700,6 +706,23 @@ public class MainDialog extends Dialog {
 
 	// ////////////////////////////////////////////////////
 	// Utility helpers
+	private TreeItem searchTree(String s, TreeItem item) {
+		//TODO: add functionality to search through the tree
+		Target target = (Target)item.getData();
+		if(target.getName().contains(s)) {
+			return item;
+		}
+		
+		for(TreeItem child: item.getItems()) {
+			TreeItem cItem = searchTree(s, child);
+			if(cItem != null) {
+				return cItem;
+			}
+		}
+		
+		return null;
+	}
+	
 	private Target getSelectedTarget() {
 		if (tree.getSelectionCount() > 0) {
 			return (Target) tree.getSelection()[0].getData();
@@ -1282,6 +1305,31 @@ public class MainDialog extends Dialog {
 				setDirtyState(true);
 			}
 		});
+		
+		btnSearch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String searchText = txtSearchTree.getText();
+				if(searchText == null || searchText.isEmpty()) {
+					return;
+				}
+				TreeItem[] roots = tree.getItems();
+				TreeItem item = null;
+				for(TreeItem root: roots) {
+					item = searchTree(searchText, root);
+					if(item != null) {
+						break;
+					}
+				}
+				
+				if(item == null) {
+					return;
+				}
+				
+				tree.setSelection(item);
+			}
+		});
+		
 		btnCopyInstance.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
