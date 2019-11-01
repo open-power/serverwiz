@@ -435,6 +435,10 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		targetWritten.put(this.getName(), true);
 		out.write("<targetInstance>\n");
 		out.write("\t<id>" + this.getName() + "</id>\n");
+		System.out.println(this.getLibraryCommitHash());
+		if (!this.getLibraryCommitHash().isEmpty()) {
+			out.write("\t<hash>" + this.getLibraryCommitHash() + "</hash>\n");
+		}
 		out.write("\t<type>" + this.getType() + "</type>\n");
 		String rootStr = "false";
 		if (this.isRoot()) { rootStr = "true"; }

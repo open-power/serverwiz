@@ -11,10 +11,6 @@ import java.util.Properties;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.status.StatusLogger;
-import org.eclipse.swt.widgets.TreeItem;
-
 import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.model.Connection;
 import com.ibm.ServerWizard2.model.Field;
@@ -22,10 +18,17 @@ import com.ibm.ServerWizard2.model.SystemModel;
 import com.ibm.ServerWizard2.model.Target;
 //import com.ibm.ServerWizard2.utility.Github;
 import com.ibm.ServerWizard2.utility.GithubRepository;
+import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
 import com.ibm.ServerWizard2.view.LogViewerDialog;
 import com.ibm.ServerWizard2.view.MainDialog;
 
-import com.ibm.ServerWizard2.utility.ServerwizMessageDialog;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.status.StatusLogger;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.swt.widgets.TreeItem;
 
 public class TargetWizardController {
 	private SystemModel model;
@@ -61,7 +64,18 @@ public class TargetWizardController {
 				GithubRepository git = new GithubRepository(ServerWizard2.DEFAULT_REMOTE_URL, ServerWizard2.GIT_LOCATION, false);
 				git.cloneRepository();
 				libraryCommitHash = git.getHash();
+			} else {
+				try {
+					Git repo = Git.open(chk);
+					ObjectId head = repo.getRepository().resolve(Constants.HEAD);
+					RevCommit commit = repo.log().add(head).setMaxCount(1).call().iterator().next();
+					libraryCommitHash = commit.getName();
+					repo.close();
+				} catch (Exception e1) {
+					ServerWizard2.LOGGER.severe(e1.getMessage());
+				}
 			}
+			System.out.println(libraryCommitHash);
 			model.loadLibrary(libraryLocation, libraryCommitHash);
 			this.initModel();
 
