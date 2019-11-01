@@ -378,6 +378,9 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public void readInstanceXML(Element t, TreeMap<String, Target> targetModels) throws Exception {
 		name = SystemModel.getElement(t, "instance_name");
 		type = SystemModel.getElement(t, "type");
+
+		// Expects SystemModel.getElement() to return empty string if element is not found
+		libraryCommitHash = SystemModel.getElement(t, "common_mrw_git_hash_version");
 		String rootStr = SystemModel.getElement(t, "is_root");
 		if (rootStr.equals("true")) { this.root = true; }
 
