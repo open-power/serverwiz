@@ -16,6 +16,8 @@ import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -88,6 +90,11 @@ public class MainDialog extends Dialog {
 	private Button btnDeleteConnection;
 	private Button btnSaveAs;
 	private Button btnSearch;
+	private Button btnSearchAttributes;
+	private Button btnSearchFields;
+	private Button btnSearchValues;
+	private Button btnSearchDescriptions;
+	private Button btnSearchGroups;
 
 	// document state
 	private Boolean dirty = false;
@@ -134,7 +141,7 @@ public class MainDialog extends Dialog {
 	//Search functionality
 	private FieldFilter fieldFilter;
 	private Text attrSearchText;
-	private String prevSearchText;
+	private String prevSearchText = "";
 	private LinkedList<TreeItem> allSearchItems;
 	
 	/**
@@ -415,7 +422,41 @@ public class MainDialog extends Dialog {
 		btnSearch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnSearch.setText("Search");
 		btnSearch.setEnabled(true);
-
+		
+		btnSearchAttributes = new Button(compositeSearch, SWT.CHECK);
+		btnSearchAttributes.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		GridData gd_SearchAttributes = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_SearchAttributes.heightHint = 20;
+		btnSearchAttributes.setLayoutData(gd_SearchAttributes);
+		btnSearchAttributes.setText(" Attributes_xyz");
+		
+		btnSearchFields = new Button(compositeSearch, SWT.CHECK);
+		btnSearchFields.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		GridData gd_SearchFields = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_SearchFields.heightHint = 20;
+		btnSearchFields.setLayoutData(gd_SearchFields);
+		btnSearchFields.setText(" Fields_xyz");
+		
+		btnSearchValues = new Button(compositeSearch, SWT.CHECK);
+		btnSearchValues.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		GridData gd_SearchValues = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_SearchValues.heightHint = 20;
+		btnSearchValues.setLayoutData(gd_SearchValues);
+		btnSearchValues.setText(" Values_xyz");
+		
+		btnSearchDescriptions = new Button(compositeSearch, SWT.CHECK);
+		btnSearchDescriptions.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		GridData gd_SearchDescriptions = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_SearchDescriptions.heightHint = 20;
+		btnSearchDescriptions.setLayoutData(gd_SearchDescriptions);
+		btnSearchDescriptions.setText(" Descriptions_xyz");
+		
+		btnSearchGroups = new Button(compositeSearch, SWT.CHECK);
+		btnSearchGroups.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		GridData gd_SearchGroups = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_SearchGroups.heightHint = 20;
+		btnSearchGroups.setLayoutData(gd_SearchGroups);
+		btnSearchGroups.setText(" Groups_xyz");
 		
 		//Add instructional text on adding instances and busses
 		StackLayout stackLayout = new StackLayout();
@@ -711,15 +752,39 @@ public class MainDialog extends Dialog {
 
 	// ////////////////////////////////////////////////////
 	// Utility helpers
-	private void searchTree(String s, TreeItem item) {
+	private void searchTreeRecursive(String s, TreeItem item) {
 		//TODO: add functionality to search through the tree
 		Target target = (Target)item.getData();
-		if(target.getName().contains(s)) {
+		if(target.getName().toLowerCase().contains(s)) {
 			allSearchItems.add(item);
 		}
 		
 		for(TreeItem child: item.getItems()) {
-			searchTree(s, child);
+			searchTreeRecursive(s, child);
+		}
+	}
+	
+	private void searchTree() {
+		String searchText = txtSearchTree.getText().toLowerCase();
+		if(searchText == null || searchText.isEmpty()) {
+			return;
+		}
+		
+		if(!searchText.equals(prevSearchText)) {
+			allSearchItems.clear();
+			prevSearchText = searchText;
+			
+			TreeItem[] roots = tree.getItems();
+			for(TreeItem root: roots) {
+				searchTreeRecursive(searchText, root);
+			}
+		}
+		
+		if (!allSearchItems.isEmpty()) {
+			TreeItem nextItem = allSearchItems.poll();
+			tree.setSelection(nextItem);
+			allSearchItems.add(nextItem);
+			updateView();
 		}
 	}
 	
@@ -1309,38 +1374,26 @@ public class MainDialog extends Dialog {
 		btnSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String searchText = txtSearchTree.getText();
-				if(searchText == null || searchText.isEmpty()) {
-					return;
-				}
-				
-				if(prevSearchText.equals(searchText)) {
-					if(!allSearchItems.isEmpty()) {
-						TreeItem nextItem = allSearchItems.poll();
-						tree.setSelection(nextItem);
-						allSearchItems.add(nextItem);
-					}
-					return;
-				}
-				
-				allSearchItems.clear();
-				prevSearchText = searchText;
-				
-				TreeItem[] roots = tree.getItems();
-				for(TreeItem root: roots) {
-					searchTree(searchText, root);
-				}
-				
-				if(allSearchItems.isEmpty()) {
-					return;
-				}
-				
-				TreeItem item = allSearchItems.poll();
-				tree.setSelection(item);
-				allSearchItems.add(item);
+				searchTree();
 			}
 		});
 		
+		btnSearch.addKeyListener(new KeyAdapter(){
+			public void keyPressed(KeyEvent e){
+				if(e.keyCode == SWT.CR){
+					searchTree();
+				}
+			}
+		});
+		
+		txtSearchTree.addKeyListener(new KeyAdapter(){
+			public void keyPressed(KeyEvent e){
+				if(e.keyCode == SWT.CR){
+					searchTree();
+				}
+			}
+		});
+
 		btnCopyInstance.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
