@@ -435,11 +435,10 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		targetWritten.put(this.getName(), true);
 		out.write("<targetInstance>\n");
 		out.write("\t<id>" + this.getName() + "</id>\n");
-		System.out.println(this.getLibraryCommitHash());
-		if (!this.getLibraryCommitHash().isEmpty()) {
-			out.write("\t<hash>" + this.getLibraryCommitHash() + "</hash>\n");
-		}
 		out.write("\t<type>" + this.getType() + "</type>\n");
+		if (!this.getLibraryCommitHash().isEmpty()) {
+			out.write("\t<common_mrw_git_hash_version>" + this.getLibraryCommitHash() + "</common_mrw_git_hash_version>\n");
+		}
 		String rootStr = "false";
 		if (this.isRoot()) { rootStr = "true"; }
 		out.write("\t<is_root>" + rootStr + "</is_root>\n");
@@ -447,10 +446,6 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			out.write("\t<instance_name>" + this.name + "</instance_name>\n");
 		} else {
 			out.write("\t<instance_name>" + this.getIdPrefix() + "</instance_name>\n");
-		}
-		
-		if( this.libraryCommitHash != "") {
-			out.write("\t<hash_ver>" + this.libraryCommitHash + "</hash_ver>\n");
 		}
 		out.write("\t<position>" + getPosition() + "</position>\n");
 		//write children
