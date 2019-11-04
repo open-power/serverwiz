@@ -1,6 +1,9 @@
 package com.ibm.ServerWizard2.view;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -53,6 +56,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.controller.TargetWizardController;
+import com.ibm.ServerWizard2.model.Attribute;
+import com.ibm.ServerWizard2.model.AttributeValue;
 import com.ibm.ServerWizard2.model.Connection;
 import com.ibm.ServerWizard2.model.ConnectionEndpoint;
 import com.ibm.ServerWizard2.model.Field;
@@ -90,6 +95,7 @@ public class MainDialog extends Dialog {
 	private Button btnDeleteConnection;
 	private Button btnSaveAs;
 	private Button btnSearch;
+	private Button btnSearchName;
 	private Button btnSearchAttributes;
 	private Button btnSearchFields;
 	private Button btnSearchValues;
@@ -139,10 +145,11 @@ public class MainDialog extends Dialog {
 	private Composite composite_2;
 	
 	//Search functionality
-	private FieldFilter fieldFilter;
+	private AttributeTableFilter attributeTableFilter;
 	private Text attrSearchText;
 	private String prevSearchText = "";
 	private LinkedList<TreeItem> allSearchItems;
+	private HashMap<String, Boolean> checkedBoxes;
 	
 	/**
 	 * Create the dialog.
@@ -257,12 +264,12 @@ public class MainDialog extends Dialog {
 		lblAttrSearch.setBounds(480, 3, 80, 15);
 		lblAttrSearch.setText("Search: ");
 		
-		fieldFilter = new FieldFilter();
+		attributeTableFilter = new AttributeTableFilter();
 		attrSearchText.addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				fieldFilter.setSearchText(attrSearchText.getText());
+				attributeTableFilter.setSearchText(attrSearchText.getText().toLowerCase());
 				viewer.refresh();
 			}
 			
@@ -276,7 +283,7 @@ public class MainDialog extends Dialog {
 		
 		viewer = new TableViewer(sashForm_1, SWT.VIRTUAL | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION | SWT.BORDER);
-		viewer.addFilter(fieldFilter);
+		viewer.addFilter(attributeTableFilter);
 
 		// Create attribute table
 		this.createAttributeTable();
@@ -423,6 +430,14 @@ public class MainDialog extends Dialog {
 		btnSearch.setText("Search");
 		btnSearch.setEnabled(true);
 		
+		btnSearchName = new Button(compositeSearch, SWT.CHECK);
+		btnSearchName.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		GridData gd_SearchName = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_SearchName.heightHint = 20;
+		btnSearchName.setLayoutData(gd_SearchName);
+		btnSearchName.setText(" Name_xyz");
+		btnSearchName.setSelection(true);
+		
 		btnSearchAttributes = new Button(compositeSearch, SWT.CHECK);
 		btnSearchAttributes.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_SearchAttributes = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -457,6 +472,10 @@ public class MainDialog extends Dialog {
 		gd_SearchGroups.heightHint = 20;
 		btnSearchGroups.setLayoutData(gd_SearchGroups);
 		btnSearchGroups.setText(" Groups_xyz");
+		
+		//keep track of what's checked or not
+		checkedBoxes = new HashMap<String, Boolean>();
+		updateCheckBoxes();
 		
 		//Add instructional text on adding instances and busses
 		StackLayout stackLayout = new StackLayout();
@@ -752,11 +771,93 @@ public class MainDialog extends Dialog {
 
 	// ////////////////////////////////////////////////////
 	// Utility helpers
+	private void updateCheckBoxes() {
+		checkedBoxes.put("btnSearchAttributes", btnSearchAttributes.getSelection());
+		checkedBoxes.put("btnSearchDescriptions", btnSearchDescriptions.getSelection());
+		checkedBoxes.put("btnSearchFields", btnSearchFields.getSelection());
+		checkedBoxes.put("btnSearchGroups", btnSearchGroups.getSelection());
+		checkedBoxes.put("btnSearchName", btnSearchName.getSelection());
+		checkedBoxes.put("btnSearchValues", btnSearchValues.getSelection());
+	}
+	
+	private boolean changedCheckBoxes() {
+		if(checkedBoxes.get("btnSearchAttributes") != btnSearchAttributes.getSelection()) {
+			return true;
+		}
+		
+		if(checkedBoxes.get("btnSearchDescriptions") != btnSearchDescriptions.getSelection()) {
+			return true;
+		}
+		
+		if(checkedBoxes.get("btnSearchFields") != btnSearchFields.getSelection()) {
+			return true;
+		}
+		
+		if(checkedBoxes.get("btnSearchGroups") != btnSearchGroups.getSelection()) {
+			return true;
+		}
+		
+		if(checkedBoxes.get("btnSearchName") != btnSearchName.getSelection()) {
+			return true;
+		}
+		
+		if(checkedBoxes.get("btnSearchValues") != btnSearchValues.getSelection()) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	private void searchTreeRecursive(String s, TreeItem item) {
 		//TODO: add functionality to search through the tree
 		Target target = (Target)item.getData();
-		if(target.getName().toLowerCase().contains(s)) {
-			allSearchItems.add(item);
+		if(btnSearchName.getSelection()) {
+			if(target.getName().toLowerCase().contains(s)) {
+				allSearchItems.add(item);
+			}
+		}
+		
+		TreeMap<String, Attribute> attributes = target.getAttributes();
+		for(Attribute attribute: attributes.values()) {
+			if(btnSearchAttributes.getSelection()) {
+				if(attribute.name.toLowerCase().contains(s)) {
+					allSearchItems.add(item);
+					break;
+				}
+			}
+			
+			if(btnSearchDescriptions.getSelection()) {
+				if(attribute.desc.toLowerCase().contains(s)) {
+					allSearchItems.add(item);
+					break;
+				}
+			}
+			
+			if(btnSearchGroups.getSelection()) {
+				if(attribute.group.toLowerCase().contains(s)) {
+					allSearchItems.add(item);
+					break;
+				}
+			}
+			
+			if(btnSearchValues.getSelection()) {
+				AttributeValue value = attribute.getValue();
+				if(value.getValue().toLowerCase().contains(s)) {
+					allSearchItems.add(item);
+					break;
+				}
+			}
+			
+			if(btnSearchFields.getSelection()) {
+				AttributeValue value = attribute.getValue();
+				Vector<Field> fields = value.getFields();
+				for(Field field: fields) {
+					if(field.name.toLowerCase().contains(s)) {
+						allSearchItems.add(item);
+						break;
+					}
+				}
+			}
 		}
 		
 		for(TreeItem child: item.getItems()) {
@@ -770,7 +871,8 @@ public class MainDialog extends Dialog {
 			return;
 		}
 		
-		if(!searchText.equals(prevSearchText)) {
+		if(!searchText.equals(prevSearchText) || changedCheckBoxes()) {
+			updateCheckBoxes();
 			allSearchItems.clear();
 			prevSearchText = searchText;
 			
