@@ -506,7 +506,8 @@ public class MainDialog extends Dialog {
 		lblSearchDirections = new Label(compositeDir, SWT.NONE);
 		lblSearchDirections.setFont(SWTResourceManager.getFont("Arial", 8, SWT.NORMAL));
 		lblSearchDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
-		lblSearchDirections.setText("Type in text on the search bar and press enter.\r\n");
+		lblSearchDirections.setText("Check the checkboxes to select the specific categories\r\nyou want to search in. Use quotation marks"
+				+ " to search for an\r\nexact match, both when searching the tree and when searching\r\nthe table.\r\n");
 
 		listBusses = new List(sashForm, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		listBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
@@ -812,7 +813,7 @@ public class MainDialog extends Dialog {
 		//TODO: add functionality to search through the tree
 		Target target = (Target)item.getData();
 		if(btnSearchName.getSelection()) {
-			if(target.getName().toLowerCase().contains(s)) {
+			if(target.getName().toLowerCase().matches(s)) {
 				allSearchItems.add(item);
 			}
 		}
@@ -820,21 +821,21 @@ public class MainDialog extends Dialog {
 		TreeMap<String, Attribute> attributes = target.getAttributes();
 		for(Attribute attribute: attributes.values()) {
 			if(btnSearchAttributes.getSelection()) {
-				if(attribute.name.toLowerCase().contains(s)) {
+				if(attribute.name.toLowerCase().matches(s)) {
 					allSearchItems.add(item);
 					break;
 				}
 			}
 			
 			if(btnSearchDescriptions.getSelection()) {
-				if(attribute.desc.toLowerCase().contains(s)) {
+				if(attribute.desc.toLowerCase().matches(s)) {
 					allSearchItems.add(item);
 					break;
 				}
 			}
 			
 			if(btnSearchGroups.getSelection()) {
-				if(attribute.group.toLowerCase().contains(s)) {
+				if(attribute.group.toLowerCase().matches(s)) {
 					allSearchItems.add(item);
 					break;
 				}
@@ -842,7 +843,7 @@ public class MainDialog extends Dialog {
 			
 			if(btnSearchValues.getSelection()) {
 				AttributeValue value = attribute.getValue();
-				if(value.getValue().toLowerCase().contains(s)) {
+				if(value.getValue().toLowerCase().matches(s)) {
 					allSearchItems.add(item);
 					break;
 				}
@@ -852,7 +853,7 @@ public class MainDialog extends Dialog {
 				AttributeValue value = attribute.getValue();
 				Vector<Field> fields = value.getFields();
 				for(Field field: fields) {
-					if(field.name.toLowerCase().contains(s)) {
+					if(field.name.toLowerCase().matches(s)) {
 						allSearchItems.add(item);
 						break;
 					}
@@ -874,8 +875,15 @@ public class MainDialog extends Dialog {
 		if(!searchText.equals(prevSearchText) || changedCheckBoxes()) {
 			updateCheckBoxes();
 			allSearchItems.clear();
-			prevSearchText = searchText;
-			
+			if(!searchText.equals(prevSearchText)) {
+				prevSearchText = searchText;
+				if(searchText.startsWith("\"") && searchText.endsWith("\"")) {
+					searchText = searchText.substring(1, searchText.length() - 1);
+				}
+				else {
+					searchText = ".*" + searchText + ".*";
+				}
+			}
 			TreeItem[] roots = tree.getItems();
 			for(TreeItem root: roots) {
 				searchTreeRecursive(searchText, root);
