@@ -810,7 +810,6 @@ public class MainDialog extends Dialog {
 	}
 	
 	private void searchTreeRecursive(String s, TreeItem item) {
-		//TODO: add functionality to search through the tree
 		Target target = (Target)item.getData();
 		if(btnSearchName.getSelection()) {
 			if(target.getName().toLowerCase().matches(s)) {
@@ -884,8 +883,7 @@ public class MainDialog extends Dialog {
 					searchText = ".*" + searchText + ".*";
 				}
 			}
-			TreeItem[] roots = tree.getItems();
-			for(TreeItem root: roots) {
+			for(TreeItem root: tree.getItems()) {
 				searchTreeRecursive(searchText, root);
 			}
 		}
@@ -896,6 +894,20 @@ public class MainDialog extends Dialog {
 			allSearchItems.add(nextItem);
 			updateView();
 		}
+	}
+	
+	private TreeItem findTreeItem(String name, TreeItem item) {
+		Target target = (Target)item.getData();
+		if(target.getName().toLowerCase().matches(name)) {
+			return item;
+		}
+		
+		for(TreeItem child: item.getItems()) {
+			TreeItem ti = findTreeItem(name, child);
+			if (ti != null) return ti;
+		}
+		
+		return null;
 	}
 	
 	private Target getSelectedTarget() {
@@ -913,6 +925,8 @@ public class MainDialog extends Dialog {
 		this.lblBusDirections.setVisible(false);
 		this.lblInstanceDirections.setVisible(false);
 		this.lblInstanceDirections.setEnabled(false);
+		
+		prevSearchText = "";
 	}
 
 	private void initBusMode() {
@@ -1411,12 +1425,30 @@ public class MainDialog extends Dialog {
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				// Get selected tree item
+				String currentName = null;
+				TreeItem[] currentTreeItems = tree.getSelection();
+				if (currentTreeItems.length != 0) {
+					Target currentTarget = (Target) currentTreeItems[0].getData();
+					currentName = currentTarget.getName().toLowerCase();
+				}
+				// Change active tab
 				if (tabFolder.getSelection()[0]==tbtmAddBusses) {
 					initBusMode();
 				} else if(tabFolder.getSelection()[0]==tbtmAddInstances){
 					initInstanceMode();
 				}else {
 					initSearchMode();
+				}
+				// Re-select tree item
+				if (currentName != null) {
+					for(TreeItem root: tree.getItems()) {
+						TreeItem ti = findTreeItem(currentName, root);
+						if (ti != null) {
+							tree.setSelection(ti);
+							break;
+						}
+					}
 				}
 			}
 		});
