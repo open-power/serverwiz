@@ -435,7 +435,7 @@ public class MainDialog extends Dialog {
 		GridData gd_SearchName = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_SearchName.heightHint = 20;
 		btnSearchName.setLayoutData(gd_SearchName);
-		btnSearchName.setText(" Name_xyz");
+		btnSearchName.setText(" Name");
 		btnSearchName.setSelection(true);
 		
 		btnSearchAttributes = new Button(compositeSearch, SWT.CHECK);
@@ -443,35 +443,35 @@ public class MainDialog extends Dialog {
 		GridData gd_SearchAttributes = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_SearchAttributes.heightHint = 20;
 		btnSearchAttributes.setLayoutData(gd_SearchAttributes);
-		btnSearchAttributes.setText(" Attributes_xyz");
+		btnSearchAttributes.setText(" Attributes");
 		
 		btnSearchFields = new Button(compositeSearch, SWT.CHECK);
 		btnSearchFields.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_SearchFields = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_SearchFields.heightHint = 20;
 		btnSearchFields.setLayoutData(gd_SearchFields);
-		btnSearchFields.setText(" Fields_xyz");
+		btnSearchFields.setText(" Fields");
 		
 		btnSearchValues = new Button(compositeSearch, SWT.CHECK);
 		btnSearchValues.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_SearchValues = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_SearchValues.heightHint = 20;
 		btnSearchValues.setLayoutData(gd_SearchValues);
-		btnSearchValues.setText(" Values_xyz");
+		btnSearchValues.setText(" Values       ");
 		
 		btnSearchDescriptions = new Button(compositeSearch, SWT.CHECK);
 		btnSearchDescriptions.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_SearchDescriptions = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_SearchDescriptions.heightHint = 20;
 		btnSearchDescriptions.setLayoutData(gd_SearchDescriptions);
-		btnSearchDescriptions.setText(" Descriptions_xyz");
+		btnSearchDescriptions.setText(" Descriptions");
 		
 		btnSearchGroups = new Button(compositeSearch, SWT.CHECK);
 		btnSearchGroups.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_SearchGroups = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_SearchGroups.heightHint = 20;
 		btnSearchGroups.setLayoutData(gd_SearchGroups);
-		btnSearchGroups.setText(" Groups_xyz");
+		btnSearchGroups.setText(" Groups           ");
 		
 		//keep track of what's checked or not
 		checkedBoxes = new HashMap<String, Boolean>();
