@@ -2,7 +2,6 @@ package com.ibm.ServerWizard2.view;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
@@ -14,12 +13,10 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -112,7 +109,6 @@ public class MainDialog extends Dialog {
 
 	private Composite compositeBus;
 	private Label lblInstanceType;
-	private Label lblSearch;
 	private Composite compositeInstance;
 	private Composite compositeSearch;
 	private Composite composite;
@@ -142,7 +138,6 @@ public class MainDialog extends Dialog {
 	private Label label;
 	private Label label_1;
 	private Composite composite_1;
-	private Composite composite_2;
 	
 	//Search functionality
 	private AttributeTableFilter attributeTableFilter;
@@ -511,7 +506,7 @@ public class MainDialog extends Dialog {
 
 		listBusses = new List(sashForm, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		listBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		
+
 		this.addEvents();
 		this.setDirtyState(false);
 
@@ -809,6 +804,7 @@ public class MainDialog extends Dialog {
 		return false;
 	}
 	
+	// Recursive function called by searchTree()
 	private void searchTreeRecursive(String s, TreeItem item) {
 		Target target = (Target)item.getData();
 		if(btnSearchName.getSelection()) {
@@ -859,18 +855,20 @@ public class MainDialog extends Dialog {
 				}
 			}
 		}
-		
+		// Calls recursively on children
 		for(TreeItem child: item.getItems()) {
 			searchTreeRecursive(s, child);
 		}
 	}
 	
+	// Main function used to search the tree for keywords. 
 	private void searchTree() {
 		String searchText = txtSearchTree.getText().toLowerCase();
+		// Does nothing if no keywords
 		if(searchText == null || searchText.isEmpty()) {
 			return;
 		}
-		
+		// Updates search list if keywords have changed
 		if(!searchText.equals(prevSearchText) || changedCheckBoxes()) {
 			updateCheckBoxes();
 			allSearchItems.clear();
@@ -887,7 +885,7 @@ public class MainDialog extends Dialog {
 				searchTreeRecursive(searchText, root);
 			}
 		}
-		
+		// Updates selection in tree if there are search results
 		if (!allSearchItems.isEmpty()) {
 			TreeItem nextItem = allSearchItems.poll();
 			tree.setSelection(nextItem);
@@ -896,6 +894,7 @@ public class MainDialog extends Dialog {
 		}
 	}
 	
+	// Searches a subtree (under ITEM) for a TreeItem with the name NAME. 
 	private TreeItem findTreeItem(String name, TreeItem item) {
 		Target target = (Target)item.getData();
 		if(target.getName().toLowerCase().matches(name)) {
@@ -1513,6 +1512,7 @@ public class MainDialog extends Dialog {
 			}
 		});
 		
+		// Search tree when search button is pressed
 		btnSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1520,6 +1520,7 @@ public class MainDialog extends Dialog {
 			}
 		});
 		
+		// Search tree when search button is selected and ENTER is pressed
 		btnSearch.addKeyListener(new KeyAdapter(){
 			public void keyPressed(KeyEvent e){
 				if(e.keyCode == SWT.CR){
@@ -1528,6 +1529,7 @@ public class MainDialog extends Dialog {
 			}
 		});
 		
+		// Search tree when search box is selected and ENTER is pressed
 		txtSearchTree.addKeyListener(new KeyAdapter(){
 			public void keyPressed(KeyEvent e){
 				if(e.keyCode == SWT.CR){
