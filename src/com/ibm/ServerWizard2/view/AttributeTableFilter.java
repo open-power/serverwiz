@@ -10,7 +10,7 @@ public class AttributeTableFilter extends ViewerFilter {
 	private String searchString;
 	
 	void setSearchText(String s) {
-		if(s.startsWith("\"") && s.endsWith("\"")) {
+		if(s.length() > 1 && s.startsWith("\"") && s.endsWith("\"")) {
 			this.searchString = s.substring(1, s.length() - 1);
 		}
 		else {
