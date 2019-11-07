@@ -468,6 +468,18 @@ public class MainDialog extends Dialog {
 		btnSearchGroups.setLayoutData(gd_SearchGroups);
 		btnSearchGroups.setText(" Groups           ");
 		
+		this.getShell().getDisplay().addFilter(SWT.KeyDown, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.keyCode == 'f' && ((arg0.stateMask & SWT.CTRL) == SWT.CTRL)) {
+					tabFolder.setSelection(tbtmSearch);
+					initSearchMode();
+				}
+			}
+		});
+		
 		//keep track of what's checked or not
 		checkedBoxes = new HashMap<String, Boolean>();
 		updateCheckBoxes();
