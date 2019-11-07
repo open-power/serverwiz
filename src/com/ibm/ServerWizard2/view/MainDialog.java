@@ -22,6 +22,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Point;
@@ -475,8 +476,11 @@ public class MainDialog extends Dialog {
 			public void handleEvent(Event arg0) {
 				// TODO Auto-generated method stub
 				if(arg0.keyCode == 'f' && ((arg0.stateMask & SWT.CTRL) == SWT.CTRL)) {
-					tabFolder.setSelection(tbtmSearch);
-					initSearchMode();
+					if(!tabFolder.getSelection()[0].equals(tbtmSearch)) {
+						tabFolder.setSelection(tbtmSearch);
+						initSearchMode();
+						txtSearchTree.forceFocus();
+					}
 				}
 			}
 		});
@@ -515,7 +519,7 @@ public class MainDialog extends Dialog {
 		lblSearchDirections.setFont(SWTResourceManager.getFont("Arial", 8, SWT.NORMAL));
 		lblSearchDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 		lblSearchDirections.setText("Check the checkboxes to select the specific categories\r\nyou want to search in. Use quotation marks"
-				+ " to search for an\r\nexact match, both when searching the tree and when searching\r\nthe table. Additionally, you can"
+				+ " to search for an\r\nexact match, both when searching the tree and when searching\r\nthe table. Additionally, you can "
 				+ "press ctrl-f to open the search tab.\r\n");
 
 		listBusses = new List(sashForm, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
