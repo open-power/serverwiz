@@ -516,7 +516,7 @@ public class MainDialog extends Dialog {
 		lblSearchDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
 		lblSearchDirections.setText("Check the checkboxes to select the specific categories\r\nyou want to search in. Use quotation marks"
 				+ " to search for an\r\nexact match, both when searching the tree and when searching\r\nthe table. Additionally, you can"
-				+ "press ctrl-f to open the search tab\r\n");
+				+ "press ctrl-f to open the search tab.\r\n");
 
 		listBusses = new List(sashForm, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		listBusses.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
