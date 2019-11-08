@@ -112,7 +112,7 @@ public class MainDialog extends Dialog {
 
 	private Composite compositeBus;
 	private Label lblInstanceType;
-	private Label gitCommitHash;
+	private Text gitCommitHash;
 	private Composite compositeInstance;
 	private Composite compositeSearch;
 	private Composite composite;
@@ -244,10 +244,11 @@ public class MainDialog extends Dialog {
 		
 		composite_1 = new Composite(sashForm_1, SWT.NONE);
 		
-		gitCommitHash = new Label(composite_1, SWT.NONE);
+		gitCommitHash = new Text(composite_1, SWT.NONE);
 		gitCommitHash.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		gitCommitHash.setBounds(15, 3, 712, 15);
 		gitCommitHash.setText("Git Commit Hash: " + commitHash);
+		gitCommitHash.setEditable(false);
 		gitCommitHash.setVisible(false);
 
 		showFilter = new Combo(composite_1, SWT.READ_ONLY);
