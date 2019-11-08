@@ -1468,6 +1468,7 @@ public class MainDialog extends Dialog {
 						TreeItem ti = findTreeItem(currentName, root);
 						if (ti != null) {
 							tree.setSelection(ti);
+							updateView();
 							break;
 						}
 					}
