@@ -26,6 +26,7 @@ import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
@@ -146,6 +147,7 @@ public class MainDialog extends Dialog {
 	private String prevSearchText = "";
 	private LinkedList<TreeItem> allSearchItems;
 	private HashMap<String, Boolean> checkedBoxes;
+	private Label searchCntLabel;
 	
 	/**
 	 * Create the dialog.
@@ -410,7 +412,7 @@ public class MainDialog extends Dialog {
 		compositeSearch.setLayout(new GridLayout(3, false));		
 		
 		Label lblSearch = new Label(compositeSearch, SWT.NONE);
-		lblSearch.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblSearch.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 		lblSearch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblSearch.setText("Search Tree: ");
 
@@ -468,6 +470,11 @@ public class MainDialog extends Dialog {
 		gd_SearchGroups.heightHint = 20;
 		btnSearchGroups.setLayoutData(gd_SearchGroups);
 		btnSearchGroups.setText(" Groups           ");
+		
+		searchCntLabel = new Label(compositeSearch, SWT.NONE);
+		GridData gd_SearchCnt = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 1, 1);
+		gd_SearchCnt.widthHint = 150;
+		searchCntLabel.setLayoutData(gd_SearchCnt);
 		
 		//ctrl-f leads to search tab
 		this.getShell().getDisplay().addFilter(SWT.KeyDown, new Listener() {
@@ -586,6 +593,7 @@ public class MainDialog extends Dialog {
 					setFilename("");
 					initInstanceMode();
 					setDirtyState(false);
+					searchCntLabel.setText("");
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -911,10 +919,11 @@ public class MainDialog extends Dialog {
 			TreeItem nextItem = allSearchItems.poll();
 			tree.setSelection(nextItem);
 			allSearchItems.add(nextItem);
-			updateView();
 		}
 		//update the hashmap keeping store of state of check boxes
 		updateCheckBoxes();
+		searchCntLabel.setText(allSearchItems.size() + " results found");
+		updateView();
 	}
 	
 	// Searches a subtree (under ITEM) for a TreeItem with the name NAME. 
