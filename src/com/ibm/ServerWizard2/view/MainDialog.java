@@ -246,29 +246,29 @@ public class MainDialog extends Dialog {
 		
 		gitCommitHash = new Text(composite_1, SWT.NONE);
 		gitCommitHash.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		gitCommitHash.setBounds(15, 3, 712, 15);
+		gitCommitHash.setBounds(15, 3, 712, 30);
 		gitCommitHash.setText("Git Commit Hash: " + commitHash);
 		gitCommitHash.setEditable(false);
 		gitCommitHash.setVisible(false);
 
 		showFilter = new Combo(composite_1, SWT.READ_ONLY);
 		showFilter.setFont(SWTResourceManager.getFont("Arial", 9, SWT.READ_ONLY));
-		showFilter.setBounds(118, 22, 336, 23);
+		showFilter.setBounds(118, 42, 336, 23);
 		
 		Label lblAttributeFilter = new Label(composite_1, SWT.NONE);
 		lblAttributeFilter.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		lblAttributeFilter.setBounds(15, 25, 97, 15);
+		lblAttributeFilter.setBounds(15, 45, 97, 15);
 		lblAttributeFilter.setText("Attribute Filter:");
 		
 		attrSearchText = new Text(composite_1, SWT.BORDER|SWT.SEARCH);
 		attrSearchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 				| GridData.HORIZONTAL_ALIGN_FILL));
 		attrSearchText.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		attrSearchText.setBounds(565, 22, 236, 23);
+		attrSearchText.setBounds(565, 42, 236, 23);
 		
 		Label lblAttrSearch = new Label(composite_1, SWT.NONE);
 		lblAttrSearch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		lblAttrSearch.setBounds(480, 25, 80, 15);
+		lblAttrSearch.setBounds(480, 45, 80, 15);
 		lblAttrSearch.setText("Search: ");
 		
 		attributeTableFilter = new AttributeTableFilter();
