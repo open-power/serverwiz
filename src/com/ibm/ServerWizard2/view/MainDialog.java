@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import javax.swing.DebugGraphics;
+
+import org.eclipse.core.internal.runtime.Log;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -794,6 +797,9 @@ public class MainDialog extends Dialog {
 		checkedBoxes.put("btnSearchValues", btnSearchValues.getSelection());
 	}
 	
+	//check if a checkbox has been deselected
+	//if a new checkbox has been selected, don't want to empty the allItems list
+	//but if a checkboc has been deselected, we want to empty the list
 	private boolean changedCheckBoxes() {
 		if(checkedBoxes.get("btnSearchAttributes") != btnSearchAttributes.getSelection()) {
 			return true;
@@ -830,7 +836,6 @@ public class MainDialog extends Dialog {
 				allSearchItems.add(item);
 			}
 		}
-		
 		TreeMap<String, Attribute> attributes = target.getAttributes();
 		for(Attribute attribute: attributes.values()) {
 			if(btnSearchAttributes.getSelection()) {
@@ -853,7 +858,7 @@ public class MainDialog extends Dialog {
 					break;
 				}
 			}
-			
+				
 			if(btnSearchValues.getSelection()) {
 				AttributeValue value = attribute.getValue();
 				if(value.getValue().toLowerCase().matches(s)) {
@@ -861,7 +866,7 @@ public class MainDialog extends Dialog {
 					break;
 				}
 			}
-			
+				
 			if(btnSearchFields.getSelection()) {
 				AttributeValue value = attribute.getValue();
 				Vector<Field> fields = value.getFields();
@@ -878,6 +883,9 @@ public class MainDialog extends Dialog {
 			searchTreeRecursive(s, child);
 		}
 	}
+		
+		
+
 	
 	// Main function used to search the tree for keywords. 
 	private void searchTree() {
@@ -888,16 +896,13 @@ public class MainDialog extends Dialog {
 		}
 		// Updates search list if keywords have changed
 		if(!searchText.equals(prevSearchText) || changedCheckBoxes()) {
-			updateCheckBoxes();
 			allSearchItems.clear();
-			if(!searchText.equals(prevSearchText)) {
-				prevSearchText = searchText;
-				if(searchText.startsWith("\"") && searchText.endsWith("\"")) {
-					searchText = searchText.substring(1, searchText.length() - 1);
-				}
-				else {
-					searchText = ".*" + searchText + ".*";
-				}
+			prevSearchText = searchText;
+			if(searchText.startsWith("\"") && searchText.endsWith("\"")) {
+				searchText = searchText.substring(1, searchText.length() - 1);
+			}
+			else if (!(searchText.startsWith(".*") && searchText.endsWith(".*"))){
+				searchText = ".*" + searchText + ".*";
 			}
 			for(TreeItem root: tree.getItems()) {
 				searchTreeRecursive(searchText, root);
@@ -910,6 +915,8 @@ public class MainDialog extends Dialog {
 			allSearchItems.add(nextItem);
 			updateView();
 		}
+		//update the hasmap keeping store of state of check boxes
+		updateCheckBoxes();
 	}
 	
 	// Searches a subtree (under ITEM) for a TreeItem with the name NAME. 
