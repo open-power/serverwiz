@@ -58,6 +58,7 @@ public class TargetWizardController {
 			String libraryLocation = ServerWizard2.GIT_LOCATION + File.separator + this.LIBRARY_NAME;
 			File chk = new File(libraryLocation);
 			String libraryCommitHash = "";
+			
 			if (!chk.exists()) {
 				ServerWizard2.LOGGER.info("XML library does not exist so cloning: "+libraryLocation);
 				StatusLogger.getLogger().setLevel(Level.FATAL);
@@ -75,7 +76,6 @@ public class TargetWizardController {
 					ServerWizard2.LOGGER.severe(e1.getMessage());
 				}
 			}
-			System.out.println(libraryCommitHash);
 			model.loadLibrary(libraryLocation, libraryCommitHash);
 			this.initModel();
 
