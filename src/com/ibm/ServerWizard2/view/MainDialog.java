@@ -474,7 +474,6 @@ public class MainDialog extends Dialog {
 			
 			@Override
 			public void handleEvent(Event arg0) {
-				// TODO Auto-generated method stub
 				if(arg0.keyCode == 'f' && ((arg0.stateMask & SWT.CTRL) == SWT.CTRL)) {
 					if(!tabFolder.getSelection()[0].equals(tbtmSearch)) {
 						tabFolder.setSelection(tbtmSearch);
@@ -826,49 +825,53 @@ public class MainDialog extends Dialog {
 	// Recursive function called by searchTree()
 	private void searchTreeRecursive(String s, TreeItem item) {
 		Target target = (Target)item.getData();
+		boolean itemAdded = false;
 		if(btnSearchName.getSelection()) {
 			if(target.getName().toLowerCase().matches(s)) {
 				allSearchItems.add(item);
+				itemAdded = true;
 			}
 		}
-		TreeMap<String, Attribute> attributes = target.getAttributes();
-		for(Attribute attribute: attributes.values()) {
-			if(btnSearchAttributes.getSelection()) {
-				if(attribute.name.toLowerCase().matches(s)) {
-					allSearchItems.add(item);
-					break;
-				}
-			}
-			
-			if(btnSearchDescriptions.getSelection()) {
-				if(attribute.desc.toLowerCase().matches(s)) {
-					allSearchItems.add(item);
-					break;
-				}
-			}
-			
-			if(btnSearchGroups.getSelection()) {
-				if(attribute.group.toLowerCase().matches(s)) {
-					allSearchItems.add(item);
-					break;
-				}
-			}
-				
-			if(btnSearchValues.getSelection()) {
-				AttributeValue value = attribute.getValue();
-				if(value.getValue().toLowerCase().matches(s)) {
-					allSearchItems.add(item);
-					break;
-				}
-			}
-				
-			if(btnSearchFields.getSelection()) {
-				AttributeValue value = attribute.getValue();
-				Vector<Field> fields = value.getFields();
-				for(Field field: fields) {
-					if(field.name.toLowerCase().matches(s)) {
+		if (!itemAdded) {
+			TreeMap<String, Attribute> attributes = target.getAttributes();
+			for(Attribute attribute: attributes.values()) {
+				if(btnSearchAttributes.getSelection()) {
+					if(attribute.name.toLowerCase().matches(s)) {
 						allSearchItems.add(item);
 						break;
+					}
+				}
+				
+				if(btnSearchDescriptions.getSelection()) {
+					if(attribute.desc.toLowerCase().matches(s)) {
+						allSearchItems.add(item);
+						break;
+					}
+				}
+				
+				if(btnSearchGroups.getSelection()) {
+					if(attribute.group.toLowerCase().matches(s)) {
+						allSearchItems.add(item);
+						break;
+					}
+				}
+					
+				if(btnSearchValues.getSelection()) {
+					AttributeValue value = attribute.getValue();
+					if(value.getValue().toLowerCase().matches(s)) {
+						allSearchItems.add(item);
+						break;
+					}
+				}
+					
+				if(btnSearchFields.getSelection()) {
+					AttributeValue value = attribute.getValue();
+					Vector<Field> fields = value.getFields();
+					for(Field field: fields) {
+						if(field.name.toLowerCase().matches(s)) {
+							allSearchItems.add(item);
+							break;
+						}
 					}
 				}
 			}
