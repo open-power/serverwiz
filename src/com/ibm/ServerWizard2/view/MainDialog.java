@@ -247,22 +247,22 @@ public class MainDialog extends Dialog {
 
 		showFilter = new Combo(composite_1, SWT.READ_ONLY);
 		showFilter.setFont(SWTResourceManager.getFont("Arial", 9, SWT.READ_ONLY));
-		showFilter.setBounds(118, 15, 336, 23);
+		showFilter.setBounds(118, 22, 336, 23);
 		
 		Label lblAttributeFilter = new Label(composite_1, SWT.NONE);
 		lblAttributeFilter.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		lblAttributeFilter.setBounds(15, 18, 97, 15);
+		lblAttributeFilter.setBounds(15, 25, 97, 15);
 		lblAttributeFilter.setText("Attribute Filter:");
 		
 		attrSearchText = new Text(composite_1, SWT.BORDER|SWT.SEARCH);
 		attrSearchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 				| GridData.HORIZONTAL_ALIGN_FILL));
 		attrSearchText.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		attrSearchText.setBounds(565, 15, 236, 23);
+		attrSearchText.setBounds(565, 22, 236, 23);
 		
 		Label lblAttrSearch = new Label(composite_1, SWT.NONE);
 		lblAttrSearch.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		lblAttrSearch.setBounds(480, 18, 80, 15);
+		lblAttrSearch.setBounds(480, 25, 80, 15);
 		lblAttrSearch.setText("Search: ");
 		
 		fieldFilter = new FieldFilter();
@@ -521,7 +521,7 @@ public class MainDialog extends Dialog {
 		this.initInstanceMode();
 		sashForm.setWeights(new int[] { 1, 1 });
 		columnName.pack();
-		sashForm_1.setWeights(new int[] {302, 37, 171});
+		sashForm_1.setWeights(new int[] {302, 50, 171});
 
 		showFilter.removeAll();
 		showFilter.add("");
