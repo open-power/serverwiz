@@ -5,9 +5,6 @@ import java.util.LinkedList;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import javax.swing.DebugGraphics;
-
-import org.eclipse.core.internal.runtime.Log;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -797,9 +794,7 @@ public class MainDialog extends Dialog {
 		checkedBoxes.put("btnSearchValues", btnSearchValues.getSelection());
 	}
 	
-	//check if a checkbox has been deselected
-	//if a new checkbox has been selected, don't want to empty the allItems list
-	//but if a checkboc has been deselected, we want to empty the list
+	//check if a new checkbox has been selected or deselected
 	private boolean changedCheckBoxes() {
 		if(checkedBoxes.get("btnSearchAttributes") != btnSearchAttributes.getSelection()) {
 			return true;
@@ -915,7 +910,7 @@ public class MainDialog extends Dialog {
 			allSearchItems.add(nextItem);
 			updateView();
 		}
-		//update the hasmap keeping store of state of check boxes
+		//update the hashmap keeping store of state of check boxes
 		updateCheckBoxes();
 	}
 	
