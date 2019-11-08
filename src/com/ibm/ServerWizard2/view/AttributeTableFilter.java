@@ -5,12 +5,18 @@ import org.eclipse.jface.viewers.ViewerFilter;
 
 import com.ibm.ServerWizard2.model.Field;
 
-public class FieldFilter extends ViewerFilter {
+public class AttributeTableFilter extends ViewerFilter {
 	
 	private String searchString;
 	
 	void setSearchText(String s) {
-		this.searchString = ".*" + s + ".*";
+		if(s.length() > 1 && s.startsWith("\"") && s.endsWith("\"")) {
+			this.searchString = s.substring(1, s.length() - 1);
+		}
+		else {
+			this.searchString = ".*" + s + ".*";
+		}
+		
 	}
 
 	@Override
@@ -23,19 +29,19 @@ public class FieldFilter extends ViewerFilter {
 		}
 		
 		Field field = (Field) element;
-		if(field.attributeName.matches(searchString)) {
+		if(field.attributeName.toLowerCase().matches(searchString)) {
 			return true;
 		}
-		if(field.name.matches(searchString)) {
+		if(field.name.toLowerCase().matches(searchString)) {
 			return true;
 		}
-		if(field.value.matches(searchString)) {
+		if(field.value.toLowerCase().matches(searchString)) {
 			return true;
 		}
-		if(field.desc.matches(searchString)) {
+		if(field.desc.toLowerCase().matches(searchString)) {
 			return true;
 		}
-		if(field.group.matches(searchString)) {
+		if(field.group.toLowerCase().matches(searchString)) {
 			return true;
 		}
 		
