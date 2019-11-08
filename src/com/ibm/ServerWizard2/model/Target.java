@@ -16,9 +16,10 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 
 	private String name = "";
 	private String type = "";
+	private String libraryCommitHash = "";
 	private int position = -1;
 	public String parent = ""; // says which parent to inherit attributes from
-								
+
 	private Vector<String> parentType = new Vector<String>();
 	private TreeMap<String, Attribute> attributes = new TreeMap<String, Attribute>();
 	private Vector<String> children = new Vector<String>();
@@ -40,6 +41,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		this.hidden = s.hidden;
 		this.root = s.root;
 		this.parentType.addAll(s.parentType);
+		this.libraryCommitHash = s.getLibraryCommitHash();
 
 		for (Map.Entry<String, Attribute> entry : s.getAttributes().entrySet()) {
 			String key = new String(entry.getKey());
@@ -144,7 +146,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	}
 	public void addParentType(String parent_type) {
 		this.parentType.add(parent_type);
-	}	
+	}
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -156,7 +158,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public String getIdPrefix() {
 		String s[] = type.split("-");
 		if (s.length == 1) { return this.name; }
-		
+
 		if (s[1].equals("processor")) {
 			s[1] = "proc";
 		}
@@ -168,7 +170,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public TreeMap<String, Attribute> getAttributes() {
 		return attributes;
 	}
-	
+
 	public void deepCopyAttributes(HashMap<String,Target> model,HashMap<String,Target> instances) {
 		ServerWizard2.LOGGER.info("Defaulting attributes for: "+this.getName());
 		Target source = model.get(this.getName());
@@ -185,7 +187,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			child.deepCopyAttributes(model, instances);
 		}
 	}
-	
+
 	public boolean attributeExists(String attribute) {
 		if (attributes.get(attribute) == null) {
 			return false;
@@ -198,7 +200,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		}
 		return attributes.get(attribute).getValue().getValue();
 	}
-	
+
 	void copyAttributesFromParent(Target s) {
 		for (Map.Entry<String, Attribute> entry : s.getAttributes().entrySet()) {
 			String key = entry.getKey();
@@ -253,8 +255,8 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	Boolean isOverride() {
 		return (this.getAttribute("MRW_TYPE").equals("TARGET_OVERRIDE"));
 	}
-	
-	
+
+
 	private void setAttributeValue(String attr, String value) {
 		Attribute attribute = this.attributes.get(attr);
 		if (attribute == null) {
@@ -376,6 +378,9 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 	public void readInstanceXML(Element t, TreeMap<String, Target> targetModels) throws Exception {
 		name = SystemModel.getElement(t, "instance_name");
 		type = SystemModel.getElement(t, "type");
+
+		// Expects SystemModel.getElement() to return empty string if element is not found
+		libraryCommitHash = SystemModel.getElement(t, "common_mrw_git_hash_version");
 		String rootStr = SystemModel.getElement(t, "is_root");
 		if (rootStr.equals("true")) { this.root = true; }
 
@@ -387,7 +392,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 				setPosition(tmpPos);
 			}
 		}
-		
+
 		NodeList childList = t.getElementsByTagName("child_id");
 		for (int j = 0; j < childList.getLength(); ++j) {
 			Element attr = (Element) childList.item(j);
@@ -434,6 +439,9 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		out.write("<targetInstance>\n");
 		out.write("\t<id>" + this.getName() + "</id>\n");
 		out.write("\t<type>" + this.getType() + "</type>\n");
+		if (!this.getLibraryCommitHash().isEmpty()) {
+			out.write("\t<common_mrw_git_hash_version>" + this.getLibraryCommitHash() + "</common_mrw_git_hash_version>\n");
+		}
 		String rootStr = "false";
 		if (this.isRoot()) { rootStr = "true"; }
 		out.write("\t<is_root>" + rootStr + "</is_root>\n");
@@ -442,7 +450,6 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		} else {
 			out.write("\t<instance_name>" + this.getIdPrefix() + "</instance_name>\n");
 		}
-
 		out.write("\t<position>" + getPosition() + "</position>\n");
 		//write children
 		for (String childStr : this.children) {
@@ -471,7 +478,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			child.writeInstanceXML(out, targetLookup, targetWritten);
 		}
 	}
-	
+
 	// New format
 	public void readTargetXML(Element t, TreeMap<String, Target> targetModels, HashMap<String, Attribute> attributeModels) throws Exception {
 		name = SystemModel.getElement(t, "instance_name");
@@ -489,7 +496,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		for (int i = 0; i < parentList.getLength(); i++) {
 			Element e = (Element) parentList.item(i);
 			parentType.add(e.getChildNodes().item(0).getNodeValue());
-		}		
+		}
 
 		NodeList childList = t.getElementsByTagName("child_id");
 		for (int j = 0; j < childList.getLength(); ++j) {
@@ -529,7 +536,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			conn.readInstanceXML(bus);
 			busses.get(busTarget).add(conn);
 		}
-	}	
+	}
 	public void writeTargetXML(Writer out,HashMap<String,Target> targetLookup, HashMap<String,Boolean>targetWritten) throws Exception {
 		if (targetWritten.containsKey(this.getName())) {
 			return;
@@ -552,7 +559,7 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 		for (String p_type : this.parentType) {
 			out.write("\t<parent_type>" + p_type + "</parent_type>\n");
 		}
-		
+
 		//write children
 		for (String childStr : this.children) {
 			out.write("\t<child_id>"+childStr+"</child_id>\n");
@@ -579,5 +586,15 @@ public class Target implements Comparable<Target>, java.io.Serializable {
 			Target child = targetLookup.get(childStr);
 			child.writeTargetXML(out, targetLookup, targetWritten);
 		}
+	}
+
+	public void setLibraryCommitHash(String commitHashParm)
+	{
+		this.libraryCommitHash = commitHashParm;
+	}
+
+	public String getLibraryCommitHash()
+	{
+		return this.libraryCommitHash;
 	}
 }
