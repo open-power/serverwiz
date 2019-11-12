@@ -561,7 +561,7 @@ public class MainDialog extends Dialog {
 		this.initInstanceMode();
 		sashForm.setWeights(new int[] { 1, 1 });
 		columnName.pack();
-		sashForm_1.setWeights(new int[] {302, 50, 171});
+		sashForm_1.setWeights(new int[] {302, 80, 171});
 
 		showFilter.removeAll();
 		showFilter.add("");
@@ -1661,6 +1661,7 @@ public class MainDialog extends Dialog {
 
 	private void createAttributeTable() {
 		Table table = viewer.getTable();
+		table.setLocation(0, 100);
 		ColumnViewerToolTipSupport.enableFor(viewer, ToolTip.NO_RECREATE); 
 		
 		table.setHeaderVisible(true);
