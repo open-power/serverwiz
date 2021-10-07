@@ -75,6 +75,7 @@ public class MainDialog extends Dialog {
 	// Buttons
 	private Button btnAddTarget;
 	private Button btnCopyInstance;
+	private Button btnExportPart;
 	private Button btnDefaults;
 	private Button btnDeleteTarget;
 	private Button btnSave;
@@ -287,6 +288,12 @@ public class MainDialog extends Dialog {
 		btnCopyInstance.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnCopyInstance.setEnabled(false);
 
+		btnExportPart = new Button(compositeInstance, SWT.NONE);
+		btnExportPart.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		btnExportPart.setText("Export Part");
+		btnExportPart.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnExportPart.setEnabled(false);
+		
 		btnDefaults = new Button(compositeInstance, SWT.NONE);
 		btnDefaults.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 		btnDefaults.setText("Restore Defaults");
@@ -714,6 +721,7 @@ public class MainDialog extends Dialog {
 			btnAddTarget.setEnabled(false);
 			btnDeleteTarget.setEnabled(false);
 			btnCopyInstance.setEnabled(false);
+			btnExportPart.setEnabled(false);
 			btnDefaults.setEnabled(false);
 			updateChildCombo(null);
 			return;
@@ -742,6 +750,11 @@ public class MainDialog extends Dialog {
 			btnCopyInstance.setEnabled(true);
 		} else {
 			btnCopyInstance.setEnabled(false);
+		}
+		if (targetInstance.isCard()) {
+			btnExportPart.setEnabled(true);
+		} else {
+			btnExportPart.setEnabled(false);
 		}
 		btnDefaults.setEnabled(true);
 	}
@@ -1211,6 +1224,30 @@ public class MainDialog extends Dialog {
 				setDirtyState(true);
 			}
 		});
+		
+		btnExportPart.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				TreeItem selectedItem = tree.getSelection()[0];
+				if (selectedItem == null) {
+					return;
+				}
+				Target target = (Target) selectedItem.getData();
+				Button b = (Button) arg0.getSource();
+				FileDialog fdlg = new FileDialog(b.getShell(), SWT.SAVE);
+				String ext[] = { "*.xml" };
+				fdlg.setFilterExtensions(ext);
+				fdlg.setOverwrite(true);
+				String filename = fdlg.open();
+				if (filename == null) {
+					return;
+				}
+				Boolean defaultAttrs =
+						MessageDialog.openQuestion(null, "Default Attributes", "Would you like to default all attributes of the exported part?");
+				controller.exportAsPart(target, filename, defaultAttrs);
+			}
+		});
+		
 		btnDefaults.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {

@@ -23,6 +23,21 @@ public class Connection {
 		}
 		return source.getName()+seperator+dest.getName();
 	}
+	public Connection() {
+		// TODO Auto-generated constructor stub
+	}
+	public Connection(Connection other) {
+		id = other.id;
+		busType = other.busType;
+		source = new ConnectionEndpoint();
+		dest = new ConnectionEndpoint();
+		source.setTargetName(other.source.getTargetName());
+		source.setPath(other.source.getPath());
+		dest.setTargetName(other.dest.getTargetName());
+		dest.setPath(other.dest.getPath());
+		cabled = other.cabled;
+		busTarget = new Target(other.busTarget);
+	}
 	public void writeInstanceXML(Writer out) throws Exception {
 		out.write("\t<bus>\n");
 		out.write("\t\t<bus_id>"+getName()+"</bus_id>\n");

@@ -615,7 +615,7 @@ public class SystemModel {
 		HashMap<String, Boolean> targetWritten = new HashMap<String, Boolean>();
 		for (Target target : targetList) {
 			if (partsMode) {
-				target.writeTargetXML(out, targetLookup, targetWritten);
+				target.writeTargetXML(out, targetLookup, targetWritten, false, false, null);
 			} else {
 				target.writeInstanceXML(out, targetLookup, targetWritten);
 			}
@@ -624,7 +624,25 @@ public class SystemModel {
 		out.write("</"+topTag+">\n");
 		out.close();
 	}
-
+	
+	/*
+	 * Write XML to a parts file (only the supplied target and it's children)
+	 */
+	public void writeXML(String filename, Target topTarget, Boolean defaultAttributes) throws Exception {
+		Writer out = new BufferedWriter(new FileWriter(filename));
+		
+		out.write("<partInstance>\n");
+		out.write("<version>"+ServerWizard2.getVersionString()+"</version>\n");
+		out.write("<targetInstances>\n");
+		HashMap<String, Boolean> targetWritten = new HashMap<String, Boolean>();
+	    topTarget.writeTargetXML(out, targetLookup, targetWritten, true, true,
+	    		defaultAttributes ? attributes : null);
+		out.write("</targetInstances>\n");
+		out.write("</partInstance>\n");
+		out.close();		
+	}
+	
+	
 	/*
 	 * Add a target instance to the model
 	 */
