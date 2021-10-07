@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.RebaseResult;
@@ -15,7 +16,10 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Constants;
 
 import com.ibm.ServerWizard2.ServerWizard2;
 import com.ibm.ServerWizard2.view.PasswordPrompt;
@@ -28,7 +32,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 	private boolean passwordValidated = false;
 	private Shell shell = null;
 	private UsernamePasswordCredentialsProvider credentials;
-	
+
 	private boolean cloned;
 	private final RefSpec refSpec = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
 
@@ -183,7 +187,22 @@ public class GithubRepository implements Comparable<GithubRepository> {
 		}
 		return status;
 	}
-	
+
+	public String getHash()
+	{
+		String rtn = "";
+		try {
+			Git repo = Git.open(this.getRootDirectory());
+			ObjectId head = repo.getRepository().resolve(Constants.HEAD);
+			RevCommit commit = repo.log().add(head).setMaxCount(1).call().iterator().next();
+			rtn = commit.getName();
+			repo.close();
+		} catch (Exception e1) {
+			ServerWizard2.LOGGER.severe(e1.getMessage());
+		}
+		return rtn;
+	}
+
 	// The chained exceptions from jgit don't explain error
 	// Need to dive down to root cause and make better error message.
 	public void betterError(Exception e) throws Exception {
@@ -238,7 +257,7 @@ public class GithubRepository implements Comparable<GithubRepository> {
 		return false;
 	}
 	Throwable getCause(Throwable e) {
-	    Throwable cause = null; 
+	    Throwable cause = null;
 	    Throwable result = e;
 
 	    while(null != (cause = result.getCause())  && (result != cause) ) {
