@@ -17,7 +17,7 @@
 		<mkdir dir="build/classes" />
 		<javac srcdir="src" destdir="build/classes" classpathref="classpath" />
 	</target>
-	<!-- 
+	<!--
 		Build OS specific jars
 		Serverwiz uses SWT which has OS specific SWT jars
 		-->
@@ -29,8 +29,8 @@
 			</main>
 			<lib>
 				<fileset file="lib/json-simple-1.1.1.jar" />
-				<fileset file="lib/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar" />
-				<fileset file="lib/org.eclipse.core.commands_3.6.100.v20140528-1422.jar" />
+				<fileset file="lib/org.eclipse.core.runtime_3.23.0.v20210730-2035.jar" />
+				<fileset file="lib/org.eclipse.core.commands_3.10.100.v20210722-1426.jar" />
 			</lib>
 		</one-jar>
 		<one-jar destfile="build/serverwiz2_win64.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
@@ -50,17 +50,6 @@
 			</main>
 			<lib>
 				<fileset file="lib/swt_linux64.jar" />
-				<fileset file="lib/json-simple-1.1.1.jar" />
-				<fileset file="lib/org.eclipse*.jar" />
-				<fileset file="lib/jgit/*.jar" />
-			</lib>
-		</one-jar>
-		<one-jar destfile="build/serverwiz2_win32.jar" onejarmainclass="com.ibm.ServerWizard2.ServerWizard2">
-			<main>
-				<fileset dir="build/classes" />
-			</main>
-			<lib>
-				<fileset file="lib/swt_win32.jar" />
 				<fileset file="lib/json-simple-1.1.1.jar" />
 				<fileset file="lib/org.eclipse*.jar" />
 				<fileset file="lib/jgit/*.jar" />
