@@ -127,7 +127,7 @@ public class MainDialog extends Dialog {
 	 */
 	public MainDialog(Shell parentShell) {
 		super(parentShell);
-		setShellStyle(SWT.BORDER | SWT.MIN | SWT.MAX | SWT.RESIZE | SWT.APPLICATION_MODAL);
+		setShellStyle(SWT.BORDER | SWT.MIN | SWT.MAX | SWT.RESIZE | SWT.APPLICATION_MODAL | SWT.COLOR_WIDGET_BORDER);
 	}
 
 	protected void configureShell(Shell newShell) {
@@ -152,7 +152,7 @@ public class MainDialog extends Dialog {
 		gl_container.verticalSpacing = 0;
 		container.setLayout(gl_container);
 
-		composite = new Composite(container, SWT.NONE);
+		composite = new Composite(container, SWT.COLOR_WIDGET_BORDER);
 		
 		RowLayout rl_composite = new RowLayout(SWT.HORIZONTAL);
 		rl_composite.spacing = 20;
@@ -164,7 +164,7 @@ public class MainDialog extends Dialog {
 		gd_composite.heightHint = 154;
 		composite.setLayoutData(gd_composite);
 
-		sashForm_1 = new SashForm(container, SWT.BORDER | SWT.VERTICAL);
+		sashForm_1 = new SashForm(container, SWT.BORDER | SWT.VERTICAL | SWT.COLOR_WIDGET_BORDER);
 		GridData gd_sashForm_1 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_sashForm_1.heightHint = 375;
 		gd_sashForm_1.widthHint = 712;
@@ -178,7 +178,7 @@ public class MainDialog extends Dialog {
 		buttonRow1.setLayout(rl_buttonRow1);
 
 		this.createButtonsForButtonBar2(buttonRow1);
-		new Label(buttonRow1, SWT.NONE);
+		new Label(buttonRow1, SWT.COLOR_WIDGET_BORDER);
 		new Label(buttonRow1, SWT.NONE);
 		new Label(buttonRow1, SWT.NONE);
 		new Label(buttonRow1, SWT.NONE);
@@ -198,7 +198,7 @@ public class MainDialog extends Dialog {
 		sashForm = new SashForm(sashForm_1, SWT.NONE);
 
 		// Target Instances View
-		tree = new Tree(sashForm, SWT.BORDER | SWT.VIRTUAL);
+		tree = new Tree(sashForm, SWT.BORDER | SWT.VIRTUAL | SWT.BOLD | SWT.COLOR_WIDGET_BORDER);
 		tree.setHeaderVisible(true);
 		tree.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		columnName = new TreeColumn(tree, 0);
@@ -252,8 +252,8 @@ public class MainDialog extends Dialog {
 		combo.setLayoutData(gd_combo);
 		combo.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 
-		btnAddTarget = new Button(compositeInstance, SWT.NONE);
-		btnAddTarget.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		btnAddTarget = new Button(compositeInstance, SWT.COLOR_RED);
+		btnAddTarget.setLayoutData(new GridData(SWT.FILL | SWT.COLOR_RED, SWT.CENTER, false, false, 1, 1));
 		btnAddTarget.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		btnAddTarget.setText("Add Instance");
 		btnAddTarget.setEnabled(false);
@@ -263,7 +263,7 @@ public class MainDialog extends Dialog {
 		lblName.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		lblName.setText("Custom Name:");
 
-		txtInstanceName = new Text(compositeInstance, SWT.BORDER);
+		txtInstanceName = new Text(compositeInstance, SWT.BORDER | SWT.BOLD | SWT.COLOR_WIDGET_BORDER);
 		GridData gd_txtInstanceName = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtInstanceName.widthHint = 175;
 		txtInstanceName.setLayoutData(gd_txtInstanceName);
@@ -353,12 +353,12 @@ public class MainDialog extends Dialog {
 				+ "1. Select parent instance in Instance Tree\r\n"
 				+ "2. Select new instance type in dropdown\r\n"
 				+ "3. (Optional) Enter custom name\r\n" + "4. Click \"Add Instance\"");
-		lblInstanceDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+		lblInstanceDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		stackLayout.topControl = this.lblInstanceDirections;
 
 		lblBusDirections = new Label(compositeDir, SWT.NONE);
 		lblBusDirections.setFont(SWTResourceManager.getFont("Arial", 8, SWT.NORMAL));
-		lblBusDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+		lblBusDirections.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblBusDirections
 				.setText("Steps for adding a new connection:\r\n"
 						+ "1. Select a bus type from dropdown\r\n"
